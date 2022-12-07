@@ -31,20 +31,20 @@ flutter:
   #   - images/a_dot_ham.jpeg
 
   fonts:
-    - family: Robot
+    - family: Roboto
       fonts:
-        - asset: fonts/Robot/Robot-Black.ttf
-        - asset: fonts/Robot/Robot-BlackItalic.ttf
-        - asset: fonts/Robot/Robot-Bold.ttf
-        - asset: fonts/Robot/Robot-BoldItalic.ttf
-        - asset: fonts/Robot/Robot-Italic.ttf
-        - asset: fonts/Robot/Robot-Light.ttf
-        - asset: fonts/Robot/Robot-LightItalic.ttf
-        - asset: fonts/Robot/Robot-Medium.ttf
-        - asset: fonts/Robot/Robot-MediumItalic.ttf
-        - asset: fonts/Robot/Robot-Regular.ttf
-        - asset: fonts/Robot/Robot-Thin.ttf
-        - asset: fonts/Robot/Robot-ThinItalic.ttf
+        - asset: fonts/Roboto/Roboto-Black.ttf
+        - asset: fonts/Roboto/Roboto-BlackItalic.ttf
+        - asset: fonts/Roboto/Roboto-Bold.ttf
+        - asset: fonts/Roboto/Roboto-BoldItalic.ttf
+        - asset: fonts/Roboto/Roboto-Italic.ttf
+        - asset: fonts/Roboto/Roboto-Light.ttf
+        - asset: fonts/Roboto/Roboto-LightItalic.ttf
+        - asset: fonts/Roboto/Roboto-Medium.ttf
+        - asset: fonts/Roboto/Roboto-MediumItalic.ttf
+        - asset: fonts/Roboto/Roboto-Regular.ttf
+        - asset: fonts/Roboto/Roboto-Thin.ttf
+        - asset: fonts/Roboto/Roboto-ThinItalic.ttf
 
   #         style: italic
   #   - family: Trajan Pro
