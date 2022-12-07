@@ -13,12 +13,14 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
+  flutter_svg: ^1.1.6
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^2.0.0
+  dart_code_metrics: ^4.19.2
 
 flutter:
 
@@ -28,11 +30,22 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
+  fonts:
+    - family: Robot
+      fonts:
+        - asset: fonts/Robot/Robot-Black.ttf
+        - asset: fonts/Robot/Robot-BlackItalic.ttf
+        - asset: fonts/Robot/Robot-Bold.ttf
+        - asset: fonts/Robot/Robot-BoldItalic.ttf
+        - asset: fonts/Robot/Robot-Italic.ttf
+        - asset: fonts/Robot/Robot-Light.ttf
+        - asset: fonts/Robot/Robot-LightItalic.ttf
+        - asset: fonts/Robot/Robot-Medium.ttf
+        - asset: fonts/Robot/Robot-MediumItalic.ttf
+        - asset: fonts/Robot/Robot-Regular.ttf
+        - asset: fonts/Robot/Robot-Thin.ttf
+        - asset: fonts/Robot/Robot-ThinItalic.ttf
+
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:
