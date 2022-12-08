@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const App());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class App extends StatelessWidget {
+  const App({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,29 +25,13 @@ class MyFirstWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var count = 0;
-    count++;
-
-    print(count);
-
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'Hello!',
-            ),
-            Text(
-              '${count}',
-            ),
-          ],
-        ),
+    return Container(
+      child: Center(
+        child: Text('${context.runtimeType}'),
       ),
     );
   }
 }
-
 
 // class MyTwoWidget extends StatefulWidget {
 //   const MyTwoWidget({Key? key}) : super(key: key);
@@ -59,24 +43,9 @@ class MyFirstWidget extends StatelessWidget {
 // class _MyTwoWidgetState extends State<MyTwoWidget> {
 //   @override
 //   Widget build(BuildContext context) {
-//     var count = 0;
-//     count++;
-//
-//     print(count);
-//
-//     return Scaffold(
-//       body: Center(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: <Widget>[
-//             const Text(
-//               'Hello!',
-//             ),
-//             Text(
-//               '${count}',
-//             ),
-//           ],
-//         ),
+//     return Container(
+//       child: Center(
+//         child: Text('${context.runtimeType}'),
 //       ),
 //     );
 //   }
