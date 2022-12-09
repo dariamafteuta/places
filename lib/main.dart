@@ -15,14 +15,15 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyFirstWidget(),
+      home: MyFirstWidget(title: 'Flutter Demo',),
     );
   }
 }
 
 class MyFirstWidget extends StatelessWidget {
-  const MyFirstWidget({Key? key}) : super(key: key);
+  const MyFirstWidget({Key? key, required this.title}) : super(key: key);
 
+  final String title;
   @override
   Widget build(BuildContext context) {
     return Container(
