@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const App());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class App extends StatelessWidget {
+  const App({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      title: 'Flutter Demo',
       home: MyTwoWidget(),
     );
   }
@@ -27,7 +28,7 @@ class MyFirstWidget extends StatelessWidget {
 
     return Scaffold(
       body: Center(
-        child: Text('Hello! $counter'),
+        child: Text('Hello! \n$counter'),
       ),
     );
   }
@@ -41,16 +42,21 @@ class MyTwoWidget extends StatefulWidget {
 }
 
 class _MyTwoWidgetState extends State<MyTwoWidget> {
+
+  String typeOfContext() {
+    return context.runtimeType.toString();
+  }
+
   @override
   Widget build(BuildContext context) {
-    var counter = 0;
+    int counter = 0;
     counter++;
     // ignore: avoid_print
     print(counter);
 
     return Scaffold(
       body: Center(
-        child: Text('Hello! $counter'),
+        child: Text('Hello! \n$counter '),
       ),
     );
   }
