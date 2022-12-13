@@ -26,7 +26,7 @@ class _SightListScreenState extends State<SightListScreen> {
                   fontFamily: 'Roboto',
                   fontWeight: FontWeight.w700,
                   fontSize: 40,
-                  color: Color.fromRGBO(37, 40, 71, 1.0),
+                  color: Colors.green,
                 ),
               ),
               TextSpan(
@@ -44,29 +44,11 @@ class _SightListScreenState extends State<SightListScreen> {
                   fontFamily: 'Roboto',
                   fontWeight: FontWeight.w700,
                   fontSize: 40,
-                  color: Color.fromRGBO(37, 40, 71, 1.0),
+                  color: Colors.yellow,
                 ),
               ),
               TextSpan(
-                text: 'нтересных',
-                style: TextStyle(
-                  fontFamily: 'Roboto',
-                  fontWeight: FontWeight.w700,
-                  fontSize: 40,
-                  color: Color.fromRGBO(59, 62, 89, 1.0),
-                ),
-              ),
-              TextSpan(
-                text: ' м',
-                style: TextStyle(
-                  fontFamily: 'Roboto',
-                  fontWeight: FontWeight.w700,
-                  fontSize: 40,
-                  color: Color.fromRGBO(37, 40, 71, 1.0),
-                ),
-              ),
-              TextSpan(
-                text: 'ест',
+                text: 'нтересных мест',
                 style: TextStyle(
                   fontFamily: 'Roboto',
                   fontWeight: FontWeight.w700,
