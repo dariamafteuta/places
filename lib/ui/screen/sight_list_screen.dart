@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_job/mocks.dart';
+import 'package:flutter_job/ui/screen/sight_card.dart';
 
 class SightListScreen extends StatefulWidget {
   const SightListScreen({Key? key}) : super(key: key);
@@ -15,50 +17,26 @@ class _SightListScreenState extends State<SightListScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.0,
-        toolbarHeight: 200,
-        title: RichText(
-          textAlign: TextAlign.left,
-          text: const TextSpan(
-            children: [
-              TextSpan(
-                text: 'C',
-                style: TextStyle(
-                  fontFamily: 'Roboto',
-                  fontWeight: FontWeight.w700,
-                  fontSize: 40,
-                  color: Colors.green,
-                ),
-              ),
-              TextSpan(
-                text: 'писок\n',
-                style: TextStyle(
-                  fontFamily: 'Roboto',
-                  fontWeight: FontWeight.w700,
-                  fontSize: 40,
-                  color: Color.fromRGBO(59, 62, 89, 1.0),
-                ),
-              ),
-              TextSpan(
-                text: 'и',
-                style: TextStyle(
-                  fontFamily: 'Roboto',
-                  fontWeight: FontWeight.w700,
-                  fontSize: 40,
-                  color: Colors.yellow,
-                ),
-              ),
-              TextSpan(
-                text: 'нтересных мест',
-                style: TextStyle(
-                  fontFamily: 'Roboto',
-                  fontWeight: FontWeight.w700,
-                  fontSize: 40,
-                  color: Color.fromRGBO(59, 62, 89, 1.0),
-                ),
-              ),
-            ],
+        toolbarHeight: 180,
+        title: const Padding(
+          padding: EdgeInsets.only(left: 4, top: 40),
+          child: Text(
+            'Список\nинтересных мест',
+            textAlign: TextAlign.left,
+            style: TextStyle(
+              fontFamily: 'Roboto',
+              fontWeight: FontWeight.w700,
+              fontSize: 40,
+              color: Color.fromRGBO(37, 40, 71, 1.0),
+            ),
           ),
         ),
+      ),
+      body: Column(
+        children: [
+          SightCard(sight: mocks[0]),
+          SightCard(sight: mocks[1]),
+        ],
       ),
     );
   }
