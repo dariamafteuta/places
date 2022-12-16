@@ -13,7 +13,7 @@ final List<Sight> mocks = [
   ),
   Sight(
     name: 'Замок Мими',
-    lat: 46.5330,
+    lat: 46.533,
     lot: 29.1731,
     url:
         'https://www.castelmimi.md/wp-content/uploads/2020/04/2_Top-Moldovan-winery-with-tours-hotel-restaurant-and-event-venues-scaled.jpg',
