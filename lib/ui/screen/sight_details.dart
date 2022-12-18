@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_job/app_string.dart';
 import 'package:flutter_job/domain/sight.dart';
 
 class SightDetails extends StatefulWidget {
@@ -17,24 +18,9 @@ class _SightDetailsState extends State<SightDetails> {
       body: Column(
         children: [
           Stack(
-            children: [
-              Container(
-                width: double.infinity,
-                color: Colors.grey.shade400,
-                height: 360,
-              ),
-              Positioned(
-                top: 40,
-                left: 17,
-                child: Container(
-                  width: 35,
-                  height: 35,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(7),
-                    color: Colors.white,
-                  ),
-                ),
-              ),
+            children: const [
+              Photos(),
+              BackButton(),
             ],
           ),
           Container(
@@ -75,37 +61,9 @@ class _SightDetailsState extends State<SightDetails> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 17, top: 24, right: 17),
-            child: Container(
-              padding: const EdgeInsets.only(
-                  left: 17, top: 15, right: 17, bottom: 15,),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: Colors.green,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 24,
-                    height: 24,
-                    color: Colors.white,
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 7),
-                    child: Text(
-                      'ПОСТРОИТЬ МАРШРУТ',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontFamily: 'Roboto',
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          const Padding(
+            padding: EdgeInsets.only(left: 17, top: 24, right: 17),
+            child: BuildRouteButton(),
           ),
           const Divider(
             height: 39,
@@ -114,29 +72,109 @@ class _SightDetailsState extends State<SightDetails> {
             endIndent: 16,
             thickness: 0.8,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: const [
-              Text(
-                'Запланировать',
-                style: TextStyle(
-                  color: Color.fromRGBO(124, 126, 146, 1),
-                  fontSize: 14,
-                  fontFamily: 'Roboto',
-                ),
-              ),
-              Text(
-                'Избранное',
-                style: TextStyle(
-                  color: Color.fromRGBO(124, 126, 146, 1),
-                  fontSize: 14,
-                  fontFamily: 'Roboto',
-                ),
-              ),
-            ],
+          const PlanAndChosen(),
+        ],
+      ),
+    );
+  }
+}
+
+class Photos extends StatelessWidget {
+  const Photos({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      color: Colors.grey.shade400,
+      height: 360,
+    );
+  }
+}
+
+class BackButton extends StatelessWidget {
+  const BackButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: 40,
+      left: 17,
+      child: Container(
+        width: 35,
+        height: 35,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(7),
+          color: Colors.white,
+        ),
+      ),
+    );
+  }
+}
+
+class BuildRouteButton extends StatelessWidget {
+  const BuildRouteButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(
+        left: 17,
+        top: 15,
+        right: 17,
+        bottom: 15,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: Colors.green,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 24,
+            height: 24,
+            color: Colors.white,
+          ),
+          const Text(
+            AppString.buildARoute,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+              fontFamily: 'Roboto',
+            ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class PlanAndChosen extends StatelessWidget {
+  const PlanAndChosen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: const [
+        Text(
+          AppString.plan,
+          style: TextStyle(
+            color: Color.fromRGBO(124, 126, 146, 1),
+            fontSize: 14,
+            fontFamily: 'Roboto',
+          ),
+        ),
+        Text(
+          AppString.chosen,
+          style: TextStyle(
+            color: Color.fromRGBO(124, 126, 146, 1),
+            fontSize: 14,
+            fontFamily: 'Roboto',
+          ),
+        ),
+      ],
     );
   }
 }

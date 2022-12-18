@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_job/app_string.dart';
 import 'package:flutter_job/mocks.dart';
 import 'package:flutter_job/ui/screen/sight_card.dart';
 
@@ -21,7 +22,7 @@ class _SightListScreenState extends State<SightListScreen> {
         title: const Padding(
           padding: EdgeInsets.only(left: 4, top: 40),
           child: Text(
-            'Список\nинтересных мест',
+            AppString.appBar,
             textAlign: TextAlign.left,
             style: TextStyle(
               fontFamily: 'Roboto',
