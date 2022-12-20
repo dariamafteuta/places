@@ -23,56 +23,70 @@ class _SightDetailsState extends State<SightDetails> {
               BackButton(),
             ],
           ),
-          Container(
-            padding: const EdgeInsets.only(left: 17, top: 24),
-            alignment: Alignment.topLeft,
-            child: Text(
-              widget.sight.name,
-              style: const TextStyle(
-                color: Color.fromRGBO(37, 40, 73, 1),
-                fontSize: 24,
-                fontFamily: 'Roboto',
-                fontWeight: FontWeight.bold,
-              ),
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 17,
+              right: 17,
+            ),
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 24,
+                ),
+                Container(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    widget.sight.name,
+                    style: const TextStyle(
+                      color: Color.fromRGBO(37, 40, 73, 1),
+                      fontSize: 24,
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 2,
+                ),
+                Container(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    widget.sight.type,
+                    style: const TextStyle(
+                      color: Color.fromRGBO(37, 40, 73, 1),
+                      fontSize: 14,
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
+                Container(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    widget.sight.details,
+                    style: const TextStyle(
+                      color: Color.fromRGBO(37, 40, 73, 1),
+                      fontSize: 14,
+                      fontFamily: 'Roboto',
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
+                const BuildRouteButton(),
+                const Divider(
+                  height: 39,
+                  color: Color.fromRGBO(124, 126, 146, 1),
+                  thickness: 0.8,
+                ),
+                const PlanAndChosen(),
+              ],
             ),
           ),
-          Container(
-            padding: const EdgeInsets.only(left: 17, top: 2),
-            alignment: Alignment.topLeft,
-            child: Text(
-              widget.sight.type,
-              style: const TextStyle(
-                color: Color.fromRGBO(37, 40, 73, 1),
-                fontSize: 14,
-                fontFamily: 'Roboto',
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.only(left: 17, top: 24, right: 17),
-            alignment: Alignment.topLeft,
-            child: Text(
-              widget.sight.details,
-              style: const TextStyle(
-                color: Color.fromRGBO(37, 40, 73, 1),
-                fontSize: 14,
-                fontFamily: 'Roboto',
-              ),
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(left: 17, top: 24, right: 17),
-            child: BuildRouteButton(),
-          ),
-          const Divider(
-            height: 39,
-            color: Color.fromRGBO(124, 126, 146, 1),
-            indent: 16,
-            endIndent: 16,
-            thickness: 0.8,
-          ),
-          const PlanAndChosen(),
         ],
       ),
     );
