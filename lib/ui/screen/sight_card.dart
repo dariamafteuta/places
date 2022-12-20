@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job/domain/sight.dart';
 
@@ -18,7 +17,7 @@ class SightCard extends StatelessWidget {
               children: [
                 Container(
                   height: 200,
-                  width: 372,
+                  width: double.infinity,
                   decoration: BoxDecoration(
                     color: Colors.teal,
                     borderRadius: BorderRadius.circular(10),
@@ -44,14 +43,17 @@ class SightCard extends StatelessWidget {
                   ),
                 ),
                 Positioned(
+                  left: 0,
+                  right: 0,
                   bottom: 0,
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.grey.shade300,
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: const BorderRadius.vertical(
+                        bottom: Radius.circular(10),
+                      ),
                     ),
                     height: 100,
-                    width: 372,
                     child: Column(
                       children: [
                         Container(
