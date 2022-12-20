@@ -11,8 +11,9 @@ class SightCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 15, left: 20, right: 20),
       child: SingleChildScrollView(
-        child: Column(
-          children: [
+        child: AspectRatio(
+          aspectRatio: 3/2,
+          child:
             Stack(
               children: [
                 Container(
@@ -56,8 +57,11 @@ class SightCard extends StatelessWidget {
                     height: 100,
                     child: Column(
                       children: [
+                        const SizedBox(
+                          height: 16,
+                        ),
                         Container(
-                          padding: const EdgeInsets.only(left: 16, top: 16),
+                          padding: const EdgeInsets.only(left: 16),
                           alignment: Alignment.topLeft,
                           child: Text(
                             sight.name,
@@ -93,7 +97,6 @@ class SightCard extends StatelessWidget {
                 ),
               ],
             ),
-          ],
         ),
       ),
     );
