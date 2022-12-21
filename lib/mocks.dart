@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_job/domain/sight.dart';
 
 final List<Sight> mocks = [
@@ -6,7 +7,7 @@ final List<Sight> mocks = [
     lat: 47.4144,
     lot: 28.5814,
     url:
-        'https://static.tildacdn.com/tild6236-3665-4262-a130-353530643932/_3.jpghttps://static.tildacdn.com/tild6236-3665-4262-a130-353530643932/_3.jpg',
+        'https://d3m15nce7ee3px.cloudfront.net/tours/tr08zo/keypoints/kejy8d/cover.jpg',
     details:
         'Монастырский комплекс Сахарна. Он расположен в окружении живописной природы — в ущелье реки. Вокруг высятся зеленые холмы и древние скалы, в долине журчат родники.',
     type: 'Монастырь',
