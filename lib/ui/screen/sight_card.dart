@@ -26,7 +26,7 @@ class SightCard extends StatelessWidget {
                       loadingBuilder: (context, child, loadingProgress) =>
                           loadingProgress == null
                               ? child
-                              : const LinearProgressIndicator(),
+                              : const CupertinoActivityIndicator(),
                       fit: BoxFit.fitWidth,
                     ),
                   ),
@@ -35,7 +35,7 @@ class SightCard extends StatelessWidget {
                   top: 19,
                   right: 18,
                   child: Icon(
-                    Icons.favorite_outline_rounded,
+                    Icons.favorite_border,
                     color: Colors.white,
                   ),
                 ),

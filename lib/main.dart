@@ -15,7 +15,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: AppString.appTitle,
-      home: SightListScreen(),
+      home: SightDetails(sight: mocks[0],),
     );
   }
 }

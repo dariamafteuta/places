@@ -2,6 +2,6 @@ class AppString {
   static const appTitle = 'Places';
   static const appBar = 'Список\nинтересных мест';
   static const buildARoute = 'ПОСТРОИТЬ МАРШРУТ';
-  static const plan = 'Запланировать';
-  static const chosen = 'Избранное';
+  static const plan = ' Запланировать';
+  static const chosen = ' В Избранное';
 }

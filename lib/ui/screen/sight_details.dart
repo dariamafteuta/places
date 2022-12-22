@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job/app_string.dart';
 import 'package:flutter_job/domain/sight.dart';
@@ -18,9 +19,11 @@ class _SightDetailsState extends State<SightDetails> {
       body: Column(
         children: [
           Stack(
-            children: const [
-              Photos(),
-              BackButton(),
+            children: [
+              Photos(
+                sight: widget.sight,
+              ),
+              const BackButton(),
             ],
           ),
           Padding(
@@ -33,47 +36,15 @@ class _SightDetailsState extends State<SightDetails> {
                 const SizedBox(
                   height: 24,
                 ),
-                Container(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    widget.sight.name,
-                    style: const TextStyle(
-                      color: Color.fromRGBO(37, 40, 73, 1),
-                      fontSize: 24,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+                PlaceName(sight: widget.sight),
                 const SizedBox(
                   height: 2,
                 ),
-                Container(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    widget.sight.type,
-                    style: const TextStyle(
-                      color: Color.fromRGBO(37, 40, 73, 1),
-                      fontSize: 14,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+                PlaceType(sight: widget.sight),
                 const SizedBox(
                   height: 24,
                 ),
-                Container(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    widget.sight.details,
-                    style: const TextStyle(
-                      color: Color.fromRGBO(37, 40, 73, 1),
-                      fontSize: 14,
-                      fontFamily: 'Roboto',
-                    ),
-                  ),
-                ),
+                PlaceDetails(sight: widget.sight),
                 const SizedBox(
                   height: 24,
                 ),
@@ -94,14 +65,21 @@ class _SightDetailsState extends State<SightDetails> {
 }
 
 class Photos extends StatelessWidget {
-  const Photos({Key? key}) : super(key: key);
+  final Sight sight;
+
+  const Photos({Key? key, required this.sight}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
-      color: Colors.grey.shade400,
       height: 360,
+      child: Image.network(
+        sight.url,
+        loadingBuilder: (context, child, loadingProgress) =>
+            loadingProgress == null ? child : const CupertinoActivityIndicator(),
+        fit: BoxFit.fitWidth,
+      ),
     );
   }
 }
@@ -117,6 +95,10 @@ class BackButton extends StatelessWidget {
       child: Container(
         width: 35,
         height: 35,
+        child: const Icon(
+          Icons.arrow_back_ios_rounded,
+          color: Colors.black,
+        ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(7),
           color: Colors.white,
@@ -125,6 +107,72 @@ class BackButton extends StatelessWidget {
     );
   }
 }
+
+class PlaceName extends StatelessWidget {
+  final Sight sight;
+
+  const PlaceName({Key? key, required this.sight}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.topLeft,
+      child: Text(
+        sight.name,
+        style: const TextStyle(
+          color: Color.fromRGBO(37, 40, 73, 1),
+          fontSize: 24,
+          fontFamily: 'Roboto',
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+}
+
+class PlaceType extends StatelessWidget {
+  final Sight sight;
+
+  const PlaceType({Key? key, required this.sight}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.topLeft,
+      child: Text(
+        sight.type,
+        style: const TextStyle(
+          color: Color.fromRGBO(37, 40, 73, 1),
+          fontSize: 14,
+          fontFamily: 'Roboto',
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+}
+
+class PlaceDetails extends StatelessWidget {
+  final Sight sight;
+
+  const PlaceDetails({Key? key, required this.sight}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.topLeft,
+      child: Text(
+        sight.details,
+        style: const TextStyle(
+          color: Color.fromRGBO(37, 40, 73, 1),
+          fontSize: 14,
+          fontFamily: 'Roboto',
+        ),
+      ),
+    );
+  }
+}
+
 
 class BuildRouteButton extends StatelessWidget {
   const BuildRouteButton({Key? key}) : super(key: key);
@@ -144,13 +192,9 @@ class BuildRouteButton extends StatelessWidget {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 24,
-            height: 24,
-            color: Colors.white,
-          ),
-          const Text(
+        children: const [
+          Icon(Icons.route_rounded, color: Colors.white,),
+          Text(
             AppString.buildARoute,
             style: TextStyle(
               color: Colors.white,
@@ -170,20 +214,23 @@ class PlanAndChosen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: const [
+        Icon(Icons.calendar_month_rounded, color: Colors.grey,),
         Text(
           AppString.plan,
           style: TextStyle(
-            color: Color.fromRGBO(124, 126, 146, 1),
+            color: Colors.grey,
             fontSize: 14,
             fontFamily: 'Roboto',
           ),
         ),
+        SizedBox(width: 70,),
+        Icon(Icons.favorite_border_rounded, color: Colors.grey,),
         Text(
           AppString.chosen,
           style: TextStyle(
-            color: Color.fromRGBO(124, 126, 146, 1),
+            color: Colors.grey,
             fontSize: 14,
             fontFamily: 'Roboto',
           ),
