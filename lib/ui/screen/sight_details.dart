@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_job/app_string.dart';
 import 'package:flutter_job/domain/sight.dart';
+import 'package:flutter_job/ui/res/app_assets.dart';
+import 'package:flutter_job/ui/res/app_colors.dart';
+import 'package:flutter_job/ui/res/app_strings.dart';
+import 'package:flutter_job/ui/res/app_typography.dart';
 
 class SightDetails extends StatefulWidget {
   final Sight sight;
@@ -20,41 +23,28 @@ class _SightDetailsState extends State<SightDetails> {
         children: [
           Stack(
             children: [
-              Photos(
-                sight: widget.sight,
-              ),
-              const BackButton(),
+              _Photos(sight: widget.sight),
+              const _BackButton(),
             ],
           ),
           Padding(
-            padding: const EdgeInsets.only(
-              left: 17,
-              right: 17,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 17),
             child: Column(
               children: [
-                const SizedBox(
-                  height: 24,
-                ),
-                PlaceName(sight: widget.sight),
-                const SizedBox(
-                  height: 2,
-                ),
-                PlaceType(sight: widget.sight),
-                const SizedBox(
-                  height: 24,
-                ),
-                PlaceDetails(sight: widget.sight),
-                const SizedBox(
-                  height: 24,
-                ),
-                const BuildRouteButton(),
+                const SizedBox(height: 24),
+                _PlaceName(sight: widget.sight),
+                const SizedBox(height: 2),
+                _PlaceType(sight: widget.sight),
+                const SizedBox(height: 24),
+                _PlaceDetails(sight: widget.sight),
+                const SizedBox(height: 24),
+                const _BuildRouteButton(),
                 const Divider(
                   height: 39,
                   color: Color.fromRGBO(124, 126, 146, 1),
                   thickness: 0.8,
                 ),
-                const PlanAndChosen(),
+                const _PlanAndChosen(),
               ],
             ),
           ),
@@ -64,10 +54,10 @@ class _SightDetailsState extends State<SightDetails> {
   }
 }
 
-class Photos extends StatelessWidget {
+class _Photos extends StatelessWidget {
   final Sight sight;
 
-  const Photos({Key? key, required this.sight}) : super(key: key);
+  const _Photos({Key? key, required this.sight}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -77,15 +67,17 @@ class Photos extends StatelessWidget {
       child: Image.network(
         sight.url,
         loadingBuilder: (context, child, loadingProgress) =>
-            loadingProgress == null ? child : const CupertinoActivityIndicator(),
+            loadingProgress == null
+                ? child
+                : const CupertinoActivityIndicator(),
         fit: BoxFit.fitWidth,
       ),
     );
   }
 }
 
-class BackButton extends StatelessWidget {
-  const BackButton({Key? key}) : super(key: key);
+class _BackButton extends StatelessWidget {
+  const _BackButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -95,23 +87,20 @@ class BackButton extends StatelessWidget {
       child: Container(
         width: 35,
         height: 35,
-        child: const Icon(
-          Icons.arrow_back_ios_rounded,
-          color: Colors.black,
-        ),
+        child: Image.asset(AppAssets.left),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(7),
-          color: Colors.white,
+          color: AppColors.whiteColor,
         ),
       ),
     );
   }
 }
 
-class PlaceName extends StatelessWidget {
+class _PlaceName extends StatelessWidget {
   final Sight sight;
 
-  const PlaceName({Key? key, required this.sight}) : super(key: key);
+  const _PlaceName({Key? key, required this.sight}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -119,21 +108,16 @@ class PlaceName extends StatelessWidget {
       alignment: Alignment.topLeft,
       child: Text(
         sight.name,
-        style: const TextStyle(
-          color: Color.fromRGBO(37, 40, 73, 1),
-          fontSize: 24,
-          fontFamily: 'Roboto',
-          fontWeight: FontWeight.bold,
-        ),
+        style: AppTypography.textTitle24Bold,
       ),
     );
   }
 }
 
-class PlaceType extends StatelessWidget {
+class _PlaceType extends StatelessWidget {
   final Sight sight;
 
-  const PlaceType({Key? key, required this.sight}) : super(key: key);
+  const _PlaceType({Key? key, required this.sight}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -141,21 +125,16 @@ class PlaceType extends StatelessWidget {
       alignment: Alignment.topLeft,
       child: Text(
         sight.type,
-        style: const TextStyle(
-          color: Color.fromRGBO(37, 40, 73, 1),
-          fontSize: 14,
-          fontFamily: 'Roboto',
-          fontWeight: FontWeight.bold,
-        ),
+        style: AppTypography.textText14Bold,
       ),
     );
   }
 }
 
-class PlaceDetails extends StatelessWidget {
+class _PlaceDetails extends StatelessWidget {
   final Sight sight;
 
-  const PlaceDetails({Key? key, required this.sight}) : super(key: key);
+  const _PlaceDetails({Key? key, required this.sight}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -163,19 +142,14 @@ class PlaceDetails extends StatelessWidget {
       alignment: Alignment.topLeft,
       child: Text(
         sight.details,
-        style: const TextStyle(
-          color: Color.fromRGBO(37, 40, 73, 1),
-          fontSize: 14,
-          fontFamily: 'Roboto',
-        ),
+        style: AppTypography.textText14Regular,
       ),
     );
   }
 }
 
-
-class BuildRouteButton extends StatelessWidget {
-  const BuildRouteButton({Key? key}) : super(key: key);
+class _BuildRouteButton extends StatelessWidget {
+  const _BuildRouteButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -188,19 +162,22 @@ class BuildRouteButton extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: Colors.green,
+        color: AppColors.greenColor,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Icon(Icons.route_rounded, color: Colors.white,),
-          Text(
-            AppString.buildARoute,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-              fontFamily: 'Roboto',
+        children: [
+          SizedBox(
+            height: 23,
+            width: 23,
+            child: Image.asset(
+              AppAssets.navigator,
+              color: AppColors.whiteColor,
             ),
+          ),
+          const Text(
+            AppString.buildARoute,
+            style: AppTypography.textWhite14Regular,
           ),
         ],
       ),
@@ -208,32 +185,40 @@ class BuildRouteButton extends StatelessWidget {
   }
 }
 
-class PlanAndChosen extends StatelessWidget {
-  const PlanAndChosen({Key? key}) : super(key: key);
+class _PlanAndChosen extends StatelessWidget {
+  const _PlanAndChosen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const [
-        Icon(Icons.calendar_month_rounded, color: Colors.grey,),
-        Text(
-          AppString.plan,
-          style: TextStyle(
-            color: Colors.grey,
-            fontSize: 14,
-            fontFamily: 'Roboto',
+      children: [
+        SizedBox(
+          height: 21,
+          width: 21,
+          child: Image.asset(
+            AppAssets.calendar,
+            color: AppColors.greyColor,
           ),
         ),
-        SizedBox(width: 70,),
-        Icon(Icons.favorite_border_rounded, color: Colors.grey,),
-        Text(
-          AppString.chosen,
-          style: TextStyle(
-            color: Colors.grey,
-            fontSize: 14,
-            fontFamily: 'Roboto',
+        const Text(
+          AppString.plan,
+          style: AppTypography.textGrey14Regular,
+        ),
+        const SizedBox(
+          width: 70,
+        ),
+        SizedBox(
+          height: 21,
+          width: 21,
+          child: Image.asset(
+            AppAssets.favorite,
+            color: AppColors.greyColor,
           ),
+        ),
+        const Text(
+          AppString.favorite,
+          style: AppTypography.textGrey14Regular,
         ),
       ],
     );
