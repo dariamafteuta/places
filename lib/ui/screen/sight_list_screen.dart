@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_job/app_string.dart';
 import 'package:flutter_job/mocks.dart';
+import 'package:flutter_job/ui/res/app_colors.dart';
+import 'package:flutter_job/ui/res/app_strings.dart';
+import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/screen/sight_card.dart';
 
 class SightListScreen extends StatefulWidget {
@@ -14,9 +16,9 @@ class _SightListScreenState extends State<SightListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.whiteColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.whiteColor,
         elevation: 0.0,
         toolbarHeight: 180,
         title: const Padding(
@@ -24,12 +26,7 @@ class _SightListScreenState extends State<SightListScreen> {
           child: Text(
             AppString.appBar,
             textAlign: TextAlign.left,
-            style: TextStyle(
-              fontFamily: 'Roboto',
-              fontWeight: FontWeight.w700,
-              fontSize: 40,
-              color: Color.fromRGBO(37, 40, 71, 1.0),
-            ),
+            style: AppTypography.textTitle40Bold,
           ),
         ),
       ),

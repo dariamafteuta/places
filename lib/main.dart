@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_job/app_string.dart';
 import 'package:flutter_job/mocks.dart';
+import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/screen/sight_details.dart';
 import 'package:flutter_job/ui/screen/sight_list_screen.dart';
 

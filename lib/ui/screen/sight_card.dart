@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job/domain/sight.dart';
+import 'package:flutter_job/ui/res/app_assets.dart';
+import 'package:flutter_job/ui/res/app_colors.dart';
+import 'package:flutter_job/ui/res/app_typography.dart';
 
 class SightCard extends StatelessWidget {
   final Sight sight;
@@ -17,26 +20,31 @@ class SightCard extends StatelessWidget {
             Stack(
               children: [
                 SizedBox(
-                  height: 200,
+                  height: 100,
                   width: double.infinity,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius:
+                        const BorderRadius.vertical(top: Radius.circular(10)),
                     child: Image.network(
                       sight.url,
                       loadingBuilder: (context, child, loadingProgress) =>
                           loadingProgress == null
                               ? child
-                              : const LinearProgressIndicator(),
+                              : const CupertinoActivityIndicator(),
                       fit: BoxFit.fitWidth,
                     ),
                   ),
                 ),
-                const Positioned(
+                Positioned(
                   top: 19,
                   right: 18,
-                  child: Icon(
-                    Icons.favorite_outline_rounded,
-                    color: Colors.white,
+                  child: SizedBox(
+                    height: 25,
+                    width: 25,
+                    child: Image.asset(
+                      AppAssets.favorite,
+                      color: AppColors.whiteColor,
+                    ),
                   ),
                 ),
                 Positioned(
@@ -44,61 +52,46 @@ class SightCard extends StatelessWidget {
                   left: 18,
                   child: Text(
                     sight.type,
-                    style: const TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade300,
-                      borderRadius: const BorderRadius.vertical(
-                        bottom: Radius.circular(10),
-                      ),
-                    ),
-                    height: 100,
-                    child: Column(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.only(left: 16, top: 16),
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            sight.name,
-                            style: const TextStyle(
-                              color: Color.fromRGBO(37, 40, 73, 1),
-                              fontSize: 17,
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(
-                            left: 16,
-                            top: 5,
-                            right: 16,
-                          ),
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            sight.details,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              color: Color.fromRGBO(124, 126, 146, 1),
-                              fontSize: 14,
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    style: AppTypography.textWhite14Regular,
                   ),
                 ),
               ],
+            ),
+            Positioned(
+              height: 200,
+              width: double.infinity,
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: AppColors.lightGrayColor,
+                  borderRadius: BorderRadius.vertical(bottom: Radius.circular(10)),
+                ),
+                height: 100,
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.only(left: 16, top: 16),
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        sight.name,
+                        style: AppTypography.textTitle17Bold,
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(
+                        left: 16,
+                        top: 5,
+                        right: 16,
+                      ),
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        sight.details,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTypography.textGrey14Regular,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
