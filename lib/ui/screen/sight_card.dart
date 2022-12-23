@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job/domain/sight.dart';
 
@@ -15,20 +16,26 @@ class SightCard extends StatelessWidget {
           children: [
             Stack(
               children: [
-                Container(
+                SizedBox(
                   height: 200,
                   width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.teal,
+                  child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                      sight.url,
+                      loadingBuilder: (context, child, loadingProgress) =>
+                          loadingProgress == null
+                              ? child
+                              : const LinearProgressIndicator(),
+                      fit: BoxFit.fitWidth,
+                    ),
                   ),
                 ),
-                Positioned(
+                const Positioned(
                   top: 19,
                   right: 18,
-                  child: Container(
-                    height: 23,
-                    width: 23,
+                  child: Icon(
+                    Icons.favorite_outline_rounded,
                     color: Colors.white,
                   ),
                 ),
