@@ -70,7 +70,7 @@ class _Photos extends StatelessWidget {
             loadingProgress == null
                 ? child
                 : const CupertinoActivityIndicator(),
-        fit: BoxFit.fitWidth,
+        fit: BoxFit.cover,
       ),
     );
   }
@@ -87,7 +87,10 @@ class _BackButton extends StatelessWidget {
       child: Container(
         width: 35,
         height: 35,
-        child: Image.asset(AppAssets.left),
+        child: const Icon(
+          Icons.arrow_back_ios_rounded,
+          color: AppColors.titleColor,
+        ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(7),
           color: AppColors.whiteColor,
@@ -176,7 +179,7 @@ class _BuildRouteButton extends StatelessWidget {
             ),
           ),
           const Text(
-            AppString.buildARoute,
+            AppStrings.buildARoute,
             style: AppTypography.textWhite14Regular,
           ),
         ],
@@ -192,32 +195,34 @@ class _PlanAndChosen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
+      children: const [
         SizedBox(
           height: 21,
           width: 21,
-          child: Image.asset(
-            AppAssets.calendar,
+          child: Icon(
+            Icons.calendar_month_rounded,
             color: AppColors.greyColor,
+            size: 20,
           ),
         ),
-        const Text(
-          AppString.plan,
+        Text(
+          AppStrings.plan,
           style: AppTypography.textGrey14Regular,
         ),
-        const SizedBox(
+        SizedBox(
           width: 70,
         ),
         SizedBox(
           height: 21,
           width: 21,
-          child: Image.asset(
-            AppAssets.favorite,
+          child: Icon(
+            Icons.favorite_outlined,
             color: AppColors.greyColor,
+            size: 20,
           ),
         ),
-        const Text(
-          AppString.favorite,
+        Text(
+          AppStrings.toFavorites,
           style: AppTypography.textGrey14Regular,
         ),
       ],

@@ -4,19 +4,15 @@ import 'package:flutter_job/domain/sight.dart';
 import 'package:flutter_job/ui/res/app_colors.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 
-class SightCard extends StatelessWidget {
-  final Sight sight;
+class SightCardVisited extends StatelessWidget {
+  final Sight? sight;
 
-  const SightCard({Key? key, required this.sight}) : super(key: key);
+  const SightCardVisited({Key? key, required this.sight}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(
-        bottom: 15,
-        left: 20,
-        right: 20,
-      ),
+      padding: const EdgeInsets.only(bottom: 15, left: 20, right: 20),
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -30,7 +26,7 @@ class SightCard extends StatelessWidget {
                       top: Radius.circular(10),
                     ),
                     child: Image.network(
-                      sight.url,
+                      sight!.url,
                       loadingBuilder: (context, child, loadingProgress) =>
                           loadingProgress == null
                               ? child
@@ -39,20 +35,33 @@ class SightCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                Positioned(
-                  top: 19,
-                  right: 18,
-                  child: Icon(
-                    Icons.favorite_outlined,
-                    size: 25,
-                    color: AppColors.whiteColor,
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 17,
+                    right: 16,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: const [
+                      Icon(
+                        Icons.share_rounded,
+                        size: 25,
+                        color: AppColors.whiteColor,
+                      ),
+                      SizedBox(width: 10),
+                      Icon(
+                        Icons.close_rounded,
+                        size: 30,
+                        color: AppColors.whiteColor,
+                      ),
+                    ],
                   ),
                 ),
                 Positioned(
                   top: 19,
                   left: 18,
                   child: Text(
-                    sight.type,
+                    sight!.type,
                     style: AppTypography.textWhite14Regular,
                   ),
                 ),
@@ -78,7 +87,7 @@ class SightCard extends StatelessWidget {
                       ),
                       alignment: Alignment.topLeft,
                       child: Text(
-                        sight.name,
+                        sight!.name,
                         style: AppTypography.textTitle17Bold,
                       ),
                     ),
@@ -89,9 +98,8 @@ class SightCard extends StatelessWidget {
                         right: 16,
                       ),
                       alignment: Alignment.topLeft,
-                      child: Text(
-                        sight.details,
-                        overflow: TextOverflow.ellipsis,
+                      child: const Text(
+                        'Цель достигнута 12 окт. 2022',
                         style: AppTypography.textGrey14Regular,
                       ),
                     ),

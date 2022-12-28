@@ -1,6 +1,7 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_job/ui/res/app_colors.dart';
+
 class AppAssets {
-  static const favorite = 'assets/icons/wishlist.png';
-  static const navigator = 'assets/icons/navigator.png';
-  static const left = 'assets/icons/left.png';
-  static const calendar = 'assets/icons/calendar.png';
+  static String camera = 'assets/icons/camera.png';
+  static String navigator = 'assets/icons/navigator.png';
 }

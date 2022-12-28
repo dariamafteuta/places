@@ -4,10 +4,10 @@ import 'package:flutter_job/domain/sight.dart';
 import 'package:flutter_job/ui/res/app_colors.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 
-class SightCard extends StatelessWidget {
-  final Sight sight;
+class SightCardPlan extends StatelessWidget {
+  final Sight? sight;
 
-  const SightCard({Key? key, required this.sight}) : super(key: key);
+  const SightCardPlan({Key? key, required this.sight}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class SightCard extends StatelessWidget {
                       top: Radius.circular(10),
                     ),
                     child: Image.network(
-                      sight.url,
+                      sight!.url,
                       loadingBuilder: (context, child, loadingProgress) =>
                           loadingProgress == null
                               ? child
@@ -39,20 +39,33 @@ class SightCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                Positioned(
-                  top: 19,
-                  right: 18,
-                  child: Icon(
-                    Icons.favorite_outlined,
-                    size: 25,
-                    color: AppColors.whiteColor,
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 17,
+                    right: 16,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: const [
+                      Icon(
+                        Icons.calendar_month_rounded,
+                        size: 25,
+                        color: AppColors.whiteColor,
+                      ),
+                      SizedBox(width: 10),
+                      Icon(
+                        Icons.close_rounded,
+                        size: 30,
+                        color: AppColors.whiteColor,
+                      ),
+                    ],
                   ),
                 ),
                 Positioned(
                   top: 19,
                   left: 18,
                   child: Text(
-                    sight.type,
+                    sight!.type,
                     style: AppTypography.textWhite14Regular,
                   ),
                 ),
@@ -78,7 +91,7 @@ class SightCard extends StatelessWidget {
                       ),
                       alignment: Alignment.topLeft,
                       child: Text(
-                        sight.name,
+                        sight!.name,
                         style: AppTypography.textTitle17Bold,
                       ),
                     ),
@@ -89,10 +102,9 @@ class SightCard extends StatelessWidget {
                         right: 16,
                       ),
                       alignment: Alignment.topLeft,
-                      child: Text(
-                        sight.details,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTypography.textGrey14Regular,
+                      child: const Text(
+                        'Запланировано на 12 окт. 2022',
+                        style: AppTypography.textGreen14Regular,
                       ),
                     ),
                   ],

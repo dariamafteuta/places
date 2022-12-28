@@ -24,7 +24,7 @@ class _SightListScreenState extends State<SightListScreen> {
         title: const Padding(
           padding: EdgeInsets.only(left: 4, top: 40),
           child: Text(
-            AppString.appBar,
+            AppStrings.appBar,
             textAlign: TextAlign.left,
             style: AppTypography.textTitle40Bold,
           ),

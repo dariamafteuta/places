@@ -37,8 +37,22 @@ class AppTypography {
     fontWeight: FontWeight.w400,
   );
 
+  static const textGrey17Bold = TextStyle(
+    color: AppColors.greyColor,
+    fontSize: 17,
+    fontFamily: 'Roboto',
+    fontWeight: FontWeight.bold,
+  );
+
   static const textWhite14Regular = TextStyle(
     color: AppColors.whiteColor,
+    fontSize: 14,
+    fontFamily: 'Roboto',
+    fontWeight: FontWeight.w400,
+  );
+
+  static const textGreen14Regular = TextStyle(
+    color: AppColors.greenColor,
     fontSize: 14,
     fontFamily: 'Roboto',
     fontWeight: FontWeight.w400,
