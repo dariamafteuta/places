@@ -5,6 +5,7 @@ import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_colors.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SightDetails extends StatefulWidget {
   final Sight sight;
@@ -41,7 +42,7 @@ class _SightDetailsState extends State<SightDetails> {
                 const _BuildRouteButton(),
                 const Divider(
                   height: 39,
-                  color: Color.fromRGBO(124, 126, 146, 1),
+                  color: AppColors.greyInactiveColor,
                   thickness: 0.8,
                 ),
                 const _PlanAndChosen(),
@@ -87,8 +88,8 @@ class _BackButton extends StatelessWidget {
       child: Container(
         width: 35,
         height: 35,
-        child: const Icon(
-          Icons.arrow_back_ios_rounded,
+        child: SvgPicture.asset(
+          AppAssets.arrow,
           color: AppColors.titleColor,
         ),
         decoration: BoxDecoration(
@@ -157,11 +158,9 @@ class _BuildRouteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(
-        left: 17,
-        top: 15,
-        right: 17,
-        bottom: 15,
+      padding: const EdgeInsets.symmetric(
+        horizontal: 15,
+        vertical: 17,
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
@@ -170,13 +169,9 @@ class _BuildRouteButton extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(
-            height: 23,
-            width: 23,
-            child: Image.asset(
-              AppAssets.navigator,
-              color: AppColors.whiteColor,
-            ),
+          SvgPicture.asset(
+            AppAssets.go,
+            color: AppColors.whiteColor,
           ),
           const Text(
             AppStrings.buildARoute,
@@ -195,35 +190,25 @@ class _PlanAndChosen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const [
-        SizedBox(
-          height: 21,
-          width: 21,
-          child: Icon(
-            Icons.calendar_month_rounded,
-            color: AppColors.greyColor,
-            size: 20,
-          ),
+      children: [
+        SvgPicture.asset(
+          AppAssets.calendar,
+          color: AppColors.greyInactiveColor,
         ),
-        Text(
+        const Text(
           AppStrings.plan,
-          style: AppTypography.textGrey14Regular,
+          style: AppTypography.textGreyInactive14Regular,
         ),
-        SizedBox(
+        const SizedBox(
           width: 70,
         ),
-        SizedBox(
-          height: 21,
-          width: 21,
-          child: Icon(
-            Icons.favorite_outlined,
-            color: AppColors.greyColor,
-            size: 20,
-          ),
+        SvgPicture.asset(
+          AppAssets.heart,
+          color: AppColors.textColor,
         ),
-        Text(
+        const Text(
           AppStrings.toFavorites,
-          style: AppTypography.textGrey14Regular,
+          style: AppTypography.textText14Regular,
         ),
       ],
     );

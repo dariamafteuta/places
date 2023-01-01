@@ -23,32 +23,32 @@ class AppTypography {
     fontWeight: FontWeight.bold,
   );
 
-  static const textTitle17Bold = TextStyle(
+  static const textTitle16Bold = TextStyle(
     color: AppColors.titleColor,
-    fontSize: 17,
+    fontSize: 16,
     fontFamily: 'Roboto',
-    fontWeight: FontWeight.bold,
+    fontWeight: FontWeight.w500,
   );
 
-  static const textGrey14Regular = TextStyle(
-    color: AppColors.greyColor,
+  static const textGreyInactive14Regular = TextStyle(
+    color: AppColors.greyInactiveColor,
     fontSize: 14,
     fontFamily: 'Roboto',
     fontWeight: FontWeight.w400,
   );
 
-  static const textGrey17Bold = TextStyle(
-    color: AppColors.greyColor,
-    fontSize: 17,
+  static const textGreyInactive18Bold = TextStyle(
+    color: AppColors.greyInactiveColor,
+    fontSize: 18,
     fontFamily: 'Roboto',
-    fontWeight: FontWeight.bold,
+    fontWeight: FontWeight.w500,
   );
 
   static const textWhite14Regular = TextStyle(
     color: AppColors.whiteColor,
     fontSize: 14,
     fontFamily: 'Roboto',
-    fontWeight: FontWeight.w400,
+    fontWeight: FontWeight.w700,
   );
 
   static const textGreen14Regular = TextStyle(
@@ -65,4 +65,3 @@ class AppTypography {
     fontWeight: FontWeight.w400,
   );
 }
-

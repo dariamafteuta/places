@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_job/mocks.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_colors.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/screen/sight_card_plan.dart';
 import 'package:flutter_job/ui/screen/sight_card_visited.dart';
-import 'package:flutter_job/mocks.dart';
+import 'package:flutter_svg/svg.dart';
 
 class VisitingScreen extends StatefulWidget {
   const VisitingScreen({Key? key}) : super(key: key);
@@ -17,6 +18,7 @@ class VisitingScreen extends StatefulWidget {
 class _VisitingScreenState extends State<VisitingScreen>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
+  int _selectedIndex = 2;
 
   @override
   void initState() {
@@ -24,8 +26,14 @@ class _VisitingScreenState extends State<VisitingScreen>
     tabController = TabController(length: 2, vsync: this);
   }
 
-  final plan_mocks = [];
-  final completed_mocks = [mocks[0], mocks[2]];
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  final planMocks = [mocks[0]];
+  final visitedMocks = [mocks[1]];
 
   @override
   Widget build(BuildContext context) {
@@ -43,21 +51,23 @@ class _VisitingScreenState extends State<VisitingScreen>
             ),
           ),
           bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(60),
+            preferredSize: const Size.fromHeight(70),
             child: Padding(
               padding: const EdgeInsets.symmetric(
-                horizontal: 10,
-                vertical: 5,
+                horizontal: 15,
+                vertical: 20,
               ),
               child: Material(
                 color: AppColors.lightGrayColor,
-                borderRadius: BorderRadius.circular(100),
+                borderRadius: BorderRadius.circular(40),
                 child: TabBar(
-                  unselectedLabelColor: AppColors.greyColor,
+                  overlayColor: MaterialStateProperty.all(Colors.transparent),
+                  splashFactory: NoSplash.splashFactory,
+                  unselectedLabelColor: AppColors.greyInactiveColor,
                   controller: tabController,
                   indicator: BoxDecoration(
                     color: AppColors.titleColor,
-                    borderRadius: BorderRadius.circular(100),
+                    borderRadius: BorderRadius.circular(40),
                   ),
                   tabs: const [
                     Tab(
@@ -72,42 +82,62 @@ class _VisitingScreenState extends State<VisitingScreen>
             ),
           ),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          unselectedItemColor: AppColors.greyColor,
-          selectedItemColor: AppColors.titleColor,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          currentIndex: 2,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.list_rounded),
-              label: 'list',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.map_rounded),
-              label: 'map',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.favorite_outlined,
+        bottomNavigationBar: Theme(
+          data: ThemeData(canvasColor: AppColors.whiteColor),
+          child: BottomNavigationBar(
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            currentIndex: _selectedIndex,
+            onTap: _onItemTapped,
+            items: [
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  AppAssets.list,
+                  color: _selectedIndex == 0
+                      ? AppColors.titleColor
+                      : AppColors.textColor,
+                ),
+                label: 'list',
               ),
-              label: 'favorite',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: 'settings',
-            ),
-          ],
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  AppAssets.map,
+                  color: _selectedIndex == 1
+                      ? AppColors.titleColor
+                      : AppColors.textColor,
+                ),
+                label: 'map',
+              ),
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  AppAssets.heartFull,
+                  color: _selectedIndex == 2
+                      ? AppColors.titleColor
+                      : AppColors.textColor,
+                ),
+                label: 'favorite',
+              ),
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  AppAssets.settings,
+                  color: _selectedIndex == 3
+                      ? AppColors.titleColor
+                      : AppColors.textColor,
+                ),
+                label: 'settings',
+              ),
+            ],
+          ),
         ),
         body: TabBarView(
           controller: tabController,
           children: [
-            if (plan_mocks.isNotEmpty)
+            if (planMocks.isNotEmpty)
               SingleChildScrollView(
                 child: Column(
-                  children: List.generate(plan_mocks.length, (index) {
+                  children: List.generate(planMocks.length, (index) {
                     return SightCardPlan(
-                      sight: plan_mocks[index],
+                      sight: planMocks[index],
                     );
                   }),
                 ),
@@ -117,36 +147,34 @@ class _VisitingScreenState extends State<VisitingScreen>
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(
-                      AppAssets.camera,
-                      height: 100,
-                      width: 100,
+                    SvgPicture.asset(
+                      AppAssets.cardEmptyPage,
                       color: AppColors.greyColor,
                     ),
                     const SizedBox(
-                      height: 13,
+                      height: 32,
                     ),
                     const Text(
                       AppStrings.blank,
-                      style: AppTypography.textGrey17Bold,
+                      style: AppTypography.textGreyInactive18Bold,
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 8,
                     ),
                     const Text(
                       AppStrings.favoritesPlace,
-                      style: AppTypography.textGrey14Regular,
+                      style: AppTypography.textGreyInactive14Regular,
                       textAlign: TextAlign.center,
                     ),
                   ],
                 ),
               ),
-            if (completed_mocks.isNotEmpty)
+            if (visitedMocks.isNotEmpty)
               SingleChildScrollView(
                 child: Column(
-                  children: List.generate(completed_mocks.length, (index) {
+                  children: List.generate(visitedMocks.length, (index) {
                     return SightCardVisited(
-                      sight: completed_mocks[index],
+                      sight: visitedMocks[index],
                     );
                   }),
                 ),
@@ -156,25 +184,23 @@ class _VisitingScreenState extends State<VisitingScreen>
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(
-                      AppAssets.navigator,
-                      height: 90,
-                      width: 90,
+                    SvgPicture.asset(
+                      AppAssets.goEmptyPage,
                       color: AppColors.greyColor,
                     ),
                     const SizedBox(
-                      height: 15,
+                      height: 32,
                     ),
                     const Text(
                       AppStrings.blank,
-                      style: AppTypography.textGrey17Bold,
+                      style: AppTypography.textGreyInactive18Bold,
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 8,
                     ),
                     const Text(
                       AppStrings.completedRoute,
-                      style: AppTypography.textGrey14Regular,
+                      style: AppTypography.textGreyInactive14Regular,
                       textAlign: TextAlign.center,
                     ),
                   ],

@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_job/domain/sight.dart';
+import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_colors.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SightCardPlan extends StatelessWidget {
   final Sight? sight;
@@ -41,29 +42,27 @@ class SightCardPlan extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
-                    top: 17,
+                    top: 16,
                     right: 16,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    children: const [
-                      Icon(
-                        Icons.calendar_month_rounded,
-                        size: 25,
+                    children: [
+                      SvgPicture.asset(
+                        AppAssets.calendar,
                         color: AppColors.whiteColor,
                       ),
-                      SizedBox(width: 10),
-                      Icon(
-                        Icons.close_rounded,
-                        size: 30,
+                      const SizedBox(width: 10),
+                      SvgPicture.asset(
+                        AppAssets.close,
                         color: AppColors.whiteColor,
                       ),
                     ],
                   ),
                 ),
                 Positioned(
-                  top: 19,
-                  left: 18,
+                  top: 16,
+                  left: 16,
                   child: Text(
                     sight!.type,
                     style: AppTypography.textWhite14Regular,
@@ -71,44 +70,41 @@ class SightCardPlan extends StatelessWidget {
                 ),
               ],
             ),
-            Positioned(
-              height: 200,
+            Container(
+              decoration: const BoxDecoration(
+                color: AppColors.lightGrayColor,
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(10),
+                ),
+              ),
+              height: 100,
               width: double.infinity,
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: AppColors.lightGrayColor,
-                  borderRadius: BorderRadius.vertical(
-                    bottom: Radius.circular(10),
+              child: Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.only(
+                      left: 16,
+                      top: 16,
+                    ),
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      sight!.name,
+                      style: AppTypography.textTitle16Bold,
+                    ),
                   ),
-                ),
-                height: 100,
-                child: Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.only(
-                        left: 16,
-                        top: 16,
-                      ),
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        sight!.name,
-                        style: AppTypography.textTitle17Bold,
-                      ),
+                  Container(
+                    padding: const EdgeInsets.only(
+                      left: 16,
+                      top: 5,
+                      right: 16,
                     ),
-                    Container(
-                      padding: const EdgeInsets.only(
-                        left: 16,
-                        top: 5,
-                        right: 16,
-                      ),
-                      alignment: Alignment.topLeft,
-                      child: const Text(
-                        'Запланировано на 12 окт. 2022',
-                        style: AppTypography.textGreen14Regular,
-                      ),
+                    alignment: Alignment.topLeft,
+                    child: const Text(
+                      'Запланировано на 12 окт. 2022',
+                      style: AppTypography.textGreen14Regular,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ],

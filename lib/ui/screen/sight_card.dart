@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_job/domain/sight.dart';
+import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_colors.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SightCard extends StatelessWidget {
   final Sight sight;
@@ -40,17 +41,13 @@ class SightCard extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  top: 19,
-                  right: 18,
-                  child: Icon(
-                    Icons.favorite_outlined,
-                    size: 25,
-                    color: AppColors.whiteColor,
-                  ),
+                  top: 16,
+                  right: 16,
+                  child: SvgPicture.asset(AppAssets.heart, color: AppColors.whiteColor,),
                 ),
                 Positioned(
-                  top: 19,
-                  left: 18,
+                  top: 16,
+                  left: 16,
                   child: Text(
                     sight.type,
                     style: AppTypography.textWhite14Regular,
@@ -58,10 +55,7 @@ class SightCard extends StatelessWidget {
                 ),
               ],
             ),
-            Positioned(
-              height: 200,
-              width: double.infinity,
-              child: Container(
+            Container(
                 decoration: const BoxDecoration(
                   color: AppColors.lightGrayColor,
                   borderRadius: BorderRadius.vertical(
@@ -69,6 +63,7 @@ class SightCard extends StatelessWidget {
                   ),
                 ),
                 height: 100,
+                width: double.infinity,
                 child: Column(
                   children: [
                     Container(
@@ -79,7 +74,7 @@ class SightCard extends StatelessWidget {
                       alignment: Alignment.topLeft,
                       child: Text(
                         sight.name,
-                        style: AppTypography.textTitle17Bold,
+                        style: AppTypography.textTitle16Bold,
                       ),
                     ),
                     Container(
@@ -92,13 +87,12 @@ class SightCard extends StatelessWidget {
                       child: Text(
                         sight.details,
                         overflow: TextOverflow.ellipsis,
-                        style: AppTypography.textGrey14Regular,
+                        style: AppTypography.textGreyInactive14Regular,
                       ),
                     ),
                   ],
                 ),
               ),
-            ),
           ],
         ),
       ),
