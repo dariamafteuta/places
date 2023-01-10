@@ -5,6 +5,7 @@ import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_colors.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SightDetails extends StatefulWidget {
   final Sight sight;
@@ -41,7 +42,7 @@ class _SightDetailsState extends State<SightDetails> {
                 const _BuildRouteButton(),
                 const Divider(
                   height: 39,
-                  color: Color.fromRGBO(124, 126, 146, 1),
+                  color: AppColors.greyInactiveColor,
                   thickness: 0.8,
                 ),
                 const _PlanAndChosen(),
@@ -70,7 +71,7 @@ class _Photos extends StatelessWidget {
             loadingProgress == null
                 ? child
                 : const CupertinoActivityIndicator(),
-        fit: BoxFit.fitWidth,
+        fit: BoxFit.cover,
       ),
     );
   }
@@ -87,7 +88,10 @@ class _BackButton extends StatelessWidget {
       child: Container(
         width: 35,
         height: 35,
-        child: Image.asset(AppAssets.left),
+        child: SvgPicture.asset(
+          AppAssets.arrow,
+          color: AppColors.titleColor,
+        ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(7),
           color: AppColors.whiteColor,
@@ -154,11 +158,9 @@ class _BuildRouteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(
-        left: 17,
-        top: 15,
-        right: 17,
-        bottom: 15,
+      padding: const EdgeInsets.symmetric(
+        horizontal: 15,
+        vertical: 17,
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
@@ -167,16 +169,12 @@ class _BuildRouteButton extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(
-            height: 23,
-            width: 23,
-            child: Image.asset(
-              AppAssets.navigator,
-              color: AppColors.whiteColor,
-            ),
+          SvgPicture.asset(
+            AppAssets.go,
+            color: AppColors.whiteColor,
           ),
           const Text(
-            AppString.buildARoute,
+            AppStrings.buildARoute,
             style: AppTypography.textWhite14Regular,
           ),
         ],
@@ -193,32 +191,24 @@ class _PlanAndChosen extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(
-          height: 21,
-          width: 21,
-          child: Image.asset(
-            AppAssets.calendar,
-            color: AppColors.greyColor,
-          ),
+        SvgPicture.asset(
+          AppAssets.calendar,
+          color: AppColors.greyInactiveColor,
         ),
         const Text(
-          AppString.plan,
-          style: AppTypography.textGrey14Regular,
+          AppStrings.plan,
+          style: AppTypography.textGreyInactive14Regular,
         ),
         const SizedBox(
           width: 70,
         ),
-        SizedBox(
-          height: 21,
-          width: 21,
-          child: Image.asset(
-            AppAssets.favorite,
-            color: AppColors.greyColor,
-          ),
+        SvgPicture.asset(
+          AppAssets.heart,
+          color: AppColors.textColor,
         ),
         const Text(
-          AppString.favorite,
-          style: AppTypography.textGrey14Regular,
+          AppStrings.toFavorites,
+          style: AppTypography.textText14Regular,
         ),
       ],
     );
