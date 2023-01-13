@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_job/main.dart';
 import 'package:flutter_job/mocks.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_colors.dart';
@@ -15,16 +16,8 @@ class VisitingScreen extends StatefulWidget {
   State<VisitingScreen> createState() => _VisitingScreenState();
 }
 
-class _VisitingScreenState extends State<VisitingScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController tabController;
+class _VisitingScreenState extends State<VisitingScreen> {
   int _selectedIndex = 2;
-
-  @override
-  void initState() {
-    super.initState();
-    tabController = TabController(length: 2, vsync: this);
-  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -33,21 +26,19 @@ class _VisitingScreenState extends State<VisitingScreen>
   }
 
   final planMocks = [mocks[0]];
-  final visitedMocks = [mocks[1]];
+  final visitedMocks = [mocks[0]];
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: AppColors.whiteColor,
         appBar: AppBar(
-          backgroundColor: AppColors.whiteColor,
           elevation: 0.0,
           title: const Center(
             child: Text(
               AppStrings.favorites,
-              style: AppTypography.textTitle24Bold,
+              style: AppTypography.text24Bold,
             ),
           ),
           bottom: PreferredSize(
@@ -58,18 +49,10 @@ class _VisitingScreenState extends State<VisitingScreen>
                 vertical: 20,
               ),
               child: Material(
-                color: AppColors.lightGrayColor,
+                color: !isDarkTheme ? AppColors.ltBackgroundColor : AppColors.dtDarkColor,
                 borderRadius: BorderRadius.circular(40),
-                child: TabBar(
-                  overlayColor: MaterialStateProperty.all(Colors.transparent),
-                  splashFactory: NoSplash.splashFactory,
-                  unselectedLabelColor: AppColors.greyInactiveColor,
-                  controller: tabController,
-                  indicator: BoxDecoration(
-                    color: AppColors.titleColor,
-                    borderRadius: BorderRadius.circular(40),
-                  ),
-                  tabs: const [
+                child: const TabBar(
+                  tabs: [
                     Tab(
                       text: AppStrings.iWantToVisit,
                     ),
@@ -82,55 +65,43 @@ class _VisitingScreenState extends State<VisitingScreen>
             ),
           ),
         ),
-        bottomNavigationBar: Theme(
-          data: ThemeData(canvasColor: AppColors.whiteColor),
-          child: BottomNavigationBar(
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            currentIndex: _selectedIndex,
-            onTap: _onItemTapped,
-            items: [
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  AppAssets.list,
-                  color: _selectedIndex == 0
-                      ? AppColors.titleColor
-                      : AppColors.textColor,
-                ),
-                label: 'list',
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
+          items: [
+            BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                _selectedIndex == 0 ? AppAssets.listFull : AppAssets.list,
+                color: !isDarkTheme ? AppColors.ltMainColor : AppColors.whiteColor,
               ),
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  AppAssets.map,
-                  color: _selectedIndex == 1
-                      ? AppColors.titleColor
-                      : AppColors.textColor,
-                ),
-                label: 'map',
+              label: 'list',
+            ),
+            BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                _selectedIndex == 1 ? AppAssets.mapFull : AppAssets.map,
+                color: !isDarkTheme ? AppColors.ltMainColor : AppColors.whiteColor,
               ),
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  AppAssets.heartFull,
-                  color: _selectedIndex == 2
-                      ? AppColors.titleColor
-                      : AppColors.textColor,
-                ),
-                label: 'favorite',
+              label: 'map',
+            ),
+            BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                _selectedIndex == 2 ? AppAssets.heartFull : AppAssets.heart,
+                color: !isDarkTheme ? AppColors.ltMainColor : AppColors.whiteColor,
               ),
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  AppAssets.settings,
-                  color: _selectedIndex == 3
-                      ? AppColors.titleColor
-                      : AppColors.textColor,
-                ),
-                label: 'settings',
+              label: 'favorite',
+            ),
+            BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                _selectedIndex == 3
+                    ? AppAssets.settingsFull
+                    : AppAssets.settings,
+                color: !isDarkTheme ? AppColors.ltMainColor : AppColors.whiteColor,
               ),
-            ],
-          ),
+              label: 'settings',
+            ),
+          ],
         ),
         body: TabBarView(
-          controller: tabController,
           children: [
             if (planMocks.isNotEmpty)
               SingleChildScrollView(
@@ -149,7 +120,7 @@ class _VisitingScreenState extends State<VisitingScreen>
                   children: [
                     SvgPicture.asset(
                       AppAssets.cardEmptyPage,
-                      color: AppColors.greyColor,
+                      color: AppColors.secondary2Color,
                     ),
                     const SizedBox(
                       height: 32,
@@ -186,7 +157,7 @@ class _VisitingScreenState extends State<VisitingScreen>
                   children: [
                     SvgPicture.asset(
                       AppAssets.goEmptyPage,
-                      color: AppColors.greyColor,
+                      color: AppColors.secondary2Color,
                     ),
                     const SizedBox(
                       height: 32,

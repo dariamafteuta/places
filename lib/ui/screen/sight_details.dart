@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job/domain/sight.dart';
+import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_colors.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
@@ -9,13 +10,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class SightDetails extends StatefulWidget {
   final Sight sight;
-
   const SightDetails({Key? key, required this.sight}) : super(key: key);
-
   @override
   State<SightDetails> createState() => _SightDetailsState();
 }
-
 class _SightDetailsState extends State<SightDetails> {
   @override
   Widget build(BuildContext context) {
@@ -42,7 +40,7 @@ class _SightDetailsState extends State<SightDetails> {
                 const _BuildRouteButton(),
                 const Divider(
                   height: 39,
-                  color: AppColors.greyInactiveColor,
+                  color: AppColors.inactiveColor,
                   thickness: 0.8,
                 ),
                 const _PlanAndChosen(),
@@ -57,9 +55,7 @@ class _SightDetailsState extends State<SightDetails> {
 
 class _Photos extends StatelessWidget {
   final Sight sight;
-
   const _Photos({Key? key, required this.sight}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -68,9 +64,9 @@ class _Photos extends StatelessWidget {
       child: Image.network(
         sight.url,
         loadingBuilder: (context, child, loadingProgress) =>
-            loadingProgress == null
-                ? child
-                : const CupertinoActivityIndicator(),
+        loadingProgress == null
+            ? child
+            : const CupertinoActivityIndicator(color: AppColors.inactiveColor,),
         fit: BoxFit.cover,
       ),
     );
@@ -79,7 +75,6 @@ class _Photos extends StatelessWidget {
 
 class _BackButton extends StatelessWidget {
   const _BackButton({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Positioned(
@@ -90,11 +85,11 @@ class _BackButton extends StatelessWidget {
         height: 35,
         child: SvgPicture.asset(
           AppAssets.arrow,
-          color: AppColors.titleColor,
+          color: !isDarkTheme ? AppColors.ltMainColor : AppColors.whiteColor,
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(7),
-          color: AppColors.whiteColor,
+          color: !isDarkTheme ? AppColors.whiteColor : AppColors.ltMainColor,
         ),
       ),
     );
@@ -103,16 +98,14 @@ class _BackButton extends StatelessWidget {
 
 class _PlaceName extends StatelessWidget {
   final Sight sight;
-
   const _PlaceName({Key? key, required this.sight}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.topLeft,
       child: Text(
         sight.name,
-        style: AppTypography.textTitle24Bold,
+        style: AppTypography.text24Bold,
       ),
     );
   }
@@ -120,16 +113,14 @@ class _PlaceName extends StatelessWidget {
 
 class _PlaceType extends StatelessWidget {
   final Sight sight;
-
   const _PlaceType({Key? key, required this.sight}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.topLeft,
       child: Text(
         sight.type,
-        style: AppTypography.textText14Bold,
+        style: AppTypography.text14Bold,
       ),
     );
   }
@@ -137,16 +128,14 @@ class _PlaceType extends StatelessWidget {
 
 class _PlaceDetails extends StatelessWidget {
   final Sight sight;
-
   const _PlaceDetails({Key? key, required this.sight}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.topLeft,
       child: Text(
         sight.details,
-        style: AppTypography.textText14Regular,
+        style: AppTypography.text14Regular,
       ),
     );
   }
@@ -154,7 +143,6 @@ class _PlaceDetails extends StatelessWidget {
 
 class _BuildRouteButton extends StatelessWidget {
   const _BuildRouteButton({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -164,7 +152,7 @@ class _BuildRouteButton extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: AppColors.greenColor,
+        color: !isDarkTheme ? AppColors.ltGreenColor : AppColors.dtGreenColor,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -173,9 +161,9 @@ class _BuildRouteButton extends StatelessWidget {
             AppAssets.go,
             color: AppColors.whiteColor,
           ),
-          const Text(
+          Text(
             AppStrings.buildARoute,
-            style: AppTypography.textWhite14Regular,
+            style: AppTypography.text14Regular.copyWith(color: AppColors.whiteColor),
           ),
         ],
       ),
@@ -185,7 +173,6 @@ class _BuildRouteButton extends StatelessWidget {
 
 class _PlanAndChosen extends StatelessWidget {
   const _PlanAndChosen({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -193,7 +180,7 @@ class _PlanAndChosen extends StatelessWidget {
       children: [
         SvgPicture.asset(
           AppAssets.calendar,
-          color: AppColors.greyInactiveColor,
+          color: AppColors.inactiveColor,
         ),
         const Text(
           AppStrings.plan,
@@ -204,11 +191,11 @@ class _PlanAndChosen extends StatelessWidget {
         ),
         SvgPicture.asset(
           AppAssets.heart,
-          color: AppColors.textColor,
+          color: !isDarkTheme ? AppColors.secondaryColor : AppColors.whiteColor,
         ),
         const Text(
           AppStrings.toFavorites,
-          style: AppTypography.textText14Regular,
+          style: AppTypography.text14Regular,
         ),
       ],
     );

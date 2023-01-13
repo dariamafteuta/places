@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_job/domain/sight.dart';
+import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_colors.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
@@ -50,14 +51,14 @@ class SightCard extends StatelessWidget {
                   left: 16,
                   child: Text(
                     sight.type,
-                    style: AppTypography.textWhite14Regular,
+                    style: AppTypography.text14w700,
                   ),
                 ),
               ],
             ),
             Container(
                 decoration: const BoxDecoration(
-                  color: AppColors.lightGrayColor,
+                  color: !isDarkTheme ? AppColors.ltBackgroundColor : AppColors.dtDarkColor,
                   borderRadius: BorderRadius.vertical(
                     bottom: Radius.circular(10),
                   ),
@@ -74,7 +75,7 @@ class SightCard extends StatelessWidget {
                       alignment: Alignment.topLeft,
                       child: Text(
                         sight.name,
-                        style: AppTypography.textTitle16Bold,
+                        style: AppTypography.text16Bold,
                       ),
                     ),
                     Container(
