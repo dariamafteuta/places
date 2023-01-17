@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_job/main.dart';
 import 'package:flutter_job/mocks.dart';
+import 'package:flutter_job/theme_provider.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
-import 'package:flutter_job/ui/res/app_colors.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/screen/sight_card_plan.dart';
@@ -16,6 +15,10 @@ class VisitingScreen extends StatefulWidget {
   State<VisitingScreen> createState() => _VisitingScreenState();
 }
 
+ThemeProvider themeProvider = ThemeProvider();
+AppTypography appTypography = AppTypography();
+
+
 class _VisitingScreenState extends State<VisitingScreen> {
   int _selectedIndex = 2;
 
@@ -25,8 +28,8 @@ class _VisitingScreenState extends State<VisitingScreen> {
     });
   }
 
-  final planMocks = [mocks[0]];
-  final visitedMocks = [mocks[0]];
+  final _planMocks = [mocks[0]];
+  final _visitedMocks = [mocks[7]];
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +38,10 @@ class _VisitingScreenState extends State<VisitingScreen> {
       child: Scaffold(
         appBar: AppBar(
           elevation: 0.0,
-          title: const Center(
+          title: Center(
             child: Text(
               AppStrings.favorites,
-              style: AppTypography.text24Bold,
+              style: appTypography.text24Bold,
             ),
           ),
           bottom: PreferredSize(
@@ -49,7 +52,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
                 vertical: 20,
               ),
               child: Material(
-                color: !isDarkTheme ? AppColors.ltBackgroundColor : AppColors.dtDarkColor,
+                color: themeProvider.appTheme.backgroundColor,
                 borderRadius: BorderRadius.circular(40),
                 child: const TabBar(
                   tabs: [
@@ -72,21 +75,21 @@ class _VisitingScreenState extends State<VisitingScreen> {
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 _selectedIndex == 0 ? AppAssets.listFull : AppAssets.list,
-                color: !isDarkTheme ? AppColors.ltMainColor : AppColors.whiteColor,
+                color: themeProvider.appTheme.mainWhiteColor,
               ),
               label: 'list',
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 _selectedIndex == 1 ? AppAssets.mapFull : AppAssets.map,
-                color: !isDarkTheme ? AppColors.ltMainColor : AppColors.whiteColor,
+                color: themeProvider.appTheme.mainWhiteColor,
               ),
               label: 'map',
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 _selectedIndex == 2 ? AppAssets.heartFull : AppAssets.heart,
-                color: !isDarkTheme ? AppColors.ltMainColor : AppColors.whiteColor,
+                color: themeProvider.appTheme.mainWhiteColor,
               ),
               label: 'favorite',
             ),
@@ -95,7 +98,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
                 _selectedIndex == 3
                     ? AppAssets.settingsFull
                     : AppAssets.settings,
-                color: !isDarkTheme ? AppColors.ltMainColor : AppColors.whiteColor,
+                color: themeProvider.appTheme.mainWhiteColor,
               ),
               label: 'settings',
             ),
@@ -103,12 +106,12 @@ class _VisitingScreenState extends State<VisitingScreen> {
         ),
         body: TabBarView(
           children: [
-            if (planMocks.isNotEmpty)
+            if (_planMocks.isNotEmpty)
               SingleChildScrollView(
                 child: Column(
-                  children: List.generate(planMocks.length, (index) {
+                  children: List.generate(_planMocks.length, (index) {
                     return SightCardPlan(
-                      sight: planMocks[index],
+                      sight: _planMocks[index],
                     );
                   }),
                 ),
@@ -120,32 +123,32 @@ class _VisitingScreenState extends State<VisitingScreen> {
                   children: [
                     SvgPicture.asset(
                       AppAssets.cardEmptyPage,
-                      color: AppColors.secondary2Color,
+                      color: themeProvider.appTheme.secondary2Color,
                     ),
                     const SizedBox(
                       height: 32,
                     ),
-                    const Text(
+                    Text(
                       AppStrings.blank,
-                      style: AppTypography.textGreyInactive18Bold,
+                      style: appTypography.textGreyInactive18Bold,
                     ),
                     const SizedBox(
                       height: 8,
                     ),
-                    const Text(
+                    Text(
                       AppStrings.favoritesPlace,
-                      style: AppTypography.textGreyInactive14Regular,
+                      style: appTypography.textGreyInactive14Regular,
                       textAlign: TextAlign.center,
                     ),
                   ],
                 ),
               ),
-            if (visitedMocks.isNotEmpty)
+            if (_visitedMocks.isNotEmpty)
               SingleChildScrollView(
                 child: Column(
-                  children: List.generate(visitedMocks.length, (index) {
+                  children: List.generate(_visitedMocks.length, (index) {
                     return SightCardVisited(
-                      sight: visitedMocks[index],
+                      sight: _visitedMocks[index],
                     );
                   }),
                 ),
@@ -157,21 +160,21 @@ class _VisitingScreenState extends State<VisitingScreen> {
                   children: [
                     SvgPicture.asset(
                       AppAssets.goEmptyPage,
-                      color: AppColors.secondary2Color,
+                      color: themeProvider.appTheme.secondary2Color,
                     ),
                     const SizedBox(
                       height: 32,
                     ),
-                    const Text(
+                    Text(
                       AppStrings.blank,
-                      style: AppTypography.textGreyInactive18Bold,
+                      style: appTypography.textGreyInactive18Bold,
                     ),
                     const SizedBox(
                       height: 8,
                     ),
-                    const Text(
+                    Text(
                       AppStrings.completedRoute,
-                      style: AppTypography.textGreyInactive14Regular,
+                      style: appTypography.textGreyInactive14Regular,
                       textAlign: TextAlign.center,
                     ),
                   ],

@@ -1,61 +1,64 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_job/ui/res/app_colors.dart';
 
-final lightTheme = ThemeData(
-  primaryColor: AppColors.ltBackgroundColor,
-  primaryColorLight: AppColors.whiteColor,
-  primaryColorDark: AppColors.secondary2Color,
-  backgroundColor: AppColors.whiteColor,
-  scaffoldBackgroundColor: AppColors.whiteColor,
+LightTheme lightTheme = LightTheme();
+DarkTheme darkTheme = DarkTheme();
 
-  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+final lightThemes = ThemeData(
+  primaryColor: lightTheme.backgroundColor,
+  primaryColorLight: lightTheme.whiteColor,
+  primaryColorDark: lightTheme.secondary2Color,
+  backgroundColor: lightTheme.whiteColor,
+  scaffoldBackgroundColor: lightTheme.whiteColor,
+
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
     elevation: 10,
     type: BottomNavigationBarType.fixed,
-    backgroundColor: AppColors.whiteColor,
+    backgroundColor: lightTheme.whiteColor,
     showSelectedLabels: false,
     showUnselectedLabels: false,
   ),
 
   tabBarTheme: TabBarTheme(
-    labelColor: AppColors.whiteColor,
-    unselectedLabelColor: AppColors.inactiveColor,
+    labelColor: lightTheme.whiteColor,
+    unselectedLabelColor: lightTheme.inactiveColor,
     overlayColor: MaterialStateProperty.all(Colors.transparent),
     splashFactory: NoSplash.splashFactory,
     indicator: BoxDecoration(
-      color: AppColors.ltMainColor,
+      color: lightTheme.mainColor,
       borderRadius: BorderRadius.circular(40),
     ),
   ),
 
-  appBarTheme: const AppBarTheme(
-    color: AppColors.whiteColor,
+  appBarTheme: AppBarTheme(
+    color: lightTheme.whiteColor,
   ),
 );
 
-final darkTheme = ThemeData(
-  primaryColor: AppColors.dtMainColor,
-  scaffoldBackgroundColor: AppColors.dtMainColor,
+final darkThemes = ThemeData(
+  primaryColor: darkTheme.mainColor,
+  scaffoldBackgroundColor: darkTheme.mainColor,
 
-  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
     elevation: 10,
     type: BottomNavigationBarType.fixed,
-    backgroundColor: AppColors.dtMainColor,
+    backgroundColor: darkTheme.mainColor,
     showSelectedLabels: false,
     showUnselectedLabels: false,
   ),
 
   tabBarTheme: TabBarTheme(
-    labelColor: AppColors.dtMainColor,
-    unselectedLabelColor: AppColors.inactiveColor,
+    labelColor: darkTheme.mainColor,
+    unselectedLabelColor: darkTheme.inactiveColor,
     overlayColor: MaterialStateProperty.all(Colors.transparent),
     splashFactory: NoSplash.splashFactory,
     indicator: BoxDecoration(
-      color: AppColors.whiteColor,
+      color: darkTheme.whiteColor,
       borderRadius: BorderRadius.circular(40),
     ),
   ),
 
-  appBarTheme: const AppBarTheme(
-    color: AppColors.dtMainColor,
+  appBarTheme: AppBarTheme(
+    color: darkTheme.mainColor,
   ),
 );
