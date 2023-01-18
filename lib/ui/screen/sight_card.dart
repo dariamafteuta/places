@@ -1,14 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_job/domain/sight.dart';
+import 'package:flutter_job/theme_provider.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
-import 'package:flutter_job/ui/res/app_colors.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class SightCard extends StatelessWidget {
+class SightCard extends StatefulWidget {
   final Sight sight;
 
   const SightCard({Key? key, required this.sight}) : super(key: key);
+
+  @override
+  State<SightCard> createState() => _SightCardState();
+}
+
+ThemeProvider themeProvider = ThemeProvider();
+AppTypography appTypography = AppTypography();
+
+class _SightCardState extends State<SightCard> {
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +40,7 @@ class SightCard extends StatelessWidget {
                       top: Radius.circular(10),
                     ),
                     child: Image.network(
-                      sight.url,
+                      widget.sight.url,
                       loadingBuilder: (context, child, loadingProgress) =>
                           loadingProgress == null
                               ? child
@@ -43,56 +52,59 @@ class SightCard extends StatelessWidget {
                 Positioned(
                   top: 16,
                   right: 16,
-                  child: SvgPicture.asset(AppAssets.heart, color: AppColors.whiteColor,),
+                  child: SvgPicture.asset(
+                    AppAssets.heart,
+                    color: themeProvider.appTheme.whiteColor,
+                  ),
                 ),
                 Positioned(
                   top: 16,
                   left: 16,
                   child: Text(
-                    sight.type,
-                    style: AppTypography.textWhite14Regular,
+                    widget.sight.type,
+                    style: appTypography.text14w700,
                   ),
                 ),
               ],
             ),
             Container(
-                decoration: const BoxDecoration(
-                  color: AppColors.lightGrayColor,
-                  borderRadius: BorderRadius.vertical(
-                    bottom: Radius.circular(10),
-                  ),
-                ),
-                height: 100,
-                width: double.infinity,
-                child: Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.only(
-                        left: 16,
-                        top: 16,
-                      ),
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        sight.name,
-                        style: AppTypography.textTitle16Bold,
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(
-                        left: 16,
-                        top: 5,
-                        right: 16,
-                      ),
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        sight.details,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTypography.textGreyInactive14Regular,
-                      ),
-                    ),
-                  ],
+              decoration: BoxDecoration(
+                color: themeProvider.appTheme.backgroundColor,
+                borderRadius: const BorderRadius.vertical(
+                  bottom: Radius.circular(10),
                 ),
               ),
+              height: 100,
+              width: double.infinity,
+              child: Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.only(
+                      left: 16,
+                      top: 16,
+                    ),
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      widget.sight.name,
+                      style: appTypography.text16Bold,
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(
+                      left: 16,
+                      top: 5,
+                      right: 16,
+                    ),
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      widget.sight.details,
+                      overflow: TextOverflow.ellipsis,
+                      style: appTypography.textGreyInactive14Regular,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

@@ -1,14 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_job/domain/sight.dart';
+import 'package:flutter_job/theme_provider.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
-import 'package:flutter_job/ui/res/app_colors.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class SightCardVisited extends StatelessWidget {
+class SightCardVisited extends StatefulWidget {
   final Sight? sight;
 
-  const SightCardVisited({Key? key, required this.sight}) : super(key: key);
+ const SightCardVisited({Key? key, required this.sight}) : super(key: key);
+
+  @override
+  State<SightCardVisited> createState() => _SightCardVisitedState();
+}
+
+ThemeProvider themeProvider = ThemeProvider();
+AppTypography appTypography = AppTypography();
+
+class _SightCardVisitedState extends State<SightCardVisited> {
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +36,7 @@ class SightCardVisited extends StatelessWidget {
                       top: Radius.circular(10),
                     ),
                     child: Image.network(
-                      sight!.url,
+                      widget.sight!.url,
                       loadingBuilder: (context, child, loadingProgress) =>
                           loadingProgress == null
                               ? child
@@ -46,12 +55,12 @@ class SightCardVisited extends StatelessWidget {
                     children: [
                       SvgPicture.asset(
                         AppAssets.share,
-                        color: AppColors.whiteColor,
+                        color: themeProvider.appTheme.whiteColor,
                       ),
                       const SizedBox(width: 10),
                       SvgPicture.asset(
                         AppAssets.close,
-                        color: AppColors.whiteColor,
+                        color: themeProvider.appTheme.whiteColor,
                       ),
                     ],
                   ),
@@ -60,16 +69,16 @@ class SightCardVisited extends StatelessWidget {
                   top: 16,
                   left: 16,
                   child: Text(
-                    sight!.type,
-                    style: AppTypography.textWhite14Regular,
+                    widget.sight!.type,
+                    style: appTypography.text14w700,
                   ),
                 ),
               ],
             ),
             Container(
-              decoration: const BoxDecoration(
-                color: AppColors.lightGrayColor,
-                borderRadius: BorderRadius.vertical(
+              decoration: BoxDecoration(
+                color: themeProvider.appTheme.backgroundColor,
+                borderRadius: const BorderRadius.vertical(
                   bottom: Radius.circular(10),
                 ),
               ),
@@ -83,8 +92,8 @@ class SightCardVisited extends StatelessWidget {
                     ),
                     alignment: Alignment.topLeft,
                     child: Text(
-                      sight!.name,
-                      style: AppTypography.textTitle16Bold,
+                      widget.sight!.name,
+                      style: appTypography.text16Bold,
                     ),
                   ),
                   Container(
@@ -94,9 +103,9 @@ class SightCardVisited extends StatelessWidget {
                       right: 16,
                     ),
                     alignment: Alignment.topLeft,
-                    child: const Text(
+                    child: Text(
                       'Цель достигнута 12 окт. 2022',
-                      style: AppTypography.textGreyInactive14Regular,
+                      style: appTypography.textGreyInactive14Regular,
                     ),
                   ),
                 ],

@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job/domain/sight.dart';
+import 'package:flutter_job/theme_provider.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
-import 'package:flutter_job/ui/res/app_colors.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -16,7 +16,11 @@ class SightDetails extends StatefulWidget {
   State<SightDetails> createState() => _SightDetailsState();
 }
 
+ThemeProvider themeProvider = ThemeProvider();
+AppTypography appTypography = AppTypography();
+
 class _SightDetailsState extends State<SightDetails> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,9 +44,9 @@ class _SightDetailsState extends State<SightDetails> {
                 _PlaceDetails(sight: widget.sight),
                 const SizedBox(height: 24),
                 const _BuildRouteButton(),
-                const Divider(
+                Divider(
                   height: 39,
-                  color: AppColors.greyInactiveColor,
+                  color: themeProvider.appTheme.inactiveColor,
                   thickness: 0.8,
                 ),
                 const _PlanAndChosen(),
@@ -57,9 +61,7 @@ class _SightDetailsState extends State<SightDetails> {
 
 class _Photos extends StatelessWidget {
   final Sight sight;
-
   const _Photos({Key? key, required this.sight}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -68,9 +70,9 @@ class _Photos extends StatelessWidget {
       child: Image.network(
         sight.url,
         loadingBuilder: (context, child, loadingProgress) =>
-            loadingProgress == null
-                ? child
-                : const CupertinoActivityIndicator(),
+        loadingProgress == null
+            ? child
+            : CupertinoActivityIndicator(color: themeProvider.appTheme.inactiveColor,),
         fit: BoxFit.cover,
       ),
     );
@@ -79,7 +81,6 @@ class _Photos extends StatelessWidget {
 
 class _BackButton extends StatelessWidget {
   const _BackButton({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Positioned(
@@ -90,11 +91,11 @@ class _BackButton extends StatelessWidget {
         height: 35,
         child: SvgPicture.asset(
           AppAssets.arrow,
-          color: AppColors.titleColor,
+          color: themeProvider.appTheme.mainWhiteColor,
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(7),
-          color: AppColors.whiteColor,
+          color: themeProvider.appTheme.whiteMainColor,
         ),
       ),
     );
@@ -103,16 +104,14 @@ class _BackButton extends StatelessWidget {
 
 class _PlaceName extends StatelessWidget {
   final Sight sight;
-
   const _PlaceName({Key? key, required this.sight}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.topLeft,
       child: Text(
         sight.name,
-        style: AppTypography.textTitle24Bold,
+        style: appTypography.text24Bold,
       ),
     );
   }
@@ -129,7 +128,7 @@ class _PlaceType extends StatelessWidget {
       alignment: Alignment.topLeft,
       child: Text(
         sight.type,
-        style: AppTypography.textText14Bold,
+        style: appTypography.text14Bold,
       ),
     );
   }
@@ -146,7 +145,7 @@ class _PlaceDetails extends StatelessWidget {
       alignment: Alignment.topLeft,
       child: Text(
         sight.details,
-        style: AppTypography.textText14Regular,
+        style: appTypography.text14Regular,
       ),
     );
   }
@@ -154,7 +153,6 @@ class _PlaceDetails extends StatelessWidget {
 
 class _BuildRouteButton extends StatelessWidget {
   const _BuildRouteButton({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -164,18 +162,18 @@ class _BuildRouteButton extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: AppColors.greenColor,
+        color: themeProvider.appTheme.greenColor,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SvgPicture.asset(
             AppAssets.go,
-            color: AppColors.whiteColor,
+            color: themeProvider.appTheme.whiteColor,
           ),
-          const Text(
+          Text(
             AppStrings.buildARoute,
-            style: AppTypography.textWhite14Regular,
+            style: appTypography.text14Regular.copyWith(color: themeProvider.appTheme.whiteColor),
           ),
         ],
       ),
@@ -185,7 +183,6 @@ class _BuildRouteButton extends StatelessWidget {
 
 class _PlanAndChosen extends StatelessWidget {
   const _PlanAndChosen({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -193,22 +190,22 @@ class _PlanAndChosen extends StatelessWidget {
       children: [
         SvgPicture.asset(
           AppAssets.calendar,
-          color: AppColors.greyInactiveColor,
+          color: themeProvider.appTheme.inactiveColor,
         ),
-        const Text(
+        Text(
           AppStrings.plan,
-          style: AppTypography.textGreyInactive14Regular,
+          style: appTypography.textGreyInactive14Regular,
         ),
         const SizedBox(
           width: 70,
         ),
         SvgPicture.asset(
           AppAssets.heart,
-          color: AppColors.textColor,
+          color: themeProvider.appTheme.secondaryWhiteColor,
         ),
-        const Text(
+        Text(
           AppStrings.toFavorites,
-          style: AppTypography.textText14Regular,
+          style: appTypography.text14Regular,
         ),
       ],
     );

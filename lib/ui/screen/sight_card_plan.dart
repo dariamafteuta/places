@@ -1,14 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_job/domain/sight.dart';
+import 'package:flutter_job/theme_provider.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
-import 'package:flutter_job/ui/res/app_colors.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class SightCardPlan extends StatelessWidget {
+class SightCardPlan extends StatefulWidget {
   final Sight? sight;
 
   const SightCardPlan({Key? key, required this.sight}) : super(key: key);
+
+  @override
+  State<SightCardPlan> createState() => _SightCardPlanState();
+}
+
+ThemeProvider themeProvider = ThemeProvider();
+AppTypography appTypography = AppTypography();
+
+class _SightCardPlanState extends State<SightCardPlan> {
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +40,7 @@ class SightCardPlan extends StatelessWidget {
                       top: Radius.circular(10),
                     ),
                     child: Image.network(
-                      sight!.url,
+                      widget.sight!.url,
                       loadingBuilder: (context, child, loadingProgress) =>
                           loadingProgress == null
                               ? child
@@ -50,12 +59,12 @@ class SightCardPlan extends StatelessWidget {
                     children: [
                       SvgPicture.asset(
                         AppAssets.calendar,
-                        color: AppColors.whiteColor,
+                        color: themeProvider.appTheme.whiteColor,
                       ),
                       const SizedBox(width: 10),
                       SvgPicture.asset(
                         AppAssets.close,
-                        color: AppColors.whiteColor,
+                        color: themeProvider.appTheme.whiteColor,
                       ),
                     ],
                   ),
@@ -64,16 +73,16 @@ class SightCardPlan extends StatelessWidget {
                   top: 16,
                   left: 16,
                   child: Text(
-                    sight!.type,
-                    style: AppTypography.textWhite14Regular,
+                    widget.sight!.type,
+                    style: appTypography.text14w700,
                   ),
                 ),
               ],
             ),
             Container(
-              decoration: const BoxDecoration(
-                color: AppColors.lightGrayColor,
-                borderRadius: BorderRadius.vertical(
+              decoration: BoxDecoration(
+                color: themeProvider.appTheme.backgroundColor,
+                borderRadius: const BorderRadius.vertical(
                   bottom: Radius.circular(10),
                 ),
               ),
@@ -88,8 +97,8 @@ class SightCardPlan extends StatelessWidget {
                     ),
                     alignment: Alignment.topLeft,
                     child: Text(
-                      sight!.name,
-                      style: AppTypography.textTitle16Bold,
+                      widget.sight!.name,
+                      style: appTypography.text16Bold,
                     ),
                   ),
                   Container(
@@ -99,9 +108,9 @@ class SightCardPlan extends StatelessWidget {
                       right: 16,
                     ),
                     alignment: Alignment.topLeft,
-                    child: const Text(
+                    child: Text(
                       'Запланировано на 12 окт. 2022',
-                      style: AppTypography.textGreen14Regular,
+                      style: appTypography.text14Regular.copyWith(color: themeProvider.appTheme.greenColor),
                     ),
                   ),
                 ],
