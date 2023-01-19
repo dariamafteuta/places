@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job/domain/sight.dart';
 import 'package:flutter_job/theme_provider.dart';
@@ -20,7 +21,6 @@ ThemeProvider themeProvider = ThemeProvider();
 AppTypography appTypography = AppTypography();
 
 class _SightDetailsState extends State<SightDetails> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,9 +70,11 @@ class _Photos extends StatelessWidget {
       child: Image.network(
         sight.url,
         loadingBuilder: (context, child, loadingProgress) =>
-        loadingProgress == null
-            ? child
-            : CupertinoActivityIndicator(color: themeProvider.appTheme.inactiveColor,),
+            loadingProgress == null
+                ? child
+                : CupertinoActivityIndicator(
+                    color: themeProvider.appTheme.inactiveColor,
+                  ),
         fit: BoxFit.cover,
       ),
     );
@@ -86,16 +88,24 @@ class _BackButton extends StatelessWidget {
     return Positioned(
       top: 40,
       left: 17,
-      child: Container(
-        width: 35,
+      child: SizedBox(
         height: 35,
-        child: SvgPicture.asset(
-          AppAssets.arrow,
-          color: themeProvider.appTheme.mainWhiteColor,
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(7),
-          color: themeProvider.appTheme.whiteMainColor,
+        width: 35,
+        child: TextButton(
+          onPressed: () {if (kDebugMode) {
+            print('Button Pressed');
+          }},
+          child: SvgPicture.asset(
+            AppAssets.arrow,
+            color: themeProvider.appTheme.mainWhiteColor,
+          ),
+          style: TextButton.styleFrom(
+            elevation: 0.0,
+            backgroundColor: themeProvider.appTheme.whiteMainColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
         ),
       ),
     );
@@ -155,27 +165,29 @@ class _BuildRouteButton extends StatelessWidget {
   const _BuildRouteButton({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 15,
-        vertical: 17,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        color: themeProvider.appTheme.greenColor,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset(
-            AppAssets.go,
-            color: themeProvider.appTheme.whiteColor,
+    return SizedBox(
+      width: double.infinity,
+      child: TextButton.icon(
+        icon: SvgPicture.asset(
+          AppAssets.go,
+          color: themeProvider.appTheme.whiteColor,
+        ),
+        label: Text(
+          AppStrings.buildARoute,
+          style: appTypography.text14Regular
+              .copyWith(color: themeProvider.appTheme.whiteColor),
+        ),
+        style: TextButton.styleFrom(
+          elevation: 0.0,
+          backgroundColor: themeProvider.appTheme.greenColor,
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
           ),
-          Text(
-            AppStrings.buildARoute,
-            style: appTypography.text14Regular.copyWith(color: themeProvider.appTheme.whiteColor),
-          ),
-        ],
+        ),
+        onPressed: () {if (kDebugMode) {
+          print('ElevatedButton Pressed');
+        }},
       ),
     );
   }
@@ -188,24 +200,34 @@ class _PlanAndChosen extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SvgPicture.asset(
-          AppAssets.calendar,
-          color: themeProvider.appTheme.inactiveColor,
-        ),
-        Text(
-          AppStrings.plan,
-          style: appTypography.textGreyInactive14Regular,
+        TextButton.icon(
+          onPressed: () { if (kDebugMode) {
+            print('Calendar Pressed');
+          }},
+          icon: SvgPicture.asset(
+            AppAssets.calendar,
+            color: themeProvider.appTheme.inactiveColor,
+          ),
+          label: Text(
+            AppStrings.plan,
+            style: appTypography.textGreyInactive14Regular,
+          ),
         ),
         const SizedBox(
-          width: 70,
+          width: 50,
         ),
-        SvgPicture.asset(
-          AppAssets.heart,
-          color: themeProvider.appTheme.secondaryWhiteColor,
-        ),
-        Text(
-          AppStrings.toFavorites,
-          style: appTypography.text14Regular,
+        TextButton.icon(
+          onPressed: () { if (kDebugMode) {
+            print('Heart Pressed');
+          }},
+          icon: SvgPicture.asset(
+            AppAssets.heart,
+            color: themeProvider.appTheme.secondaryWhiteColor,
+          ),
+          label: Text(
+            AppStrings.toFavorites,
+            style: appTypography.text14Regular,
+          ),
         ),
       ],
     );

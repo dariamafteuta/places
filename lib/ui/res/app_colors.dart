@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-class BaseTheme {
+abstract class BaseTheme {
   late Color mainColor ;
   late Color backgroundColor;
   late Color greenColor;

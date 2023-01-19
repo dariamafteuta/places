@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_job/domain/sight.dart';
 import 'package:flutter_job/theme_provider.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
@@ -18,6 +20,7 @@ ThemeProvider themeProvider = ThemeProvider();
 AppTypography appTypography = AppTypography();
 
 class _SightCardState extends State<SightCard> {
+  bool isSelected = false;
 
   @override
   Widget build(BuildContext context) {
@@ -50,12 +53,23 @@ class _SightCardState extends State<SightCard> {
                   ),
                 ),
                 Positioned(
-                  top: 16,
-                  right: 16,
-                  child: SvgPicture.asset(
-                    AppAssets.heart,
-                    color: themeProvider.appTheme.whiteColor,
-                  ),
+                  right: 0,
+                    child: CupertinoButton(
+                      child: SvgPicture.asset(
+                        !isSelected ? AppAssets.heart : AppAssets.heartFull,
+                        color: themeProvider.appTheme.whiteColor,
+                        height: 25,
+                        width: 25,
+                      ),
+                      onPressed: () {
+                        if (kDebugMode) {
+                          print('Heart Pressed');
+                        }
+                        setState(() {
+                          isSelected =  !isSelected;
+                        });
+                      },
+                    ),
                 ),
                 Positioned(
                   top: 16,

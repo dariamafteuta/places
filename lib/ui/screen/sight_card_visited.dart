@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_job/domain/sight.dart';
 import 'package:flutter_job/theme_provider.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
@@ -47,20 +49,30 @@ class _SightCardVisitedState extends State<SightCardVisited> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
-                    top: 16,
-                    right: 16,
+                    top: 5,
+                    right: 5,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      SvgPicture.asset(
-                        AppAssets.share,
-                        color: themeProvider.appTheme.whiteColor,
-                      ),
-                      const SizedBox(width: 10),
-                      SvgPicture.asset(
-                        AppAssets.close,
-                        color: themeProvider.appTheme.whiteColor,
+                      CupertinoButton(
+                        padding: const EdgeInsets.all(10),
+                        child: SvgPicture.asset(
+                          AppAssets.share,
+                          color: themeProvider.appTheme.whiteColor,
+                        ),
+                        onPressed: () { if (kDebugMode) {
+                          print('Share Pressed');
+                        } },
+                      ),CupertinoButton(
+                        padding: const EdgeInsets.all(10),
+                        child: SvgPicture.asset(
+                          AppAssets.close,
+                          color: themeProvider.appTheme.whiteColor,
+                        ),
+                        onPressed: () { if (kDebugMode) {
+                          print('Close Pressed');
+                        } },
                       ),
                     ],
                   ),
