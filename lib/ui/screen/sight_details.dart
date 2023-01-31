@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job/domain/sight.dart';
-import 'package:flutter_job/theme_provider.dart';
+import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
@@ -17,7 +17,6 @@ class SightDetails extends StatefulWidget {
   State<SightDetails> createState() => _SightDetailsState();
 }
 
-ThemeProvider themeProvider = ThemeProvider();
 AppTypography appTypography = AppTypography();
 
 class _SightDetailsState extends State<SightDetails> {
@@ -121,7 +120,7 @@ class _PlaceName extends StatelessWidget {
       alignment: Alignment.topLeft,
       child: Text(
         sight.name,
-        style: appTypography.text24Bold,
+        style: appTypography.text24Bold.copyWith(color: themeProvider.appTheme.mainWhiteColor,),
       ),
     );
   }
@@ -138,7 +137,7 @@ class _PlaceType extends StatelessWidget {
       alignment: Alignment.topLeft,
       child: Text(
         sight.type,
-        style: appTypography.text14Bold,
+        style: appTypography.text14Bold.copyWith(color: themeProvider.appTheme.secondarySecondary2Color),
       ),
     );
   }
@@ -155,7 +154,7 @@ class _PlaceDetails extends StatelessWidget {
       alignment: Alignment.topLeft,
       child: Text(
         sight.details,
-        style: appTypography.text14Regular,
+        style: appTypography.text14Regular.copyWith(color: themeProvider.appTheme.secondaryWhiteColor,),
       ),
     );
   }
@@ -174,7 +173,7 @@ class _BuildRouteButton extends StatelessWidget {
         ),
         label: Text(
           AppStrings.buildARoute,
-          style: appTypography.text14Regular
+          style: appTypography.text14Regular.copyWith(color: themeProvider.appTheme.secondaryWhiteColor,)
               .copyWith(color: themeProvider.appTheme.whiteColor),
         ),
         style: TextButton.styleFrom(
@@ -226,7 +225,7 @@ class _PlanAndChosen extends StatelessWidget {
           ),
           label: Text(
             AppStrings.toFavorites,
-            style: appTypography.text14Regular,
+            style: appTypography.text14Regular.copyWith(color: themeProvider.appTheme.secondaryWhiteColor,),
           ),
         ),
       ],

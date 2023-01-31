@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_job/components/bottom_navigation_bar.dart';
+import 'package:flutter_job/main.dart';
 import 'package:flutter_job/mocks.dart';
-import 'package:flutter_job/theme_provider.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/screen/sight_card.dart';
@@ -12,7 +13,6 @@ class SightListScreen extends StatefulWidget {
   State<SightListScreen> createState() => _SightListScreenState();
 }
 
-ThemeProvider themeProvider = ThemeProvider();
 AppTypography appTypography = AppTypography();
 
 class _SightListScreenState extends State<SightListScreen> {
@@ -27,14 +27,15 @@ class _SightListScreenState extends State<SightListScreen> {
           child: Text(
             AppStrings.appBar,
             textAlign: TextAlign.left,
-            style: appTypography.text40Bold,
+            style: appTypography.text40Bold.copyWith(color: themeProvider.appTheme.mainWhiteColor),
           ),
         ),
       ),
-      body: Column(
+      bottomNavigationBar: BottomNavigation(selectedIndex: 0),
+      body: ListView(
         children: [
           SightCard(sight: mocks[0]),
-          SightCard(sight: mocks[1]),
+          SightCard(sight: mocks[7]),
         ],
       ),
     );

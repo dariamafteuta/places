@@ -1,5 +1,25 @@
 
 class AppAssets {
+  //Catalog
+  static String cafe = 'assets/icons/catalog/cafe.svg';
+  static String hotel = 'assets/icons/catalog/hotel.svg';
+  static String museum = 'assets/icons/catalog/museum.svg';
+  static String park = 'assets/icons/catalog/park.svg';
+  static String particularPlace = 'assets/icons/catalog/particular_place.svg';
+  static String restaurant = 'assets/icons/catalog/restourant.svg';
+  static String cafeBlack = 'assets/icons/catalog/black/cafe.svg';
+  static String hotelBlack = 'assets/icons/catalog/black/hotel.svg';
+  static String museumBlack = 'assets/icons/catalog/black/museum.svg';
+  static String parkBlack = 'assets/icons/catalog/black/park.svg';
+  static String particularPlaceBlack = 'assets/icons/catalog/black/particular_place.svg';
+  static String restaurantBlack = 'assets/icons/catalog/black/restourant.svg';
+  static String cafeWhite = 'assets/icons/catalog/white/cafe.svg';
+  static String hotelWhite = 'assets/icons/catalog/white/hotel.svg';
+  static String museumWhite = 'assets/icons/catalog/white/museum.svg';
+  static String parkWhite = 'assets/icons/catalog/white/park.svg';
+  static String particularPlaceWhite = 'assets/icons/catalog/white/particular_place.svg';
+  static String restaurantWhite = 'assets/icons/catalog/white/restourant.svg';
+
   //Empty page
   static String goEmptyPage = 'assets/icons/empty_page/icon/go.svg';
   static String mapEmptyPage = 'assets/icons/empty_page/icon/map.svg';
@@ -41,8 +61,10 @@ class AppAssets {
   static String wayArrows = 'assets/icons/other/icon/way_arrows.svg';
   static String wayArrows1 = 'assets/icons/other/icon/way_arrows_1.svg';
   static String wayArrows2 = 'assets/icons/other/icon/way_arrows_2.svg';
+  static String tickChoice = 'assets/icons/other/icon/tick_choice.svg';
   static String card = 'assets/icons/other/card.svg';
   static String rectangle1339 = 'assets/icons/other/rectangle_1339.svg';
   static String rectangle1340 = 'assets/icons/other/rectangle_1340.svg';
   static String rectangle1341 = 'assets/icons/other/rectangle_1341.svg';
+  static String cardClose = 'assets/icons/other/card_close.svg';
 }
