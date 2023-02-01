@@ -10,9 +10,9 @@ import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SettingsScreen extends StatefulWidget {
-  ThemeProvider themeProvider;
+  final ThemeProvider themeProvider;
 
-  SettingsScreen({
+  const SettingsScreen({
     Key? key,
     required this.themeProvider,
   }) : super(key: key);
@@ -33,6 +33,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   @override
+  void dispose() {
+    widget.themeProvider.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -46,7 +52,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigation(selectedIndex: 3),
+      bottomNavigationBar: const BottomNavigation(),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
         child: Column(

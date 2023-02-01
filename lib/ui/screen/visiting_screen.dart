@@ -18,9 +18,7 @@ class VisitingScreen extends StatefulWidget {
 
 AppTypography appTypography = AppTypography();
 
-
 class _VisitingScreenState extends State<VisitingScreen> {
-
   final _planMocks = [mocks[0]];
   final _visitedMocks = [mocks[7]];
 
@@ -34,7 +32,9 @@ class _VisitingScreenState extends State<VisitingScreen> {
           title: Center(
             child: Text(
               AppStrings.favorites,
-              style: appTypography.text24Bold.copyWith(color: themeProvider.appTheme.mainWhiteColor,),
+              style: appTypography.text24Bold.copyWith(
+                color: themeProvider.appTheme.mainWhiteColor,
+              ),
             ),
           ),
           bottom: PreferredSize(
@@ -61,7 +61,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
             ),
           ),
         ),
-        bottomNavigationBar: BottomNavigation(selectedIndex: 2),
+        bottomNavigationBar: const BottomNavigation(),
         body: TabBarView(
           children: [
             if (_planMocks.isNotEmpty)

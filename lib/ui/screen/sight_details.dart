@@ -91,9 +91,11 @@ class _BackButton extends StatelessWidget {
         height: 35,
         width: 35,
         child: TextButton(
-          onPressed: () {if (kDebugMode) {
-            print('Button Pressed');
-          }},
+          onPressed: () {
+            if (kDebugMode) {
+              print('Button Pressed');
+            }
+          },
           child: SvgPicture.asset(
             AppAssets.arrow,
             color: themeProvider.appTheme.mainWhiteColor,
@@ -120,7 +122,9 @@ class _PlaceName extends StatelessWidget {
       alignment: Alignment.topLeft,
       child: Text(
         sight.name,
-        style: appTypography.text24Bold.copyWith(color: themeProvider.appTheme.mainWhiteColor,),
+        style: appTypography.text24Bold.copyWith(
+          color: themeProvider.appTheme.mainWhiteColor,
+        ),
       ),
     );
   }
@@ -137,7 +141,8 @@ class _PlaceType extends StatelessWidget {
       alignment: Alignment.topLeft,
       child: Text(
         sight.type,
-        style: appTypography.text14Bold.copyWith(color: themeProvider.appTheme.secondarySecondary2Color),
+        style: appTypography.text14Bold
+            .copyWith(color: themeProvider.appTheme.secondarySecondary2Color),
       ),
     );
   }
@@ -154,7 +159,9 @@ class _PlaceDetails extends StatelessWidget {
       alignment: Alignment.topLeft,
       child: Text(
         sight.details,
-        style: appTypography.text14Regular.copyWith(color: themeProvider.appTheme.secondaryWhiteColor,),
+        style: appTypography.text14Regular.copyWith(
+          color: themeProvider.appTheme.secondaryWhiteColor,
+        ),
       ),
     );
   }
@@ -173,7 +180,10 @@ class _BuildRouteButton extends StatelessWidget {
         ),
         label: Text(
           AppStrings.buildARoute,
-          style: appTypography.text14Regular.copyWith(color: themeProvider.appTheme.secondaryWhiteColor,)
+          style: appTypography.text14Regular
+              .copyWith(
+                color: themeProvider.appTheme.secondaryWhiteColor,
+              )
               .copyWith(color: themeProvider.appTheme.whiteColor),
         ),
         style: TextButton.styleFrom(
@@ -184,9 +194,11 @@ class _BuildRouteButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
         ),
-        onPressed: () {if (kDebugMode) {
-          print('ElevatedButton Pressed');
-        }},
+        onPressed: () {
+          if (kDebugMode) {
+            print('ElevatedButton Pressed');
+          }
+        },
       ),
     );
   }
@@ -200,9 +212,11 @@ class _PlanAndChosen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         TextButton.icon(
-          onPressed: () { if (kDebugMode) {
-            print('Calendar Pressed');
-          }},
+          onPressed: () {
+            if (kDebugMode) {
+              print('Calendar Pressed');
+            }
+          },
           icon: SvgPicture.asset(
             AppAssets.calendar,
             color: themeProvider.appTheme.inactiveColor,
@@ -216,16 +230,20 @@ class _PlanAndChosen extends StatelessWidget {
           width: 50,
         ),
         TextButton.icon(
-          onPressed: () { if (kDebugMode) {
-            print('Heart Pressed');
-          }},
+          onPressed: () {
+            if (kDebugMode) {
+              print('Heart Pressed');
+            }
+          },
           icon: SvgPicture.asset(
             AppAssets.heart,
             color: themeProvider.appTheme.secondaryWhiteColor,
           ),
           label: Text(
             AppStrings.toFavorites,
-            style: appTypography.text14Regular.copyWith(color: themeProvider.appTheme.secondaryWhiteColor,),
+            style: appTypography.text14Regular.copyWith(
+              color: themeProvider.appTheme.secondaryWhiteColor,
+            ),
           ),
         ),
       ],

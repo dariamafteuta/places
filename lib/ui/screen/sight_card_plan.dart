@@ -30,7 +30,7 @@ class _SightCardPlanState extends State<SightCardPlan> {
       child: SingleChildScrollView(
         child: InkWell(
           onTap: () {},
-          splashColor: themeProvider.appTheme.whiteMainColor.withOpacity(0.3),
+          splashColor: themeProvider.appTheme.whiteMainColor?.withOpacity(0.3),
           borderRadius: BorderRadius.circular(10),
           child: Column(
             children: [
@@ -45,10 +45,14 @@ class _SightCardPlanState extends State<SightCardPlan> {
                       ),
                       child: Ink(
                         decoration: BoxDecoration(
-                          image: DecorationImage(image: NetworkImage(widget.sight!.url,),
+                          image: DecorationImage(
+                            image: NetworkImage(
+                              widget.sight!.url,
+                            ),
                             fit: BoxFit.fitWidth,
                           ),
-                          borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+                          borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(10)),
                         ),
                       ),
                     ),
@@ -59,37 +63,43 @@ class _SightCardPlanState extends State<SightCardPlan> {
                       right: 5,
                     ),
                     child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                            CupertinoButton(
-                              padding: const EdgeInsets.all(10),
-                              child: SvgPicture.asset(
-                                AppAssets.calendar,
-                                color: themeProvider.appTheme.whiteColor,
-                              ),
-                              onPressed: () { if (kDebugMode) {
-                                print('Calendar Pressed');
-                              } },
-                            ),
-                            CupertinoButton(
-                              padding: const EdgeInsets.all(10),
-                              child: SvgPicture.asset(
-                                AppAssets.close,
-                                color: themeProvider.appTheme.whiteColor,
-                              ),
-                              onPressed: () { if (kDebugMode) {
-                                print('Close Pressed');
-                              } },
-                            ),
-                        ],
-                      ),
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        CupertinoButton(
+                          padding: const EdgeInsets.all(10),
+                          child: SvgPicture.asset(
+                            AppAssets.calendar,
+                            color: themeProvider.appTheme.whiteColor,
+                          ),
+                          onPressed: () {
+                            if (kDebugMode) {
+                              print('Calendar Pressed');
+                            }
+                          },
+                        ),
+                        CupertinoButton(
+                          padding: const EdgeInsets.all(10),
+                          child: SvgPicture.asset(
+                            AppAssets.close,
+                            color: themeProvider.appTheme.whiteColor,
+                          ),
+                          onPressed: () {
+                            if (kDebugMode) {
+                              print('Close Pressed');
+                            }
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                   Positioned(
                     top: 16,
                     left: 16,
                     child: Text(
                       widget.sight!.type,
-                      style: appTypography.text14w700.copyWith(color: themeProvider.appTheme.whiteColor,),
+                      style: appTypography.text14w700.copyWith(
+                        color: themeProvider.appTheme.whiteColor,
+                      ),
                     ),
                   ),
                 ],
@@ -113,7 +123,9 @@ class _SightCardPlanState extends State<SightCardPlan> {
                       alignment: Alignment.topLeft,
                       child: Text(
                         widget.sight!.name,
-                        style: appTypography.text16Bold.copyWith(color: themeProvider.appTheme.secondaryWhiteColor,),
+                        style: appTypography.text16Bold.copyWith(
+                          color: themeProvider.appTheme.secondaryWhiteColor,
+                        ),
                       ),
                     ),
                     Container(
@@ -125,7 +137,8 @@ class _SightCardPlanState extends State<SightCardPlan> {
                       alignment: Alignment.topLeft,
                       child: Text(
                         'Запланировано на 12 окт. 2022',
-                        style: appTypography.text14Regular.copyWith(color: themeProvider.appTheme.greenColor),
+                        style: appTypography.text14Regular
+                            .copyWith(color: themeProvider.appTheme.greenColor),
                       ),
                     ),
                   ],

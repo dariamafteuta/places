@@ -1,5 +1,3 @@
-// ignore_for_file: must_be_immutable
-
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -120,7 +118,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
                 Column(
                   children: [
                     CategoryPlace(
-                      isSelected: selectedType.contains(AppStrings.particularPlace),
+                      isSelected:
+                          selectedType.contains(AppStrings.particularPlace),
                       image: AppAssets.particularPlaceWhite,
                       type: AppStrings.particularPlace,
                       setSelectedType: setSelectedType,
@@ -224,7 +223,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
     final selectedPlaces = <String>[];
 
     for (var i = 0; i < mocks.length; i++) {
-      if (selectedType.contains(mocks[i].type) && radius(mocks[i].coordinate, start, end)) {
+      if (selectedType.contains(mocks[i].type) &&
+          radius(mocks[i].coordinate, start, end)) {
         selectedPlaces.add(mocks[i].name);
       } else {
         selectedPlaces.remove(mocks[i].name);
@@ -249,8 +249,6 @@ class _FiltersScreenState extends State<FiltersScreen> {
 
     handleChangeRadius();
   }
-
-
 }
 
 bool radius(Coordinate checkPoint, double start, double end) {
@@ -289,7 +287,6 @@ class CategoryPlace extends StatefulWidget {
 }
 
 class _CategoryPlaceState extends State<CategoryPlace> {
-
   @override
   Widget build(BuildContext context) {
     return Column(

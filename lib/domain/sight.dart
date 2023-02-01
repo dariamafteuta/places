@@ -1,5 +1,4 @@
 import 'package:flutter_job/domain/coordinate.dart';
-import 'package:flutter_job/ui/screen/filters_screen.dart';
 
 class Sight {
   final String name;

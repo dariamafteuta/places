@@ -10,7 +10,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 class SightCardVisited extends StatefulWidget {
   final Sight? sight;
 
- const SightCardVisited({Key? key, required this.sight}) : super(key: key);
+  const SightCardVisited({Key? key, required this.sight}) : super(key: key);
 
   @override
   State<SightCardVisited> createState() => _SightCardVisitedState();
@@ -19,7 +19,6 @@ class SightCardVisited extends StatefulWidget {
 AppTypography appTypography = AppTypography();
 
 class _SightCardVisitedState extends State<SightCardVisited> {
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -27,7 +26,7 @@ class _SightCardVisitedState extends State<SightCardVisited> {
       child: SingleChildScrollView(
         child: InkWell(
           onTap: () {},
-          splashColor: themeProvider.appTheme.whiteMainColor.withOpacity(0.3),
+          splashColor: themeProvider.appTheme.whiteMainColor?.withOpacity(0.3),
           borderRadius: BorderRadius.circular(10),
           child: Column(
             children: [
@@ -42,10 +41,14 @@ class _SightCardVisitedState extends State<SightCardVisited> {
                       ),
                       child: Ink(
                         decoration: BoxDecoration(
-                          image: DecorationImage(image: NetworkImage(widget.sight!.url,),
+                          image: DecorationImage(
+                            image: NetworkImage(
+                              widget.sight!.url,
+                            ),
                             fit: BoxFit.fitWidth,
                           ),
-                          borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+                          borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(10)),
                         ),
                       ),
                     ),
@@ -64,18 +67,23 @@ class _SightCardVisitedState extends State<SightCardVisited> {
                             AppAssets.share,
                             color: themeProvider.appTheme.whiteColor,
                           ),
-                          onPressed: () { if (kDebugMode) {
-                            print('Share Pressed');
-                          } },
-                        ),CupertinoButton(
+                          onPressed: () {
+                            if (kDebugMode) {
+                              print('Share Pressed');
+                            }
+                          },
+                        ),
+                        CupertinoButton(
                           padding: const EdgeInsets.all(10),
                           child: SvgPicture.asset(
                             AppAssets.close,
                             color: themeProvider.appTheme.whiteColor,
                           ),
-                          onPressed: () { if (kDebugMode) {
-                            print('Close Pressed');
-                          } },
+                          onPressed: () {
+                            if (kDebugMode) {
+                              print('Close Pressed');
+                            }
+                          },
                         ),
                       ],
                     ),
@@ -85,7 +93,9 @@ class _SightCardVisitedState extends State<SightCardVisited> {
                     left: 16,
                     child: Text(
                       widget.sight!.type,
-                      style: appTypography.text14w700.copyWith(color: themeProvider.appTheme.whiteColor,),
+                      style: appTypography.text14w700.copyWith(
+                        color: themeProvider.appTheme.whiteColor,
+                      ),
                     ),
                   ),
                 ],
@@ -108,7 +118,9 @@ class _SightCardVisitedState extends State<SightCardVisited> {
                       alignment: Alignment.topLeft,
                       child: Text(
                         widget.sight!.name,
-                        style: appTypography.text16Bold.copyWith(color: themeProvider.appTheme.secondaryWhiteColor,),
+                        style: appTypography.text16Bold.copyWith(
+                          color: themeProvider.appTheme.secondaryWhiteColor,
+                        ),
                       ),
                     ),
                     Container(

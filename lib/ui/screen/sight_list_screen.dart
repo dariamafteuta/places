@@ -27,11 +27,12 @@ class _SightListScreenState extends State<SightListScreen> {
           child: Text(
             AppStrings.appBar,
             textAlign: TextAlign.left,
-            style: appTypography.text40Bold.copyWith(color: themeProvider.appTheme.mainWhiteColor),
+            style: appTypography.text40Bold
+                .copyWith(color: themeProvider.appTheme.mainWhiteColor),
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigation(selectedIndex: 0),
+      bottomNavigationBar: const BottomNavigation(),
       body: ListView(
         children: [
           SightCard(sight: mocks[0]),
