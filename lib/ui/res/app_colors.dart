@@ -2,26 +2,26 @@
 
 import 'package:flutter/material.dart';
 
-class BaseTheme {
-  late Color mainColor ;
-  late Color backgroundColor;
-  late Color greenColor;
-  late Color yellowColor;
-  late Color redColor;
+abstract class BaseTheme {
+  Color get mainColor ;
+  Color get backgroundColor;
+  Color get greenColor;
+  Color get yellowColor;
+  Color get redColor;
 
-  late Color secondaryColor;
-  late Color secondary2Color;
-  late Color inactiveColor;
-  late Color whiteColor;
+  Color get secondaryColor;
+  Color get secondary2Color;
+  Color get inactiveColor;
+  Color get whiteColor;
 
-  late Color secondarySecondary2Color;
-  late Color mainWhiteColor;
-  late Color secondaryWhiteColor;
-  late Color whiteMainColor;
+  Color get secondarySecondary2Color;
+  Color get mainWhiteColor;
+  Color get secondaryWhiteColor;
+  Color get whiteMainColor;
 }
 
 
-class LightTheme extends BaseTheme {
+class LightTheme implements BaseTheme {
   @override
   Color mainColor = const Color.fromRGBO(42, 44, 76, 1.0);
   @override

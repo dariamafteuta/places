@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_job/components/bottom_navigation_bar.dart';
+import 'package:flutter_job/main.dart';
 import 'package:flutter_job/mocks.dart';
-import 'package:flutter_job/theme_provider.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
@@ -15,19 +16,9 @@ class VisitingScreen extends StatefulWidget {
   State<VisitingScreen> createState() => _VisitingScreenState();
 }
 
-ThemeProvider themeProvider = ThemeProvider();
 AppTypography appTypography = AppTypography();
 
-
 class _VisitingScreenState extends State<VisitingScreen> {
-  int _selectedIndex = 2;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   final _planMocks = [mocks[0]];
   final _visitedMocks = [mocks[7]];
 
@@ -41,7 +32,9 @@ class _VisitingScreenState extends State<VisitingScreen> {
           title: Center(
             child: Text(
               AppStrings.favorites,
-              style: appTypography.text24Bold,
+              style: appTypography.text24Bold.copyWith(
+                color: themeProvider.appTheme.mainWhiteColor,
+              ),
             ),
           ),
           bottom: PreferredSize(
@@ -68,42 +61,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
             ),
           ),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
-          items: [
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                _selectedIndex == 0 ? AppAssets.listFull : AppAssets.list,
-                color: themeProvider.appTheme.mainWhiteColor,
-              ),
-              label: 'list',
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                _selectedIndex == 1 ? AppAssets.mapFull : AppAssets.map,
-                color: themeProvider.appTheme.mainWhiteColor,
-              ),
-              label: 'map',
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                _selectedIndex == 2 ? AppAssets.heartFull : AppAssets.heart,
-                color: themeProvider.appTheme.mainWhiteColor,
-              ),
-              label: 'favorite',
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                _selectedIndex == 3
-                    ? AppAssets.settingsFull
-                    : AppAssets.settings,
-                color: themeProvider.appTheme.mainWhiteColor,
-              ),
-              label: 'settings',
-            ),
-          ],
-        ),
+        bottomNavigationBar: const BottomNavigation(),
         body: TabBarView(
           children: [
             if (_planMocks.isNotEmpty)

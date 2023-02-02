@@ -17,4 +17,21 @@ class AppStrings {
   static const blank = 'Пусто';
   static const favoritesPlace = 'Отмечайте понравившиеся\nместа и они появятся здесь.';
   static const completedRoute = 'Завершите маршрут,\nчтобы место попало сюда.';
+
+  //filter_screen
+  static const cafe = 'Кафе';
+  static const hotel = 'Отель';
+  static const museum = 'Музей';
+  static const park = 'Парк';
+  static const particularPlace = 'Особое место';
+  static const restaurant = 'Ресторан';
+  static const clear = 'Очистить';
+  static const categories = 'Категории';
+  static const distance = 'Расстояние';
+  static const show = 'ПОКАЗАТЬ';
+
+  //settings_screen
+  static const settings = 'Настройки';
+  static const darkTheme = 'Тёмная тема';
+  static const watchTutorial = 'Смотреть туториал';
 }

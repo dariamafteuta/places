@@ -4,7 +4,15 @@ import 'package:flutter_job/ui/res/app_colors.dart';
 LightTheme lightTheme = LightTheme();
 DarkTheme darkTheme = DarkTheme();
 
-final lightThemes = ThemeData(
+ThemeData lightThemes = ThemeData(
+  sliderTheme: SliderThemeData(
+    trackHeight: 2,
+    activeTrackColor: lightTheme.greenColor,
+    inactiveTrackColor: lightTheme.inactiveColor,
+    thumbColor: lightTheme.whiteMainColor,
+    overlayColor: Colors.transparent,
+  ),
+
   primaryColor: lightTheme.backgroundColor,
   primaryColorLight: lightTheme.whiteColor,
   primaryColorDark: lightTheme.secondary2Color,
@@ -35,9 +43,15 @@ final lightThemes = ThemeData(
   ),
 );
 
-final darkThemes = ThemeData(
+ThemeData darkThemes = ThemeData(
   primaryColor: darkTheme.mainColor,
   scaffoldBackgroundColor: darkTheme.mainColor,
+
+  sliderTheme: SliderThemeData(
+    activeTrackColor: lightTheme.greenColor,
+    inactiveTrackColor: lightTheme.inactiveColor,
+    thumbColor: lightTheme.whiteMainColor,
+  ),
 
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     elevation: 10,
