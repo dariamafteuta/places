@@ -72,7 +72,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
             Align(
               alignment: Alignment.topLeft,
               child: Text(
-                AppStrings.categories,
+                AppStrings.categories.toUpperCase(),
                 style: appTypography.textGreyInactive14Regular,
               ),
             ),

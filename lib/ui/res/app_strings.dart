@@ -26,7 +26,7 @@ class AppStrings {
   static const particularPlace = 'Особое место';
   static const restaurant = 'Ресторан';
   static const clear = 'Очистить';
-  static const categories = 'КАТЕГОРИИ';
+  static const categories = 'Категории';
   static const distance = 'Расстояние';
   static const show = 'ПОКАЗАТЬ';
 

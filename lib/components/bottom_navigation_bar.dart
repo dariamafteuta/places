@@ -16,20 +16,6 @@ class _BottomNavigationState extends State<BottomNavigation> {
   int _selectedIndex = 0;
 
   @override
-  void initState() {
-    themeProvider.addListener(() {
-      setState(() {});
-    });
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    themeProvider.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       currentIndex: _selectedIndex,

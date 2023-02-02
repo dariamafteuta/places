@@ -20,19 +20,6 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  @override
-  void initState() {
-    themeProvider.addListener(() {
-      setState(() {});
-    });
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    themeProvider.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,5 +28,21 @@ class _AppState extends State<App> {
       title: AppStrings.appTitle,
       home: SettingsScreen(themeProvider: themeProvider),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    themeProvider.addListener(_onThemeChange);
+  }
+
+  @override
+  void dispose() {
+    themeProvider.removeListener(_onThemeChange);
+    super.dispose();
+  }
+
+  void _onThemeChange() {
+    setState(() {});
   }
 }

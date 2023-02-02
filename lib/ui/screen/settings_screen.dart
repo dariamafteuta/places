@@ -25,20 +25,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   AppTypography appTypography = AppTypography();
 
   @override
-  void initState() {
-    widget.themeProvider.addListener(() {
-      setState(() {});
-    });
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    widget.themeProvider.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

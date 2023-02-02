@@ -26,7 +26,7 @@ class _SightCardVisitedState extends State<SightCardVisited> {
       child: SingleChildScrollView(
         child: InkWell(
           onTap: () {},
-          splashColor: themeProvider.appTheme.whiteMainColor?.withOpacity(0.3),
+          splashColor: themeProvider.appTheme.whiteMainColor.withOpacity(0.3),
           borderRadius: BorderRadius.circular(10),
           child: Column(
             children: [
@@ -48,7 +48,8 @@ class _SightCardVisitedState extends State<SightCardVisited> {
                             fit: BoxFit.fitWidth,
                           ),
                           borderRadius: const BorderRadius.vertical(
-                              top: Radius.circular(10)),
+                            top: Radius.circular(10),
+                          ),
                         ),
                       ),
                     ),
