@@ -189,9 +189,6 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     child: Text(
                       '${AppStrings.show} (${listOfPlaces.length})',
                       style: appTypography.text14Regular
-                          .copyWith(
-                            color: themeProvider.appTheme.secondaryWhiteColor,
-                          )
                           .copyWith(color: themeProvider.appTheme.whiteColor),
                     ),
                     style: TextButton.styleFrom(
@@ -254,11 +251,11 @@ class _FiltersScreenState extends State<FiltersScreen> {
 bool radius(Coordinate checkPoint, double start, double end) {
   final centerPoint = Coordinate(
     lat: 47.52882,
-    lot: 29.0336,
+    lon: 29.0336,
   );
   const ky = 40000 / 360;
   final kx = cos(pi * centerPoint.lat / 180.0) * ky;
-  final dx = (centerPoint.lot - checkPoint.lot).abs() * kx;
+  final dx = (centerPoint.lon - checkPoint.lon).abs() * kx;
   final dy = (centerPoint.lat - checkPoint.lat).abs() * ky;
 
   final calculatedDistance = sqrt(dx * dx + dy * dy);

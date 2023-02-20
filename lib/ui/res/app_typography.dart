@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_job/main.dart';
 
-
 class AppTypography {
-
-  TextStyle text40Bold = const TextStyle(
-    fontSize: 40,
+  TextStyle text30Bold = const TextStyle(
+    fontSize: 30,
     fontFamily: 'Roboto',
     fontWeight: FontWeight.w700,
   );

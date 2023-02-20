@@ -3,10 +3,10 @@ class AppStrings {
   static const appTitle = 'Places';
 
   // sight_list_screen
-  static const appBar = 'Список\nинтересных мест';
+  static const listOfInterestingPlaces = 'Список интересных мест';
 
   // sight_details
-  static const buildARoute = ' ПОСТРОИТЬ МАРШРУТ';
+  static const buildARoute = ' Построить маршрут';
   static const plan = ' Запланировать';
   static const toFavorites = ' В Избранное';
 
@@ -28,10 +28,26 @@ class AppStrings {
   static const clear = 'Очистить';
   static const categories = 'Категории';
   static const distance = 'Расстояние';
-  static const show = 'ПОКАЗАТЬ';
+  static const show = 'Показать';
 
-  //settings_screen
+  //settings_screen and add_sight_screen
   static const settings = 'Настройки';
   static const darkTheme = 'Тёмная тема';
   static const watchTutorial = 'Смотреть туториал';
+
+  //add_sight_screen
+  static const newPlace = 'Новое место';
+  static const cancel = 'Отмена';
+  static const name = 'Название';
+  static const longitude = 'Долгота';
+  static const latitude = 'Широта';
+  static const unSelected = 'Не выбрано';
+  static const specifyOnTheMap = 'Указать на карте';
+  static const description = 'Описание';
+  static const enterText = 'введите текст';
+  static const create = 'Создать';
+  static const category = 'Категория';
+
+  //categories
+  static const save = 'Сохранить';
 }

@@ -181,9 +181,6 @@ class _BuildRouteButton extends StatelessWidget {
         label: Text(
           AppStrings.buildARoute,
           style: appTypography.text14Regular
-              .copyWith(
-                color: themeProvider.appTheme.secondaryWhiteColor,
-              )
               .copyWith(color: themeProvider.appTheme.whiteColor),
         ),
         style: TextButton.styleFrom(

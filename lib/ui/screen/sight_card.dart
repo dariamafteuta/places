@@ -25,9 +25,9 @@ class _SightCardState extends State<SightCard> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
-        bottom: 15,
-        left: 20,
-        right: 20,
+        bottom: 16,
+        left: 16,
+        right: 16,
       ),
       child: SingleChildScrollView(
         child: InkWell(

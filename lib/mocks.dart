@@ -7,7 +7,7 @@ final List<Sight> mocks = [
     name: 'Кэмпинг спот',
     coordinate: Coordinate(
       lat: 47.530216,
-      lot: 29.022663,
+      lon: 29.022663,
     ),
     url:
         'https://s1.bloknot-moldova.ru/thumb/610x0xcut/upload/iblock/b99/x7lfk1cquv1hh4r71m2mtp8kabiyl13n/sever.jpg',
@@ -19,7 +19,7 @@ final List<Sight> mocks = [
     name: 'Художественный музей',
     coordinate: Coordinate(
       lat: 47.525589,
-      lot: 29.03041,
+      lon: 29.03041,
     ),
     url: 'https://mold.su/images/imagemuzei/muzei.jpg',
     details:
@@ -30,7 +30,7 @@ final List<Sight> mocks = [
     name: 'Парк Жура',
     coordinate: Coordinate(
       lat: 47.524175,
-      lot: 29.064811,
+      lon: 29.064811,
     ),
     url:
         'https://novostipmr.com/sites/default/files/filefield_paths/silverlake002.jpg',
@@ -41,7 +41,7 @@ final List<Sight> mocks = [
     name: 'Отель Плэчинте',
     coordinate: Coordinate(
       lat: 47.506252,
-      lot: 29.059111,
+      lon: 29.059111,
     ),
     url:
         'https://idei.club/uploads/posts/2022-03/1647885944_6-idei-club-p-moldavskii-stil-v-interere-interer-krasivo-8.jpg',
@@ -52,7 +52,7 @@ final List<Sight> mocks = [
     name: 'Дом культуры с.Бутучаны',
     coordinate: Coordinate(
       lat: 47.530868,
-      lot: 29.026271,
+      lon: 29.026271,
     ),
     url: 'https://pmr.md/images/firm/foto/d5/d5053db8.jpg',
     details: 'Место где все занимаются творчеством.',
@@ -62,7 +62,7 @@ final List<Sight> mocks = [
     name: 'Панарама',
     coordinate: Coordinate(
       lat: 47.523237,
-      lot: 29.04112,
+      lon: 29.04112,
     ),
     url: 'https://media-cdn.tripadvisor.com/media/photo-s/1d/2f/11/ac/3.jpg',
     details: 'Кафе',
@@ -72,7 +72,7 @@ final List<Sight> mocks = [
     name: 'Ла Плэчинте',
     coordinate: Coordinate(
       lat: 47.523804,
-      lot: 29.030804,
+      lon: 29.030804,
     ),
     url:
         'https://media-cdn.tripadvisor.com/media/photo-s/0e/20/28/b8/getlstd-property-photo.jpg',
@@ -83,7 +83,7 @@ final List<Sight> mocks = [
     name: 'Ива',
     coordinate: Coordinate(
       lat: 47.51187,
-      lot: 29.095737,
+      lon: 29.095737,
     ),
     url:
         'https://cdn.botanichka.ru/wp-content/uploads/2010/01/white-willow.jpg',

@@ -22,7 +22,11 @@ class _SightCardVisitedState extends State<SightCardVisited> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 15, left: 20, right: 20),
+      padding: const EdgeInsets.only(
+        bottom: 16,
+        left: 16,
+        right: 16,
+      ),
       child: SingleChildScrollView(
         child: InkWell(
           onTap: () {},
