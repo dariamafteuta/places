@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job/domain/coordinate.dart';
 import 'package:flutter_job/main.dart';
@@ -20,13 +19,12 @@ class FiltersScreen extends StatefulWidget {
 }
 
 AppTypography appTypography = AppTypography();
-CategoryPlace? categoryPlace;
+double start = 0.1;
+double end = 10;
 
 class _FiltersScreenState extends State<FiltersScreen> {
   Iterable<String> listOfPlaces = mocks.map((e) => e.type);
   Set<String> selectedType = {};
-  double start = 0.1;
-  double end = 10;
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +35,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
           child: SvgPicture.asset(
             AppAssets.arrow,
           ),
-          onPressed: () {
-            if (kDebugMode) {
-              print('Arrow Pressed');
-            }
-          },
+          onPressed: () => Navigator.pop(context),
         ),
         actions: [
           CupertinoButton(

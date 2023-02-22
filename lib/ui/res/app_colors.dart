@@ -25,7 +25,7 @@ class LightTheme implements BaseTheme {
   @override
   Color mainColor = const Color.fromRGBO(42, 44, 76, 1.0);
   @override
-  Color backgroundColor = const Color.fromRGBO(245, 245, 245, 1.0);
+  Color backgroundColor =   const Color.fromRGBO(245, 245, 245, 1.0);
   @override
   Color greenColor = const Color.fromRGBO(98, 177, 76, 1.0);
   @override

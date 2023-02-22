@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job/components/bottom_navigation_bar.dart';
+import 'package:flutter_job/constants.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/theme_provider.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
@@ -61,20 +61,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ],
             ),
-            Divider(
-              color: widget.themeProvider.appTheme.inactiveColor,
-              thickness: 0.8,
-            ),
+            divider,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CupertinoButton(
                   padding: EdgeInsets.zero,
-                  onPressed: () {
-                    if (kDebugMode) {
-                      print('Watch tutorial');
-                    }
-                  },
+                  onPressed: () {},
                   child: Text(
                     AppStrings.watchTutorial,
                     style: appTypography.text14Regular.copyWith(
@@ -83,20 +76,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 24,
-                  width: 24,
-                  child: SvgPicture.asset(
-                    AppAssets.info,
-                    color: widget.themeProvider.appTheme.greenColor,
-                  ),
+                SvgPicture.asset(
+                  AppAssets.info,
+                  color: widget.themeProvider.appTheme.greenColor,
                 ),
               ],
             ),
-            Divider(
-              color: widget.themeProvider.appTheme.inactiveColor,
-              thickness: 0.8,
-            ),
+            divider,
           ],
         ),
       ),

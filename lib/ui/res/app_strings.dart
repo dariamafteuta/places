@@ -4,6 +4,11 @@ class AppStrings {
 
   // sight_list_screen
   static const listOfInterestingPlaces = 'Список интересных мест';
+  static const search = 'Поиск';
+
+  //sight_search_screen
+  static const notFound = 'Ничего не найдено';
+  static const changeParameters = 'Попробуйте изменить параметры поиска';
 
   // sight_details
   static const buildARoute = ' Построить маршрут';
@@ -50,4 +55,8 @@ class AppStrings {
 
   //categories
   static const save = 'Сохранить';
+
+
+  static const yourSearch = 'Вы искали';
+  static const clearHistory = 'Очистить историю';
 }

@@ -5,9 +5,11 @@ import 'package:flutter_job/mocks.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
-import 'package:flutter_job/ui/screen/sight_card_plan.dart';
-import 'package:flutter_job/ui/screen/sight_card_visited.dart';
+import 'package:flutter_job/ui/screens/sight_card_plan.dart';
+import 'package:flutter_job/ui/screens/sight_card_visited.dart';
 import 'package:flutter_svg/svg.dart';
+
+AppTypography appTypography = AppTypography();
 
 class VisitingScreen extends StatefulWidget {
   const VisitingScreen({Key? key}) : super(key: key);
@@ -15,8 +17,6 @@ class VisitingScreen extends StatefulWidget {
   @override
   State<VisitingScreen> createState() => _VisitingScreenState();
 }
-
-AppTypography appTypography = AppTypography();
 
 class _VisitingScreenState extends State<VisitingScreen> {
   final _planMocks = [mocks[0]];
@@ -81,7 +81,6 @@ class _VisitingScreenState extends State<VisitingScreen> {
                   children: [
                     SvgPicture.asset(
                       AppAssets.cardEmptyPage,
-                      color: themeProvider.appTheme.secondary2Color,
                     ),
                     const SizedBox(
                       height: 32,
@@ -118,7 +117,6 @@ class _VisitingScreenState extends State<VisitingScreen> {
                   children: [
                     SvgPicture.asset(
                       AppAssets.goEmptyPage,
-                      color: themeProvider.appTheme.secondary2Color,
                     ),
                     const SizedBox(
                       height: 32,

@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job/domain/sight.dart';
 import 'package:flutter_job/main.dart';
@@ -7,18 +6,18 @@ import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class SightCardVisited extends StatefulWidget {
+class SightCardPlan extends StatefulWidget {
   final Sight? sight;
 
-  const SightCardVisited({Key? key, required this.sight}) : super(key: key);
+  const SightCardPlan({Key? key, required this.sight}) : super(key: key);
 
   @override
-  State<SightCardVisited> createState() => _SightCardVisitedState();
+  State<SightCardPlan> createState() => _SightCardPlanState();
 }
 
 AppTypography appTypography = AppTypography();
 
-class _SightCardVisitedState extends State<SightCardVisited> {
+class _SightCardPlanState extends State<SightCardPlan> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -69,14 +68,10 @@ class _SightCardVisitedState extends State<SightCardVisited> {
                         CupertinoButton(
                           padding: const EdgeInsets.all(10),
                           child: SvgPicture.asset(
-                            AppAssets.share,
+                            AppAssets.calendar,
                             color: themeProvider.appTheme.whiteColor,
                           ),
-                          onPressed: () {
-                            if (kDebugMode) {
-                              print('Share Pressed');
-                            }
-                          },
+                          onPressed: () {},
                         ),
                         CupertinoButton(
                           padding: const EdgeInsets.all(10),
@@ -84,11 +79,7 @@ class _SightCardVisitedState extends State<SightCardVisited> {
                             AppAssets.close,
                             color: themeProvider.appTheme.whiteColor,
                           ),
-                          onPressed: () {
-                            if (kDebugMode) {
-                              print('Close Pressed');
-                            }
-                          },
+                          onPressed: () {},
                         ),
                       ],
                     ),
@@ -113,6 +104,7 @@ class _SightCardVisitedState extends State<SightCardVisited> {
                   ),
                 ),
                 height: 100,
+                width: double.infinity,
                 child: Column(
                   children: [
                     Container(
@@ -136,8 +128,9 @@ class _SightCardVisitedState extends State<SightCardVisited> {
                       ),
                       alignment: Alignment.topLeft,
                       child: Text(
-                        'Цель достигнута 12 окт. 2022',
-                        style: appTypography.textGreyInactive14Regular,
+                        'Запланировано на 12 окт. 2022',
+                        style: appTypography.text14Regular
+                            .copyWith(color: themeProvider.appTheme.greenColor),
                       ),
                     ),
                   ],

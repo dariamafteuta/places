@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job/domain/sight.dart';
 import 'package:flutter_job/main.dart';
@@ -70,9 +69,6 @@ class _SightCardState extends State<SightCard> {
                         width: 25,
                       ),
                       onPressed: () {
-                        if (kDebugMode) {
-                          print('Heart Pressed');
-                        }
                         setState(() {
                           isSelected = !isSelected;
                         });

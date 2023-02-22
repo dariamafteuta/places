@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_job/theme_provider.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
-import 'package:flutter_job/ui/screen/res/themes.dart';
-import 'package:flutter_job/ui/screen/sight_list_screen.dart';
+import 'package:flutter_job/ui/screens/res/themes.dart';
+import 'package:flutter_job/ui/screens/sight_list_screen.dart';
 
 void main() {
   runApp(const App());

@@ -91,11 +91,7 @@ class _BackButton extends StatelessWidget {
         height: 35,
         width: 35,
         child: TextButton(
-          onPressed: () {
-            if (kDebugMode) {
-              print('Button Pressed');
-            }
-          },
+          onPressed: () => Navigator.pop(context),
           child: SvgPicture.asset(
             AppAssets.arrow,
             color: themeProvider.appTheme.mainWhiteColor,
@@ -191,11 +187,7 @@ class _BuildRouteButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
         ),
-        onPressed: () {
-          if (kDebugMode) {
-            print('ElevatedButton Pressed');
-          }
-        },
+        onPressed: () {},
       ),
     );
   }
