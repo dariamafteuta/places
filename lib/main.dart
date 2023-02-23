@@ -3,6 +3,7 @@ import 'package:flutter_job/theme_provider.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/screens/res/themes.dart';
 import 'package:flutter_job/ui/screens/sight_list_screen.dart';
+import 'package:flutter_job/ui/screens/visiting_screen.dart';
 
 void main() {
   runApp(const App());
@@ -26,7 +27,7 @@ class _AppState extends State<App> {
       theme: themeProvider.isLightTheme ? lightThemes : darkThemes,
       title: AppStrings.appTitle,
       debugShowCheckedModeBanner: false,
-      home: const SightListScreen(),
+      home: const VisitingScreen(),
     );
   }
 

@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_job/components/bottom_navigation_bar.dart';
-import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/mocks.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
+import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/ui/screens/sight_card_plan.dart';
 import 'package:flutter_job/ui/screens/sight_card_visited.dart';
 import 'package:flutter_svg/svg.dart';
+
+import 'package:flutter_job/domain/sight.dart';
 
 AppTypography appTypography = AppTypography();
 
@@ -20,8 +22,8 @@ class VisitingScreen extends StatefulWidget {
 }
 
 class _VisitingScreenState extends State<VisitingScreen> {
-  final _planMocks = [mocks[0]];
-  final _visitedMocks = [mocks[7]];
+  final _planMocks = [mocks[0], mocks[3], mocks[2], mocks[5]];
+  final _visitedMocks = [mocks[7], mocks[4], mocks[1]];
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +73,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
                   children: List.generate(_planMocks.length, (index) {
                     return SightCardPlan(
                       sight: _planMocks[index],
+                      planRemoveSight: planRemoveSight,
                     );
                   }),
                 ),
@@ -103,6 +106,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
                   children: List.generate(_visitedMocks.length, (index) {
                     return SightCardVisited(
                       sight: _visitedMocks[index],
+                      visitedRemoveSight: visitedRemoveSight,
                     );
                   }),
                 ),
@@ -133,5 +137,17 @@ class _VisitingScreenState extends State<VisitingScreen> {
         ),
       ),
     );
+  }
+
+  void visitedRemoveSight(Sight sight) {
+    setState(() {
+      _visitedMocks.remove(sight);
+    });
+  }
+
+  void planRemoveSight(Sight sight) {
+    setState(() {
+      _planMocks.remove(sight);
+    });
   }
 }

@@ -8,8 +8,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class SightCardPlan extends StatefulWidget {
   final Sight? sight;
+  final Function(Sight) planRemoveSight;
 
-  const SightCardPlan({Key? key, required this.sight}) : super(key: key);
+  const SightCardPlan(
+      {Key? key, required this.sight, required this.planRemoveSight,})
+      : super(key: key);
 
   @override
   State<SightCardPlan> createState() => _SightCardPlanState();
@@ -79,7 +82,11 @@ class _SightCardPlanState extends State<SightCardPlan> {
                             AppAssets.close,
                             color: themeProvider.appTheme.whiteColor,
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            setState(() {
+                              widget.planRemoveSight(widget.sight!);
+                            });
+                          },
                         ),
                       ],
                     ),
