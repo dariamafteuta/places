@@ -26,3 +26,11 @@ final divider = Divider(
   color: themeProvider.appTheme.inactiveColor,
   thickness: 0.8,
 );
+
+const sizeBox8H = SizedBox(height: 8);
+
+const sizeBox10H = SizedBox(height: 10);
+
+const sizeBox12H = SizedBox(height: 12);
+
+const sizeBox32H = SizedBox(height: 32);
