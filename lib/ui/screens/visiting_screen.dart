@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_job/components/bottom_navigation_bar.dart';
+import 'package:flutter_job/domain/sight.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/mocks.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
@@ -9,8 +10,6 @@ import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/ui/screens/sight_card_plan.dart';
 import 'package:flutter_job/ui/screens/sight_card_visited.dart';
 import 'package:flutter_svg/svg.dart';
-
-import 'package:flutter_job/domain/sight.dart';
 
 AppTypography appTypography = AppTypography();
 
@@ -72,6 +71,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
                 child: Column(
                   children: List.generate(_planMocks.length, (index) {
                     return SightCardPlan(
+                      key: Key(_planMocks[index].name),
                       sight: _planMocks[index],
                       planRemoveSight: planRemoveSight,
                     );
@@ -105,6 +105,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
                 child: Column(
                   children: List.generate(_visitedMocks.length, (index) {
                     return SightCardVisited(
+                      key: Key(_planMocks[index].name),
                       sight: _visitedMocks[index],
                       visitedRemoveSight: visitedRemoveSight,
                     );
