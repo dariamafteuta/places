@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_job/components/bottom_navigation_bar.dart';
+import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/mocks.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
@@ -82,16 +83,12 @@ class _VisitingScreenState extends State<VisitingScreen> {
                     SvgPicture.asset(
                       AppAssets.cardEmptyPage,
                     ),
-                    const SizedBox(
-                      height: 32,
-                    ),
+                    sizedBox32H,
                     Text(
                       AppStrings.blank,
                       style: appTypography.textGreyInactive18Bold,
                     ),
-                    const SizedBox(
-                      height: 8,
-                    ),
+                    sizedBox8H,
                     Text(
                       AppStrings.favoritesPlace,
                       style: appTypography.textGreyInactive14Regular,
@@ -118,16 +115,12 @@ class _VisitingScreenState extends State<VisitingScreen> {
                     SvgPicture.asset(
                       AppAssets.goEmptyPage,
                     ),
-                    const SizedBox(
-                      height: 32,
-                    ),
+                    sizedBox32H,
                     Text(
                       AppStrings.blank,
                       style: appTypography.textGreyInactive18Bold,
                     ),
-                    const SizedBox(
-                      height: 8,
-                    ),
+                    sizedBox8H,
                     Text(
                       AppStrings.completedRoute,
                       style: appTypography.textGreyInactive14Regular,

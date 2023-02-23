@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_job/constants.dart';
+import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/domain/coordinate.dart';
 import 'package:flutter_job/domain/sight.dart';
 import 'package:flutter_job/main.dart';
@@ -11,6 +11,8 @@ import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/screens/new_place_category.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+AppTypography appTypography = AppTypography();
+
 class AddSightScreen extends StatefulWidget {
   final Function(Sight) newSight;
 
@@ -19,8 +21,6 @@ class AddSightScreen extends StatefulWidget {
   @override
   State<AddSightScreen> createState() => _AddSightScreenState();
 }
-
-AppTypography appTypography = AppTypography();
 
 class _AddSightScreenState extends State<AddSightScreen> {
   final category = FocusNode();
@@ -84,134 +84,41 @@ class _AddSightScreenState extends State<AddSightScreen> {
           key: _formKey,
           child: ListView(
             children: [
-              const _Content(content: AppStrings.category),
-              const SizedBox(
-                height: 12,
-              ),
-              TextFormField(
+              const Content(content: AppStrings.category),
+              sizedBox12H,
+              TextFieldOnlyReade(
                 focusNode: category,
-                readOnly: true,
-                controller: TextEditingController(text: selectedCategory),
-                onTap: () {
-                  Navigator.push<AddSightScreen>(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Categories(
-                        updateSelectedCategory: updateSelectedCategory,
-                      ),
-                    ),
-                  );
-                },
-                onEditingComplete: () =>
-                    FocusScope.of(context).requestFocus(name),
-                decoration: InputDecoration(
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide:
-                        BorderSide(color: themeProvider.appTheme.greenColor),
-                  ),
-                  hintText: AppStrings.unSelected,
-                  hintStyle: appTypography.textGreyInactive18Bold,
-                  suffixIcon: CupertinoButton(
-                    onPressed: () {
-                      Navigator.push<AddSightScreen>(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Categories(
-                            updateSelectedCategory: updateSelectedCategory,
-                          ),
-                        ),
-                      );
-                    },
-                    child: SvgPicture.asset(
-                      AppAssets.view,
-                      color: themeProvider.appTheme.mainWhiteColor,
-                    ),
-                  ),
-                ),
-                validator: (val) => val!.isEmpty ? 'Выберите категорию' : null,
+                controller: selectedCategory,
+                validate: _validateCategory,
+                updateSelectedCategory: updateSelectedCategory,
               ),
-              const SizedBox(
-                height: 24,
-              ),
-              const _Content(content: AppStrings.name),
-              const SizedBox(
-                height: 12,
-              ),
-              TextFormField(
+              sizedBox24H,
+              const Content(content: AppStrings.name),
+              sizedBox12H,
+              TextFields(
                 focusNode: name,
-                onEditingComplete: () =>
-                    FocusScope.of(context).requestFocus(latitude),
-                cursorWidth: 1,
-                cursorColor: themeProvider.appTheme.mainWhiteColor,
-                style: appTypography.text14Regular
-                    .copyWith(color: themeProvider.appTheme.mainWhiteColor),
                 controller: _nameController,
-                onChanged: (value) => setState(() {}),
-                decoration: InputDecoration(
-                  errorBorder: errorBorder,
-                  enabledBorder: enableBorder,
-                  focusedBorder: focusBorder,
-                  suffixIcon: _nameController.text.isNotEmpty
-                      ? CupertinoButton(
-                          padding: EdgeInsets.zero,
-                          onPressed: _nameController.clear,
-                          child: SvgPicture.asset(
-                            AppAssets.clear,
-                            color: themeProvider.appTheme.mainWhiteColor,
-                          ),
-                        )
-                      : null,
-                ),
-                validator: (val) =>
-                    val!.isEmpty ? 'Введите название места' : null,
+                onEditingComplete: latitude,
+                validate: _validateName,
+                keyboardType: TextInputType.multiline,
               ),
-              const SizedBox(
-                height: 24,
-              ),
+              sizedBox24H,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const _Content(content: AppStrings.latitude),
-                      const SizedBox(
-                        height: 12,
-                      ),
+                      const Content(content: AppStrings.latitude),
+                      sizedBox12H,
                       SizedBox(
                         width: 162,
-                        child: TextFormField(
+                        child: TextFields(
                           focusNode: latitude,
-                          onEditingComplete: () =>
-                              FocusScope.of(context).requestFocus(longitude),
-                          cursorWidth: 1,
-                          cursorColor: themeProvider.appTheme.mainWhiteColor,
-                          keyboardType: TextInputType.number,
-                          style: appTypography.text14Regular.copyWith(
-                            color: themeProvider.appTheme.mainWhiteColor,
-                          ),
                           controller: _latController,
-                          onChanged: (value) => setState(() {}),
-                          decoration: InputDecoration(
-                            errorBorder: errorBorder,
-                            enabledBorder: enableBorder,
-                            focusedBorder: focusBorder,
-                            suffixIcon: _latController.text.isNotEmpty
-                                ? CupertinoButton(
-                                    padding: EdgeInsets.zero,
-                                    onPressed: _latController.clear,
-                                    child: SvgPicture.asset(
-                                      AppAssets.clear,
-                                      color:
-                                          themeProvider.appTheme.mainWhiteColor,
-                                    ),
-                                  )
-                                : null,
-                          ),
-                          validator: (value) => _validateLatitude(value!),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                          ],
+                          onEditingComplete: longitude,
+                          validate: _validateLatitude,
+                          keyboardType: TextInputType.number,
                         ),
                       ),
                     ],
@@ -219,44 +126,16 @@ class _AddSightScreenState extends State<AddSightScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const _Content(content: AppStrings.longitude),
-                      const SizedBox(
-                        height: 12,
-                      ),
+                      const Content(content: AppStrings.longitude),
+                      sizedBox12H,
                       SizedBox(
                         width: 162,
-                        child: TextFormField(
+                        child: TextFields(
                           focusNode: longitude,
-                          onEditingComplete: () =>
-                              FocusScope.of(context).requestFocus(description),
-                          cursorWidth: 1,
-                          cursorColor: themeProvider.appTheme.mainWhiteColor,
-                          keyboardType: TextInputType.number,
-                          style: appTypography.text14Regular.copyWith(
-                            color: themeProvider.appTheme.mainWhiteColor,
-                          ),
                           controller: _lonController,
-                          onChanged: (value) => setState(() {}),
-                          decoration: InputDecoration(
-                            errorBorder: errorBorder,
-                            enabledBorder: enableBorder,
-                            focusedBorder: focusBorder,
-                            suffixIcon: _lonController.text.isNotEmpty
-                                ? CupertinoButton(
-                                    padding: EdgeInsets.zero,
-                                    onPressed: _lonController.clear,
-                                    child: SvgPicture.asset(
-                                      AppAssets.clear,
-                                      color:
-                                          themeProvider.appTheme.mainWhiteColor,
-                                    ),
-                                  )
-                                : null,
-                          ),
-                          validator: (value) => _validateLongitude(value!),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                          ],
+                          onEditingComplete: description,
+                          validate: _validateLongitude,
+                          keyboardType: TextInputType.number,
                         ),
                       ),
                     ],
@@ -275,44 +154,17 @@ class _AddSightScreenState extends State<AddSightScreen> {
                   onPressed: () {},
                 ),
               ),
-              const SizedBox(
-                height: 24,
-              ),
-              const _Content(content: AppStrings.description),
-              const SizedBox(
-                height: 12,
-              ),
-              TextFormField(
+              sizedBox24H,
+              const Content(content: AppStrings.description),
+              sizedBox12H,
+              TextFields(
                 focusNode: description,
-                onEditingComplete: () => FocusScope.of(context).unfocus(),
-                cursorWidth: 1,
-                cursorColor: themeProvider.appTheme.mainWhiteColor,
-                style: appTypography.text14Regular.copyWith(
-                  color: themeProvider.appTheme.mainWhiteColor,
-                ),
                 controller: _descriptionController,
-                onChanged: (value) => setState(() {}),
-                decoration: InputDecoration(
-                  errorBorder: errorBorder,
-                  enabledBorder: enableBorder,
-                  focusedBorder: focusBorder,
-                  suffixIcon: _descriptionController.text.isNotEmpty
-                      ? CupertinoButton(
-                          padding: EdgeInsets.zero,
-                          onPressed: _descriptionController.clear,
-                          child: SvgPicture.asset(
-                            AppAssets.clear,
-                            color: themeProvider.appTheme.mainWhiteColor,
-                          ),
-                        )
-                      : null,
-                ),
-                validator: (val) =>
-                    val!.isEmpty ? 'Введите описание места' : null,
+                onEditingComplete: description,
+                validate: _validateDescription,
+                keyboardType: TextInputType.multiline,
               ),
-              const SizedBox(
-                height: 24,
-              ),
+              sizedBox24H,
               SizedBox(
                 width: double.infinity,
                 height: 48,
@@ -324,7 +176,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
                   ),
                   style: TextButton.styleFrom(
                     elevation: 0.0,
-                    backgroundColor: color(),
+                    backgroundColor: _color(),
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -340,7 +192,13 @@ class _AddSightScreenState extends State<AddSightScreen> {
     );
   }
 
-  Color color() {
+  void updateSelectedCategory(String category) {
+    setState(() {
+      selectedCategory = category;
+    });
+  }
+
+  Color _color() {
     var color = themeProvider.appTheme.inactiveColor;
 
     if (selectedCategory.isNotEmpty &&
@@ -352,12 +210,6 @@ class _AddSightScreenState extends State<AddSightScreen> {
     }
 
     return color;
-  }
-
-  void updateSelectedCategory(String category) {
-    setState(() {
-      selectedCategory = category;
-    });
   }
 
   void _submitForm() {
@@ -381,6 +233,18 @@ class _AddSightScreenState extends State<AddSightScreen> {
     }
   }
 
+  String? _validateCategory(String value) {
+    return value.isEmpty ? 'Выберите категорию' : null;
+  }
+
+  String? _validateName(String value) {
+    return value.isEmpty ? 'Введите название' : null;
+  }
+
+  String? _validateDescription(String value) {
+    return value.isEmpty ? 'Введите описание' : null;
+  }
+
   String? _validateLatitude(String value) {
     if (value.isEmpty) {
       return 'Введите координаты';
@@ -402,10 +266,10 @@ class _AddSightScreenState extends State<AddSightScreen> {
   }
 }
 
-class _Content extends StatelessWidget {
+class Content extends StatelessWidget {
   final String content;
 
-  const _Content({Key? key, required this.content}) : super(key: key);
+  const Content({Key? key, required this.content}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -415,6 +279,129 @@ class _Content extends StatelessWidget {
         content.toUpperCase(),
         style: appTypography.textGreyInactive14Regular,
       ),
+    );
+  }
+}
+
+class TextFields extends StatefulWidget {
+  final FocusNode focusNode;
+  final FocusNode onEditingComplete;
+  final TextEditingController controller;
+  final String? Function(String) validate;
+  final TextInputType keyboardType;
+
+  const TextFields({
+    Key? key,
+    required this.focusNode,
+    required this.controller,
+    required this.onEditingComplete,
+    required this.validate,
+    required this.keyboardType,
+  }) : super(key: key);
+
+  @override
+  State<TextFields> createState() => _TextFieldsState();
+}
+
+class _TextFieldsState extends State<TextFields> {
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      focusNode: widget.focusNode,
+      onEditingComplete: () =>
+          FocusScope.of(context).requestFocus(widget.onEditingComplete),
+      cursorWidth: 1,
+      cursorColor: themeProvider.appTheme.mainWhiteColor,
+      style: appTypography.text14Regular
+          .copyWith(color: themeProvider.appTheme.mainWhiteColor),
+      controller: widget.controller,
+      onChanged: (value) => setState(() {}),
+      keyboardType: widget.keyboardType,
+      decoration: InputDecoration(
+        errorBorder: errorBorder,
+        enabledBorder: enableBorder,
+        focusedBorder: focusBorder,
+        suffixIcon: widget.controller.text.isNotEmpty
+            ? CupertinoButton(
+                padding: EdgeInsets.zero,
+                onPressed: () {
+                  setState(widget.controller.clear);
+                },
+                child: SvgPicture.asset(
+                  AppAssets.clear,
+                  color: themeProvider.appTheme.mainWhiteColor,
+                ),
+              )
+            : null,
+      ),
+      inputFormatters: [
+        if (widget.keyboardType == TextInputType.number)
+          FilteringTextInputFormatter.digitsOnly,
+      ],
+      validator: (val) => widget.validate(val!),
+    );
+  }
+}
+
+class TextFieldOnlyReade extends StatefulWidget {
+  final FocusNode focusNode;
+  final String controller;
+  final String? Function(String) validate;
+  final Function(String) updateSelectedCategory;
+
+  const TextFieldOnlyReade({
+    Key? key,
+    required this.focusNode,
+    required this.controller,
+    required this.validate,
+    required this.updateSelectedCategory,
+  }) : super(key: key);
+
+  @override
+  State<TextFieldOnlyReade> createState() => _TextFieldOnlyReadeState();
+}
+
+class _TextFieldOnlyReadeState extends State<TextFieldOnlyReade> {
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      focusNode: widget.focusNode,
+      readOnly: true,
+      controller: TextEditingController(text: widget.controller),
+      onTap: () {
+        Navigator.push<AddSightScreen>(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Categories(
+              updateSelectedCategory: widget.updateSelectedCategory,
+            ),
+          ),
+        );
+      },
+      decoration: InputDecoration(
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: themeProvider.appTheme.greenColor),
+        ),
+        hintText: AppStrings.unSelected,
+        hintStyle: appTypography.textGreyInactive18Bold,
+        suffixIcon: CupertinoButton(
+          onPressed: () {
+            Navigator.push<AddSightScreen>(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Categories(
+                  updateSelectedCategory: widget.updateSelectedCategory,
+                ),
+              ),
+            );
+          },
+          child: SvgPicture.asset(
+            AppAssets.view,
+            color: themeProvider.appTheme.mainWhiteColor,
+          ),
+        ),
+      ),
+      validator: (val) => widget.validate(val!),
     );
   }
 }

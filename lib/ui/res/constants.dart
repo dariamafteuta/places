@@ -27,10 +27,19 @@ final divider = Divider(
   thickness: 0.8,
 );
 
-const sizeBox8H = SizedBox(height: 8);
+const sizedBox2H = SizedBox(height: 2);
 
-const sizeBox10H = SizedBox(height: 10);
+const sizedBox8H = SizedBox(height: 8);
 
-const sizeBox12H = SizedBox(height: 12);
+const sizedBox10H = SizedBox(height: 10);
 
-const sizeBox32H = SizedBox(height: 32);
+const sizedBox12H = SizedBox(height: 12);
+
+const sizedBox24H = SizedBox(height: 24);
+
+const sizedBox32H = SizedBox(height: 32);
+
+const sizedBox60H = SizedBox(height: 60);
+
+const sizedBox50W = SizedBox(width: 50);
+

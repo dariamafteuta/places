@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/domain/sight.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
@@ -35,13 +36,13 @@ class _SightDetailsState extends State<SightDetails> {
             padding: const EdgeInsets.symmetric(horizontal: 17),
             child: Column(
               children: [
-                const SizedBox(height: 24),
+                sizedBox24H,
                 _PlaceName(sight: widget.sight),
-                const SizedBox(height: 2),
+                sizedBox24H,
                 _PlaceType(sight: widget.sight),
-                const SizedBox(height: 24),
+                sizedBox24H,
                 _PlaceDetails(sight: widget.sight),
-                const SizedBox(height: 24),
+                sizedBox24H,
                 const _BuildRouteButton(),
                 Divider(
                   height: 39,
@@ -215,9 +216,7 @@ class _PlanAndChosen extends StatelessWidget {
             style: appTypography.textGreyInactive14Regular,
           ),
         ),
-        const SizedBox(
-          width: 50,
-        ),
+        sizedBox50W,
         TextButton.icon(
           onPressed: () {
             if (kDebugMode) {

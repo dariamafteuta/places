@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/domain/coordinate.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/mocks.dart';
@@ -130,7 +131,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 60),
+            sizedBox60H,
             Column(
               children: [
                 Row(
@@ -151,7 +152,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 32),
+                sizedBox32H,
                 RangeSlider(
                   min: 0.1,
                   max: 10,

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_job/constants.dart';
+import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/domain/sight.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/mocks.dart';
@@ -67,7 +67,8 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                   searchResult.clear();
 
                   for (final mock in mocks) {
-                    if (mock.name.toLowerCase().contains(value.toLowerCase()) || mock.type.toLowerCase().contains(value.toLowerCase()) &&
+                    if (mock.name.toLowerCase().contains(value.toLowerCase()) ||
+                        mock.type.toLowerCase().contains(value.toLowerCase()) &&
                             radius(mock.coordinate, start, end)) {
                       searchResult.add(mock);
                     }
@@ -115,7 +116,9 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                       )
                     : CupertinoButton(
                         padding: EdgeInsets.zero,
-                        onPressed: _searchController.clear,
+                        onPressed: () {
+                          setState(_searchController.clear);
+                        },
                         child: SvgPicture.asset(
                           AppAssets.clear,
                           color: themeProvider.appTheme.mainWhiteColor,
@@ -157,16 +160,12 @@ class SearchError extends StatelessWidget {
           SvgPicture.asset(
             AppAssets.searchEmptyPage,
           ),
-          const SizedBox(
-            height: 32,
-          ),
+          sizedBox32H,
           Text(
             AppStrings.notFound,
             style: appTypography.textGreyInactive18Bold,
           ),
-          const SizedBox(
-            height: 8,
-          ),
+          sizedBox8H,
           Text(
             AppStrings.changeParameters,
             style: appTypography.textGreyInactive14Regular,
@@ -214,9 +213,7 @@ class SearchResult extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15),
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
+                sizedBox10H,
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
