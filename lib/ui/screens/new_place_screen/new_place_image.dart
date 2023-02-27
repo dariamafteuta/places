@@ -49,7 +49,7 @@ class _NewImageState extends State<NewImage> {
                 (e) => ImageCard(
               url: e,
               removeUrl: removeUrl,
-            ),
+                ),
           ),
         ],
       ),
@@ -86,39 +86,46 @@ class _ImageCardState extends State<ImageCard> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 16),
-      child: SizedBox(
-        height: 72,
-        width: 72,
-        child: Stack(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(
-                    widget.url,
+      child: Dismissible(
+        key: ObjectKey(widget.url),
+        direction: DismissDirection.vertical,
+        onDismissed: (_) {
+          widget.removeUrl(widget.url);
+        },
+        child: SizedBox(
+          height: 72,
+          width: 72,
+          child: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(
+                      widget.url,
+                    ),
+                    fit: BoxFit.fill,
                   ),
-                  fit: BoxFit.fill,
-                ),
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-            Positioned(
-              right: 0,
-              child: CupertinoButton(
-                minSize: 1,
-                padding: EdgeInsets.zero,
-                onPressed: () {
-                  setState(() {
-                    widget.removeUrl(widget.url);
-                  });
-                },
-                child: SvgPicture.asset(
-                  AppAssets.clear,
-                  color: themeProvider.appTheme.whiteColor,
+                  borderRadius: BorderRadius.circular(10),
                 ),
               ),
-            ),
-          ],
+              Positioned(
+                right: 0,
+                child: CupertinoButton(
+                  minSize: 1,
+                  padding: EdgeInsets.zero,
+                  onPressed: () {
+                    setState(() {
+                      widget.removeUrl(widget.url);
+                    });
+                  },
+                  child: SvgPicture.asset(
+                    AppAssets.clear,
+                    color: themeProvider.appTheme.whiteColor,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
