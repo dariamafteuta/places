@@ -105,7 +105,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
                 child: Column(
                   children: List.generate(_visitedMocks.length, (index) {
                     return SightCardVisited(
-                      key: Key(_planMocks[index].name),
+                      key: Key(_visitedMocks[index].name),
                       sight: _visitedMocks[index],
                       visitedRemoveSight: visitedRemoveSight,
                     );
