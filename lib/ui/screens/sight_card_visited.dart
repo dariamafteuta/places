@@ -8,8 +8,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class SightCardVisited extends StatefulWidget {
   final Sight? sight;
+  final Function(Sight) visitedRemoveSight;
 
-  const SightCardVisited({Key? key, required this.sight}) : super(key: key);
+  const SightCardVisited({
+    Key? key,
+    required this.sight,
+    required this.visitedRemoveSight,
+  }) : super(key: key);
 
   @override
   State<SightCardVisited> createState() => _SightCardVisitedState();
@@ -79,7 +84,11 @@ class _SightCardVisitedState extends State<SightCardVisited> {
                             AppAssets.close,
                             color: themeProvider.appTheme.whiteColor,
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            setState(() {
+                              widget.visitedRemoveSight(widget.sight!);
+                            });
+                          },
                         ),
                       ],
                     ),
