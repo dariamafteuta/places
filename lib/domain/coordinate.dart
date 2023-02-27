@@ -1,10 +1,10 @@
 
 class Coordinate {
   final double lat;
-  final double lot;
+  final double lon;
 
   Coordinate({
     required this.lat,
-    required this.lot,
+    required this.lon,
   });
 }

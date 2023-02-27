@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/domain/coordinate.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/mocks.dart';
@@ -20,13 +20,12 @@ class FiltersScreen extends StatefulWidget {
 }
 
 AppTypography appTypography = AppTypography();
-CategoryPlace? categoryPlace;
+double start = 0.1;
+double end = 10;
 
 class _FiltersScreenState extends State<FiltersScreen> {
   Iterable<String> listOfPlaces = mocks.map((e) => e.type);
   Set<String> selectedType = {};
-  double start = 0.1;
-  double end = 10;
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +36,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
           child: SvgPicture.asset(
             AppAssets.arrow,
           ),
-          onPressed: () {
-            if (kDebugMode) {
-              print('Arrow Pressed');
-            }
-          },
+          onPressed: () => Navigator.pop(context),
         ),
         actions: [
           CupertinoButton(
@@ -136,7 +131,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 60),
+            sizedBox60H,
             Column(
               children: [
                 Row(
@@ -157,7 +152,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 32),
+                sizedBox32H,
                 RangeSlider(
                   min: 0.1,
                   max: 10,
@@ -189,9 +184,6 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     child: Text(
                       '${AppStrings.show} (${listOfPlaces.length})',
                       style: appTypography.text14Regular
-                          .copyWith(
-                            color: themeProvider.appTheme.secondaryWhiteColor,
-                          )
                           .copyWith(color: themeProvider.appTheme.whiteColor),
                     ),
                     style: TextButton.styleFrom(
@@ -254,11 +246,11 @@ class _FiltersScreenState extends State<FiltersScreen> {
 bool radius(Coordinate checkPoint, double start, double end) {
   final centerPoint = Coordinate(
     lat: 47.52882,
-    lot: 29.0336,
+    lon: 29.0336,
   );
   const ky = 40000 / 360;
   final kx = cos(pi * centerPoint.lat / 180.0) * ky;
-  final dx = (centerPoint.lot - checkPoint.lot).abs() * kx;
+  final dx = (centerPoint.lon - checkPoint.lon).abs() * kx;
   final dy = (centerPoint.lat - checkPoint.lat).abs() * ky;
 
   final calculatedDistance = sqrt(dx * dx + dy * dy);

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_job/components/bottom_navigation_bar.dart';
+import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/mocks.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
-import 'package:flutter_job/ui/screen/sight_card_plan.dart';
-import 'package:flutter_job/ui/screen/sight_card_visited.dart';
+import 'package:flutter_job/ui/screens/sight_card_plan.dart';
+import 'package:flutter_job/ui/screens/sight_card_visited.dart';
 import 'package:flutter_svg/svg.dart';
+
+AppTypography appTypography = AppTypography();
 
 class VisitingScreen extends StatefulWidget {
   const VisitingScreen({Key? key}) : super(key: key);
@@ -15,8 +18,6 @@ class VisitingScreen extends StatefulWidget {
   @override
   State<VisitingScreen> createState() => _VisitingScreenState();
 }
-
-AppTypography appTypography = AppTypography();
 
 class _VisitingScreenState extends State<VisitingScreen> {
   final _planMocks = [mocks[0]];
@@ -81,18 +82,13 @@ class _VisitingScreenState extends State<VisitingScreen> {
                   children: [
                     SvgPicture.asset(
                       AppAssets.cardEmptyPage,
-                      color: themeProvider.appTheme.secondary2Color,
                     ),
-                    const SizedBox(
-                      height: 32,
-                    ),
+                    sizedBox32H,
                     Text(
                       AppStrings.blank,
                       style: appTypography.textGreyInactive18Bold,
                     ),
-                    const SizedBox(
-                      height: 8,
-                    ),
+                    sizedBox8H,
                     Text(
                       AppStrings.favoritesPlace,
                       style: appTypography.textGreyInactive14Regular,
@@ -118,18 +114,13 @@ class _VisitingScreenState extends State<VisitingScreen> {
                   children: [
                     SvgPicture.asset(
                       AppAssets.goEmptyPage,
-                      color: themeProvider.appTheme.secondary2Color,
                     ),
-                    const SizedBox(
-                      height: 32,
-                    ),
+                    sizedBox32H,
                     Text(
                       AppStrings.blank,
                       style: appTypography.textGreyInactive18Bold,
                     ),
-                    const SizedBox(
-                      height: 8,
-                    ),
+                    sizedBox8H,
                     Text(
                       AppStrings.completedRoute,
                       style: appTypography.textGreyInactive14Regular,

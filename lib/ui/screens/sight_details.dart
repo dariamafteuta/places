@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/domain/sight.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
@@ -35,13 +36,13 @@ class _SightDetailsState extends State<SightDetails> {
             padding: const EdgeInsets.symmetric(horizontal: 17),
             child: Column(
               children: [
-                const SizedBox(height: 24),
+                sizedBox24H,
                 _PlaceName(sight: widget.sight),
-                const SizedBox(height: 2),
+                sizedBox24H,
                 _PlaceType(sight: widget.sight),
-                const SizedBox(height: 24),
+                sizedBox24H,
                 _PlaceDetails(sight: widget.sight),
-                const SizedBox(height: 24),
+                sizedBox24H,
                 const _BuildRouteButton(),
                 Divider(
                   height: 39,
@@ -91,11 +92,7 @@ class _BackButton extends StatelessWidget {
         height: 35,
         width: 35,
         child: TextButton(
-          onPressed: () {
-            if (kDebugMode) {
-              print('Button Pressed');
-            }
-          },
+          onPressed: () => Navigator.pop(context),
           child: SvgPicture.asset(
             AppAssets.arrow,
             color: themeProvider.appTheme.mainWhiteColor,
@@ -181,9 +178,6 @@ class _BuildRouteButton extends StatelessWidget {
         label: Text(
           AppStrings.buildARoute,
           style: appTypography.text14Regular
-              .copyWith(
-                color: themeProvider.appTheme.secondaryWhiteColor,
-              )
               .copyWith(color: themeProvider.appTheme.whiteColor),
         ),
         style: TextButton.styleFrom(
@@ -194,11 +188,7 @@ class _BuildRouteButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
         ),
-        onPressed: () {
-          if (kDebugMode) {
-            print('ElevatedButton Pressed');
-          }
-        },
+        onPressed: () {},
       ),
     );
   }
@@ -226,9 +216,7 @@ class _PlanAndChosen extends StatelessWidget {
             style: appTypography.textGreyInactive14Regular,
           ),
         ),
-        const SizedBox(
-          width: 50,
-        ),
+        sizedBox50W,
         TextButton.icon(
           onPressed: () {
             if (kDebugMode) {
