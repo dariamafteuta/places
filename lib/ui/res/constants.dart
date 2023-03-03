@@ -31,6 +31,8 @@ const sizedBox2H = SizedBox(height: 2);
 
 const sizedBox8H = SizedBox(height: 8);
 
+const sizedBox10H = SizedBox(height: 10);
+
 const sizedBox12H = SizedBox(height: 12);
 
 const sizedBox24H = SizedBox(height: 24);

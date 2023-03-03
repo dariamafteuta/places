@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/domain/sight.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
+import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SightDetails extends StatefulWidget {
