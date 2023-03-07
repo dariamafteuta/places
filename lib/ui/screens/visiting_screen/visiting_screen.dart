@@ -7,8 +7,8 @@ import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/res/constants.dart';
-import 'package:flutter_job/ui/screens/sight_card_plan.dart';
-import 'package:flutter_job/ui/screens/sight_card_visited.dart';
+import 'package:flutter_job/ui/screens/visiting_screen/sight_card_plan.dart';
+import 'package:flutter_job/ui/screens/visiting_screen/sight_card_visited.dart';
 import 'package:flutter_svg/svg.dart';
 
 AppTypography appTypography = AppTypography();
@@ -67,16 +67,15 @@ class _VisitingScreenState extends State<VisitingScreen> {
         body: TabBarView(
           children: [
             if (_planMocks.isNotEmpty)
-              SingleChildScrollView(
-                child: Column(
-                  children: List.generate(_planMocks.length, (index) {
+              ReorderableListView(
+                onReorder: _onReorderPlan,
+                children: List.generate(_planMocks.length, (index) {
                     return SightCardPlan(
                       key: Key(_planMocks[index].name),
                       sight: _planMocks[index],
                       planRemoveSight: planRemoveSight,
                     );
                   }),
-                ),
               )
             else
               Center(
@@ -101,17 +100,16 @@ class _VisitingScreenState extends State<VisitingScreen> {
                 ),
               ),
             if (_visitedMocks.isNotEmpty)
-              SingleChildScrollView(
-                child: Column(
-                  children: List.generate(_visitedMocks.length, (index) {
-                    return SightCardVisited(
-                      key: Key(_visitedMocks[index].name),
-                      sight: _visitedMocks[index],
-                      visitedRemoveSight: visitedRemoveSight,
-                    );
-                  }),
-                ),
-              )
+              ReorderableListView(
+                    onReorder: _onReorderVisited,
+                    children: List.generate(_visitedMocks.length, (index) {
+                      return SightCardVisited(
+                        key: ValueKey(index),
+                        sight: _visitedMocks[index],
+                        visitedRemoveSight: visitedRemoveSight,
+                      );
+                    }),
+                  )
             else
               Center(
                 child: Column(
@@ -138,6 +136,26 @@ class _VisitingScreenState extends State<VisitingScreen> {
         ),
       ),
     );
+  }
+
+  void _onReorderVisited(int oldIndex, int newIndex) {
+    setState(() {
+      if (newIndex > oldIndex) {
+        newIndex -= 1;
+      }
+      final visitedMocks = _visitedMocks.removeAt(oldIndex);
+      _visitedMocks.insert(newIndex, visitedMocks);
+    });
+  }
+
+  void _onReorderPlan(int oldIndex, int newIndex) {
+    setState(() {
+      if (newIndex > oldIndex) {
+        newIndex -= 1;
+      }
+      final planMocks = _planMocks.removeAt(oldIndex);
+      _planMocks.insert(newIndex, planMocks);
+    });
   }
 
   void visitedRemoveSight(Sight sight) {

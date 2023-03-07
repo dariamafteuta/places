@@ -7,6 +7,7 @@ import 'package:flutter_job/mocks.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
+import 'package:flutter_job/ui/screens/content.dart';
 import 'package:flutter_job/ui/screens/filters_screen.dart';
 import 'package:flutter_job/ui/screens/sight_details.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -213,7 +214,7 @@ class SearchResult extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15),
                   ),
                 ),
-                sizedBox10H,
+                sizedBox10W,
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -260,10 +261,7 @@ class _YourSearchState extends State<YourSearch> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (listSearch.isNotEmpty)
-            Text(
-              AppStrings.yourSearch.toUpperCase(),
-              style: appTypography.textGreyInactive14Regular,
-            ),
+            const Content(content: AppStrings.yourSearch),
           ...listSearch.map(
             (e) => Column(
               children: [

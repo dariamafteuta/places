@@ -8,6 +8,7 @@ import 'package:flutter_job/mocks.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
+import 'package:flutter_job/ui/screens/content.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class FiltersScreen extends StatefulWidget {
@@ -64,13 +65,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
         ),
         child: Column(
           children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                AppStrings.categories.toUpperCase(),
-                style: appTypography.textGreyInactive14Regular,
-              ),
-            ),
+           const Content(content: AppStrings.categories),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [

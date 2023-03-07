@@ -1,14 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/domain/coordinate.dart';
 import 'package:flutter_job/domain/sight.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
-import 'package:flutter_job/ui/screens/new_place_category.dart';
+import 'package:flutter_job/ui/res/constants.dart';
+import 'package:flutter_job/ui/screens/content.dart';
+import 'package:flutter_job/ui/screens/new_place_screen/new_place_category.dart';
+import 'package:flutter_job/ui/screens/new_place_screen/new_place_image.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 AppTypography appTypography = AppTypography();
@@ -84,6 +86,8 @@ class _AddSightScreenState extends State<AddSightScreen> {
           key: _formKey,
           child: ListView(
             children: [
+              const NewImage(),
+              sizedBox24H,
               const Content(content: AppStrings.category),
               sizedBox12H,
               TextFieldOnlyReade(
@@ -263,23 +267,6 @@ class _AddSightScreenState extends State<AddSightScreen> {
     } else {
       return null;
     }
-  }
-}
-
-class Content extends StatelessWidget {
-  final String content;
-
-  const Content({Key? key, required this.content}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.topLeft,
-      child: Text(
-        content.toUpperCase(),
-        style: appTypography.textGreyInactive14Regular,
-      ),
-    );
   }
 }
 

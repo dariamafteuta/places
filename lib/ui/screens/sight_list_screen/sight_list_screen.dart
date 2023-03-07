@@ -7,9 +7,9 @@ import 'package:flutter_job/mocks.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
-import 'package:flutter_job/ui/screens/add_sight_screen.dart';
+import 'package:flutter_job/ui/screens/new_place_screen/add_sight_screen.dart';
 import 'package:flutter_job/ui/screens/filters_screen.dart';
-import 'package:flutter_job/ui/screens/sight_card.dart';
+import 'package:flutter_job/ui/screens/sight_list_screen/sight_card.dart';
 import 'package:flutter_job/ui/screens/sight_search_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
