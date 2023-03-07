@@ -70,12 +70,12 @@ class _VisitingScreenState extends State<VisitingScreen> {
               ReorderableListView(
                 onReorder: _onReorderPlan,
                 children: List.generate(_planMocks.length, (index) {
-                    return SightCardPlan(
-                      key: Key(_planMocks[index].name),
-                      sight: _planMocks[index],
-                      planRemoveSight: planRemoveSight,
-                    );
-                  }),
+                  return SightCardPlan(
+                    key: Key(_planMocks[index].name),
+                    sight: _planMocks[index],
+                    planRemoveSight: planRemoveSight,
+                  );
+                }),
               )
             else
               Center(
@@ -101,15 +101,15 @@ class _VisitingScreenState extends State<VisitingScreen> {
               ),
             if (_visitedMocks.isNotEmpty)
               ReorderableListView(
-                    onReorder: _onReorderVisited,
-                    children: List.generate(_visitedMocks.length, (index) {
-                      return SightCardVisited(
-                        key: ValueKey(index),
-                        sight: _visitedMocks[index],
-                        visitedRemoveSight: visitedRemoveSight,
-                      );
-                    }),
-                  )
+                onReorder: _onReorderVisited,
+                children: List.generate(_visitedMocks.length, (index) {
+                  return SightCardVisited(
+                    key: ValueKey(index),
+                    sight: _visitedMocks[index],
+                    visitedRemoveSight: visitedRemoveSight,
+                  );
+                }),
+              )
             else
               Center(
                 child: Column(
@@ -138,6 +138,18 @@ class _VisitingScreenState extends State<VisitingScreen> {
     );
   }
 
+  void visitedRemoveSight(Sight sight) {
+    setState(() {
+      _visitedMocks.remove(sight);
+    });
+  }
+
+  void planRemoveSight(Sight sight) {
+    setState(() {
+      _planMocks.remove(sight);
+    });
+  }
+
   void _onReorderVisited(int oldIndex, int newIndex) {
     setState(() {
       if (newIndex > oldIndex) {
@@ -155,18 +167,6 @@ class _VisitingScreenState extends State<VisitingScreen> {
       }
       final planMocks = _planMocks.removeAt(oldIndex);
       _planMocks.insert(newIndex, planMocks);
-    });
-  }
-
-  void visitedRemoveSight(Sight sight) {
-    setState(() {
-      _visitedMocks.remove(sight);
-    });
-  }
-
-  void planRemoveSight(Sight sight) {
-    setState(() {
-      _planMocks.remove(sight);
     });
   }
 }

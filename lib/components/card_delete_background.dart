@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
+import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/ui/screens/filters_screen.dart';
 import 'package:flutter_svg/svg.dart';
@@ -25,7 +26,7 @@ class CardDeleteBackground extends StatelessWidget {
               SvgPicture.asset(AppAssets.bucket, color: themeProvider.appTheme.whiteColor,),
               sizedBox10H,
               Text(
-                'Удалить',
+                AppStrings.delete,
                 style: appTypography.text14Bold.copyWith(color: themeProvider.appTheme.whiteColor,),
               ),
             ],
