@@ -22,7 +22,11 @@ class _ImagesSliderState extends State<ImagesSlider> {
           height: 360,
           child: PageView.builder(
             controller: _controller,
-            onPageChanged: _handleControllerChange,
+            onPageChanged: (value) {
+              setState(() {
+                _currentIndex = value;
+              });
+            },
             itemCount: widget.sight.url.length,
             itemBuilder: (context, index) {
               return SizedBox(
@@ -65,13 +69,5 @@ class _ImagesSliderState extends State<ImagesSlider> {
         ),
       ],
     );
-  }
-
-  void _handleControllerChange(int index) {
-    if (index != _currentIndex) {
-      setState(() {
-        _currentIndex = index;
-      });
-    }
   }
 }
