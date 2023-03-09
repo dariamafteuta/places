@@ -60,7 +60,7 @@ class _SightCardVisitedState extends State<SightCardVisited> {
                           decoration: BoxDecoration(
                             image: DecorationImage(
                               image: NetworkImage(
-                                widget.sight!.url,
+                                widget.sight!.url[0],
                               ),
                               fit: BoxFit.fitWidth,
                             ),

@@ -9,7 +9,7 @@ import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/ui/screens/content.dart';
 import 'package:flutter_job/ui/screens/filters_screen.dart';
-import 'package:flutter_job/ui/screens/sight_details.dart';
+import 'package:flutter_job/ui/screens/sight_details_screen/sight_details.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 AppTypography appTypography = AppTypography();
@@ -214,7 +214,7 @@ class SearchResult extends StatelessWidget {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: NetworkImage(
-                        searchResult.url,
+                        searchResult.url[0],
                       ),
                       fit: BoxFit.fill,
                     ),

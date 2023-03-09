@@ -29,7 +29,7 @@ class _NewImageState extends State<NewImage> {
             onTap: () {
               setState(() {
                 randomIndex();
-                listUrlImage.add(mocks[index].url);
+                listUrlImage.add(mocks[index].url[0]);
               });
             },
             child: Container(

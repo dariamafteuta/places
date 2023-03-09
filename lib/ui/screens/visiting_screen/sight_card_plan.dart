@@ -59,7 +59,7 @@ class _SightCardPlanState extends State<SightCardPlan> {
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             image: NetworkImage(
-                              widget.sight!.url,
+                              widget.sight!.url[0],
                             ),
                             fit: BoxFit.fitWidth,
                           ),

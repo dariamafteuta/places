@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job/domain/sight.dart';
@@ -7,6 +6,7 @@ import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/res/constants.dart';
+import 'package:flutter_job/ui/screens/sight_details_screen/images_slider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SightDetails extends StatefulWidget {
@@ -28,7 +28,7 @@ class _SightDetailsState extends State<SightDetails> {
         children: [
           Stack(
             children: [
-              _Photos(sight: widget.sight),
+              ImagesSlider(sight: widget.sight),
               const _BackButton(),
             ],
           ),
@@ -54,28 +54,6 @@ class _SightDetailsState extends State<SightDetails> {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _Photos extends StatelessWidget {
-  final Sight sight;
-  const _Photos({Key? key, required this.sight}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: 360,
-      child: Image.network(
-        sight.url,
-        loadingBuilder: (context, child, loadingProgress) =>
-            loadingProgress == null
-                ? child
-                : CupertinoActivityIndicator(
-                    color: themeProvider.appTheme.inactiveColor,
-                  ),
-        fit: BoxFit.cover,
       ),
     );
   }
