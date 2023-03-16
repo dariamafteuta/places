@@ -214,7 +214,9 @@ class SearchResult extends StatelessWidget {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: NetworkImage(
-                        searchResult.url[0],
+                        searchResult.url.isNotEmpty
+                            ? searchResult.url[0]
+                            : 'https://www.sirvisual.com/Attachment/100/5055_31356_420%20Principale.jpg',
                       ),
                       fit: BoxFit.fill,
                     ),

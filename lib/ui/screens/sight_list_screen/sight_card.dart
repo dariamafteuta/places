@@ -9,7 +9,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 class SightCard extends StatefulWidget {
   final Sight sight;
 
-  const SightCard({Key? key, required this.sight}) : super(key: key);
+  const SightCard(Key? key, this.sight) : super(key: key);
 
   @override
   State<SightCard> createState() => _SightCardState();
@@ -47,7 +47,9 @@ class _SightCardState extends State<SightCard> {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: NetworkImage(
-                            widget.sight.url[0],
+                            widget.sight.url.isNotEmpty
+                                ? widget.sight.url[0]
+                                : 'https://www.sirvisual.com/Attachment/100/5055_31356_420%20Principale.jpg',
                           ),
                           fit: BoxFit.fitWidth,
                         ),

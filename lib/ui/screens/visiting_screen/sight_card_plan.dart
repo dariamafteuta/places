@@ -8,14 +8,14 @@ import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SightCardPlan extends StatefulWidget {
-  final Sight? sight;
+  final Sight sight;
   final Function(Sight) planRemoveSight;
 
-  const SightCardPlan({
+  const SightCardPlan(
     Key? key,
-    required this.sight,
-    required this.planRemoveSight,
-  }) : super(key: key);
+    this.sight,
+    this.planRemoveSight,
+  ) : super(key: key);
 
   @override
   State<SightCardPlan> createState() => _SightCardPlanState();
@@ -40,7 +40,7 @@ class _SightCardPlanState extends State<SightCardPlan> {
           key: UniqueKey(),
           onDismissed: (direction) {
             setState(() {
-              widget.planRemoveSight(widget.sight!);
+              widget.planRemoveSight(widget.sight);
             });
           },
           background: const CardDeleteBackground(),
@@ -59,7 +59,9 @@ class _SightCardPlanState extends State<SightCardPlan> {
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             image: NetworkImage(
-                              widget.sight!.url[0],
+                              widget.sight.url.isNotEmpty
+                                  ? widget.sight.url[0]
+                                  : 'https://www.sirvisual.com/Attachment/100/5055_31356_420%20Principale.jpg',
                             ),
                             fit: BoxFit.fitWidth,
                           ),
@@ -94,7 +96,7 @@ class _SightCardPlanState extends State<SightCardPlan> {
                           ),
                           onPressed: () {
                             setState(() {
-                              widget.planRemoveSight(widget.sight!);
+                              widget.planRemoveSight(widget.sight);
                             });
                           },
                         ),
@@ -105,7 +107,7 @@ class _SightCardPlanState extends State<SightCardPlan> {
                     top: 16,
                     left: 16,
                     child: Text(
-                      widget.sight!.type,
+                      widget.sight.type,
                       style: appTypography.text14w700.copyWith(
                         color: themeProvider.appTheme.whiteColor,
                       ),
@@ -131,7 +133,7 @@ class _SightCardPlanState extends State<SightCardPlan> {
                       ),
                       alignment: Alignment.topLeft,
                       child: Text(
-                        widget.sight!.name,
+                        widget.sight.name,
                         style: appTypography.text16Bold.copyWith(
                           color: themeProvider.appTheme.secondaryWhiteColor,
                         ),

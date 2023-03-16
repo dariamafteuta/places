@@ -121,9 +121,7 @@ class _SightListScreenState extends State<SightListScreen> {
                       ),
                     ),
                     ...mocks.map(
-                      (e) => SightCard(
-                        sight: e,
-                      ),
+                      (e) => SightCard(UniqueKey(), e),
                     ),
                   ],
                 );
