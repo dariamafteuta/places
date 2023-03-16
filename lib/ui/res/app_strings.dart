@@ -9,6 +9,8 @@ class AppStrings {
   //sight_search_screen
   static const notFound = 'Ничего не найдено';
   static const changeParameters = 'Попробуйте изменить параметры поиска';
+  static const yourSearch = 'Вы искали';
+  static const clearHistory = 'Очистить историю';
 
   // sight_details
   static const buildARoute = ' Построить маршрут';
@@ -22,6 +24,7 @@ class AppStrings {
   static const blank = 'Пусто';
   static const favoritesPlace = 'Отмечайте понравившиеся\nместа и они появятся здесь.';
   static const completedRoute = 'Завершите маршрут,\nчтобы место попало сюда.';
+  static const delete = 'Удалить';
 
   //filter_screen
   static const cafe = 'Кафе';
@@ -35,7 +38,7 @@ class AppStrings {
   static const distance = 'Расстояние';
   static const show = 'Показать';
 
-  //settings_screen and add_sight_screen
+  //settings_screen
   static const settings = 'Настройки';
   static const darkTheme = 'Тёмная тема';
   static const watchTutorial = 'Смотреть туториал';
@@ -55,8 +58,4 @@ class AppStrings {
 
   //categories
   static const save = 'Сохранить';
-
-
-  static const yourSearch = 'Вы искали';
-  static const clearHistory = 'Очистить историю';
 }

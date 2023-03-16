@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/domain/sight.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/mocks.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
+import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/ui/screens/content.dart';
 import 'package:flutter_job/ui/screens/filters_screen.dart';
 import 'package:flutter_job/ui/screens/sight_details.dart';
@@ -132,13 +132,18 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
             else if (searchResult.isEmpty)
               const SearchError()
             else
-              SingleChildScrollView(
-                child: Column(
-                  children: List.generate(searchResult.length, (index) {
-                    return SearchResult(
-                      searchResult: searchResult[index],
+              Expanded(
+                child: ListView.builder(
+                  itemCount: 1,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: List.generate(searchResult.length, (index) {
+                        return SearchResult(
+                          searchResult: searchResult[index],
+                        );
+                      }),
                     );
-                  }),
+                  },
                 ),
               ),
           ],
@@ -188,6 +193,8 @@ class SearchResult extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: InkWell(
+        highlightColor: themeProvider.appTheme.transparentColor,
+        splashColor: themeProvider.appTheme.transparentColor,
         onTap: () {
           Navigator.push<SearchResult>(
             context,

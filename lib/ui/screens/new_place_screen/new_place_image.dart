@@ -20,8 +20,10 @@ class _NewImageState extends State<NewImage> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Row(
+    return SizedBox(
+      height: 72,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
         children: [
           GestureDetector(
             onTap: () {
@@ -31,7 +33,6 @@ class _NewImageState extends State<NewImage> {
               });
             },
             child: Container(
-              height: 72,
               width: 72,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
@@ -46,10 +47,10 @@ class _NewImageState extends State<NewImage> {
             ),
           ),
           ...listUrlImage.map(
-                (e) => ImageCard(
+            (e) => ImageCard(
               url: e,
               removeUrl: removeUrl,
-                ),
+            ),
           ),
         ],
       ),
@@ -93,7 +94,6 @@ class _ImageCardState extends State<ImageCard> {
           widget.removeUrl(widget.url);
         },
         child: SizedBox(
-          height: 72,
           width: 72,
           child: Stack(
             children: [
