@@ -67,4 +67,9 @@ class AppAssets {
   static String rectangle1340 = 'assets/icons/other/rectangle_1340.svg';
   static String rectangle1341 = 'assets/icons/other/rectangle_1341.svg';
   static String cardClose = 'assets/icons/other/card_close.svg';
+
+  //tutorial
+  static String tutorial1Frame = 'assets/icons/tutorial/tutorial1_frame.svg';
+  static String tutorial2Frame = 'assets/icons/tutorial/tutorial2_frame.svg';
+  static String tutorial3Frame = 'assets/icons/tutorial/tutorial3_frame.svg';
 }

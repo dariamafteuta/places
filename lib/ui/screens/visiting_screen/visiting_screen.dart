@@ -71,9 +71,9 @@ class _VisitingScreenState extends State<VisitingScreen> {
                 onReorder: _onReorderPlan,
                 children: List.generate(_planMocks.length, (index) {
                   return SightCardPlan(
-                    key: Key(_planMocks[index].name),
-                    sight: _planMocks[index],
-                    planRemoveSight: planRemoveSight,
+                    Key(_planMocks[index].name),
+                    _planMocks[index],
+                    planRemoveSight,
                   );
                 }),
               )
@@ -104,9 +104,9 @@ class _VisitingScreenState extends State<VisitingScreen> {
                 onReorder: _onReorderVisited,
                 children: List.generate(_visitedMocks.length, (index) {
                   return SightCardVisited(
-                    key: ValueKey(index),
-                    sight: _visitedMocks[index],
-                    visitedRemoveSight: visitedRemoveSight,
+                    ValueKey(index),
+                    _visitedMocks[index],
+                    visitedRemoveSight,
                   );
                 }),
               )
