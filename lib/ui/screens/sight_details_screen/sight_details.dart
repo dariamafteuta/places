@@ -24,34 +24,39 @@ class _SightDetailsState extends State<SightDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Stack(
-            children: [
-              ImagesSlider(sight: widget.sight),
-              const _BackButton(),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 17),
-            child: Column(
-              children: [
-                sizedBox24H,
-                _PlaceName(sight: widget.sight),
-                sizedBox24H,
-                _PlaceType(sight: widget.sight),
-                sizedBox24H,
-                _PlaceDetails(sight: widget.sight),
-                sizedBox24H,
-                const _BuildRouteButton(),
-                Divider(
-                  height: 39,
-                  color: themeProvider.appTheme.inactiveColor,
-                  thickness: 0.8,
-                ),
-                const _PlanAndChosen(),
-              ],
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 300,
+            leading: const _BackButton(),
+            flexibleSpace: FlexibleSpaceBar(
+              background: ImagesSlider(sight: widget.sight),
             ),
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate([
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  children: [
+                    sizedBox24H,
+                    _PlaceName(sight: widget.sight),
+                    sizedBox24H,
+                    _PlaceType(sight: widget.sight),
+                    sizedBox24H,
+                    _PlaceDetails(sight: widget.sight),
+                    sizedBox24H,
+                    const _BuildRouteButton(),
+                    Divider(
+                      height: 39,
+                      color: themeProvider.appTheme.inactiveColor,
+                      thickness: 0.8,
+                    ),
+                    const _PlanAndChosen(),
+                  ],
+                ),
+              ),
+           ]),
           ),
         ],
       ),
@@ -63,24 +68,19 @@ class _BackButton extends StatelessWidget {
   const _BackButton({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      top: 40,
-      left: 17,
-      child: SizedBox(
-        height: 35,
-        width: 35,
-        child: TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: SvgPicture.asset(
-            AppAssets.arrow,
-            color: themeProvider.appTheme.mainWhiteColor,
-          ),
-          style: TextButton.styleFrom(
-            elevation: 0.0,
-            backgroundColor: themeProvider.appTheme.whiteMainColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
+    return Padding(
+      padding:  const EdgeInsets.all(8),
+      child:TextButton(
+        onPressed: () => Navigator.pop(context),
+        child: SvgPicture.asset(
+          AppAssets.arrow,
+          color: themeProvider.appTheme.mainWhiteColor,
+        ),
+        style: TextButton.styleFrom(
+          elevation: 0.0,
+          backgroundColor: themeProvider.appTheme.whiteMainColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
           ),
         ),
       ),
