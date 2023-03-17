@@ -30,7 +30,7 @@ class _AppState extends State<App> {
       theme: themeProvider.isLightTheme ? lightThemes : darkThemes,
       title: AppStrings.appTitle,
       debugShowCheckedModeBanner: false,
-      home: VisitingScreen(),
+      home: SightDetails(sight: mocks[0]),
     );
   }
 
