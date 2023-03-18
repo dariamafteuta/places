@@ -20,6 +20,8 @@ abstract class BaseTheme {
   Color get whiteMainColor;
 
   Color get transparentColor;
+
+  List<Color> get yellowAndGreenColor;
 }
 
 
@@ -55,6 +57,10 @@ class LightTheme implements BaseTheme {
 
   @override
   Color transparentColor = Colors.transparent;
+
+
+  @override
+  List<Color> yellowAndGreenColor = const [Color.fromRGBO(248, 220, 21, 1.0), Color.fromRGBO(98, 177, 76, 1.0),];
 }
 
 class DarkTheme extends BaseTheme{
@@ -89,4 +95,7 @@ class DarkTheme extends BaseTheme{
 
   @override
   Color transparentColor = Colors.transparent;
+
+  @override
+  List<Color> yellowAndGreenColor = const [Color.fromRGBO(252, 230, 90, 1.0), Color.fromRGBO(128, 221, 105, 1.0),];
 }
