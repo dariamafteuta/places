@@ -72,4 +72,7 @@ class AppAssets {
   static String tutorial1Frame = 'assets/icons/tutorial/tutorial1_frame.svg';
   static String tutorial2Frame = 'assets/icons/tutorial/tutorial2_frame.svg';
   static String tutorial3Frame = 'assets/icons/tutorial/tutorial3_frame.svg';
+
+  //icon_splash
+  static String iconSplash = 'assets/icons/icon_splash.svg';
 }

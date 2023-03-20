@@ -28,28 +28,36 @@ class _SightListScreenState extends State<SightListScreen> {
     return Scaffold(
       bottomNavigationBar: const BottomNavigation(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton.extended(
-        elevation: 0,
-        backgroundColor: themeProvider.appTheme.greenColor,
-        highlightElevation: 0,
-        onPressed: () {
-          Navigator.push<SightListScreen>(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AddSightScreen(
-                newSight: newSight,
-              ),
-            ),
-          );
-        },
-        icon: SvgPicture.asset(
-          AppAssets.plus,
-          color: themeProvider.appTheme.whiteColor,
+      floatingActionButton: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: themeProvider.appTheme.yellowAndGreenColor,
+          ),
+          borderRadius: BorderRadius.circular(50),
         ),
-        label: Text(
-          AppStrings.newPlace.toUpperCase(),
-          style: appTypography.text14Regular
-              .copyWith(color: themeProvider.appTheme.whiteColor),
+        child: FloatingActionButton.extended(
+          elevation: 0,
+          backgroundColor: themeProvider.appTheme.transparentColor,
+          highlightElevation: 0,
+          onPressed: () {
+            Navigator.push<SightListScreen>(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddSightScreen(
+                  newSight: newSight,
+                ),
+              ),
+            );
+          },
+          icon: SvgPicture.asset(
+            AppAssets.plus,
+            color: themeProvider.appTheme.whiteColor,
+          ),
+          label: Text(
+            AppStrings.newPlace.toUpperCase(),
+            style: appTypography.text14Regular
+                .copyWith(color: themeProvider.appTheme.whiteColor),
+          ),
         ),
       ),
       body: CustomScrollView(
