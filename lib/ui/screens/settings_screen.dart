@@ -7,9 +7,11 @@ import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/res/constants.dart';
+import 'package:flutter_job/ui/screens/onboarding_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SettingsScreen extends StatefulWidget {
+  static String id = 'settings_screen';
   final ThemeProvider themeProvider;
 
   const SettingsScreen({
@@ -38,7 +40,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: const BottomNavigation(),
+      bottomNavigationBar: const BottomNavigation(index: 3),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
         child: Column(
@@ -67,7 +69,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
               children: [
                 CupertinoButton(
                   padding: EdgeInsets.zero,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push<SettingsScreen>(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const OnboardingScreen(),
+                      ),
+                    );
+                  },
                   child: Text(
                     AppStrings.watchTutorial,
                     style: appTypography.text14Regular.copyWith(

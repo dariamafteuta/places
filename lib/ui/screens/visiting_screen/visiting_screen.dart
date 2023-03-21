@@ -11,9 +11,12 @@ import 'package:flutter_job/ui/screens/visiting_screen/sight_card_plan.dart';
 import 'package:flutter_job/ui/screens/visiting_screen/sight_card_visited.dart';
 import 'package:flutter_svg/svg.dart';
 
+import 'package:flutter_job/ui/screens/onboarding_screen.dart';
+
 AppTypography appTypography = AppTypography();
 
 class VisitingScreen extends StatefulWidget {
+  static String id = 'visiting_screen';
   const VisitingScreen({Key? key}) : super(key: key);
 
   @override
@@ -63,7 +66,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
             ),
           ),
         ),
-        bottomNavigationBar: const BottomNavigation(),
+        bottomNavigationBar: BottomNavigation(index: 2,),
         body: TabBarView(
           children: [
             if (_planMocks.isNotEmpty)

@@ -1,16 +1,18 @@
-import 'dart:ffi';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
+import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/res/constants.dart';
-import 'package:flutter_job/ui/screens/filters_screen.dart';
+import 'package:flutter_job/ui/screens/sight_list_screen/sight_list_screen.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+AppTypography appTypography = AppTypography();
+
 class OnboardingScreen extends StatefulWidget {
+  static String id = 'onboarding_screen';
   const OnboardingScreen({Key? key}) : super(key: key);
 
   @override
@@ -35,7 +37,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   color: themeProvider.appTheme.greenColor,
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                setState(() {_currentIndex = 2;});
+              },
             ),
         ],
       ),
@@ -87,7 +91,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                          borderRadius: BorderRadius.circular(12),
                        ),
                      ),
-                     onPressed: () {},
+                     onPressed: () {
+                       Navigator.pushAndRemoveUntil<SightListScreen>(context,
+                         MaterialPageRoute<SightListScreen>(builder: (context) => const SightListScreen(null)),
+                         ModalRoute.withName(SightListScreen.id),
+                       );
+                     },
                    ),
                  ) else const SizedBox(height: 48,),
              ],
