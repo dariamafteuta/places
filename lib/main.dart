@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_job/theme_provider.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
+import 'package:flutter_job/ui/screens/new_place_screen/add_sight_screen.dart';
 import 'package:flutter_job/ui/screens/onboarding_screen.dart';
 import 'package:flutter_job/ui/screens/res/themes.dart';
 import 'package:flutter_job/ui/screens/settings_screen.dart';
@@ -23,13 +24,14 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: themeProvider.isLightTheme ? lightThemes : darkThemes,
       title: AppStrings.appTitle,
       debugShowCheckedModeBanner: false,
-      initialRoute: SplashScreen.id,
+      initialRoute: SightListScreen.id,
       routes: {
         SplashScreen.id: (context) => const SplashScreen(),
         OnboardingScreen.id: (context) => const OnboardingScreen(),

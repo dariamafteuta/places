@@ -226,8 +226,9 @@ class _AddSightScreenState extends State<AddSightScreen> {
               lat: double.parse(_latController.text),
               lon: double.parse(_lonController.text),
             ),
-            url:
-                ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKwIViXzr8IpPKK5ASHcPXyLdfo5yHtNjk9Q&usqp=CAU',],
+            url: [
+              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKwIViXzr8IpPKK5ASHcPXyLdfo5yHtNjk9Q&usqp=CAU',
+            ],
             details: _descriptionController.text,
             type: selectedCategory,
           ),

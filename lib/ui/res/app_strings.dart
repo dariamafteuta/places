@@ -69,4 +69,8 @@ class AppStrings {
   static const start = 'На старт';
   static const skip = 'Пропустить';
 
+  //new_place_image
+  static const camera = 'Камера';
+  static const photo = 'Фотография';
+  static const fail = 'Файл';
 }

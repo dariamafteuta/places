@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/res/app_colors.dart';
 
 LightTheme lightTheme = LightTheme();

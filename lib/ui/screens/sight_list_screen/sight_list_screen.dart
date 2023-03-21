@@ -13,7 +13,6 @@ import 'package:flutter_job/ui/screens/sight_list_screen/sight_card.dart';
 import 'package:flutter_job/ui/screens/sight_search_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-
 class SightListScreen extends StatefulWidget {
   static String id = 'sight_list_screen';
   final Iterable<Sight>? sight;
@@ -132,11 +131,14 @@ class _SightListScreenState extends State<SightListScreen> {
                         ),
                       ),
                     ),
-                   if (widget.sight == null) ...mocks.map(
-                      (e) => SightCard(UniqueKey(), e),
-                    ) else ...?widget.sight?.map(
-                         (e) => SightCard(UniqueKey(), e),
-                   ),
+                    if (widget.sight == null)
+                      ...mocks.map(
+                        (e) => SightCard(UniqueKey(), e),
+                      )
+                    else
+                      ...?widget.sight?.map(
+                        (e) => SightCard(UniqueKey(), e),
+                      ),
                   ],
                 );
               },

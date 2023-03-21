@@ -56,7 +56,7 @@ class _SightDetailsState extends State<SightDetails> {
                   ],
                 ),
               ),
-           ]),
+            ]),
           ),
         ],
       ),
@@ -69,8 +69,8 @@ class _BackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:  const EdgeInsets.all(8),
-      child:TextButton(
+      padding: const EdgeInsets.all(8),
+      child: TextButton(
         onPressed: () => Navigator.pop(context),
         child: SvgPicture.asset(
           AppAssets.arrow,

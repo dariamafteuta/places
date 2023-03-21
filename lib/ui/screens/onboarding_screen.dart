@@ -38,13 +38,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ),
               ),
               onPressed: () {
-                setState(() {_currentIndex = 2;});
+                setState(() {
+                  _currentIndex = 2;
+                });
               },
             ),
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24,),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 24,
+        ),
         child: Column(
           children: [
             Expanded(
@@ -56,51 +61,71 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   });
                 },
                 children: [
-                  Tutorial(icon: AppAssets.tutorial1Frame, tutorial: AppStrings.tutorial1, tutorial1: AppStrings.tutorial1_1,),
-                  Tutorial(icon: AppAssets.tutorial2Frame, tutorial: AppStrings.tutorial2, tutorial1: AppStrings.tutorial2_1,),
-                  Tutorial(icon: AppAssets.tutorial3Frame, tutorial: AppStrings.tutorial3, tutorial1: AppStrings.tutorial3_1,),
+                  Tutorial(
+                    icon: AppAssets.tutorial1Frame,
+                    tutorial: AppStrings.tutorial1,
+                    tutorial1: AppStrings.tutorial1_1,
+                  ),
+                  Tutorial(
+                    icon: AppAssets.tutorial2Frame,
+                    tutorial: AppStrings.tutorial2,
+                    tutorial1: AppStrings.tutorial2_1,
+                  ),
+                  Tutorial(
+                    icon: AppAssets.tutorial3Frame,
+                    tutorial: AppStrings.tutorial3,
+                    tutorial1: AppStrings.tutorial3_1,
+                  ),
                 ],
               ),
             ),
-           Column(
-             children: [
-               SmoothPageIndicator(
-                      controller: _controller,
-                      count: 3,
-                      effect: ExpandingDotsEffect(
-                        radius: 10,
-                        dotColor: themeProvider.appTheme.inactiveColor,
-                        activeDotColor: themeProvider.appTheme.greenColor,
+            Column(
+              children: [
+                SmoothPageIndicator(
+                  controller: _controller,
+                  count: 3,
+                  effect: ExpandingDotsEffect(
+                    radius: 10,
+                    dotColor: themeProvider.appTheme.inactiveColor,
+                    activeDotColor: themeProvider.appTheme.greenColor,
+                  ),
+                ),
+                sizedBox32H,
+                if (_currentIndex == 2)
+                  SizedBox(
+                    width: double.infinity,
+                    height: 48,
+                    child: TextButton(
+                      child: Text(
+                        AppStrings.start.toUpperCase(),
+                        style: appTypography.text14Regular
+                            .copyWith(color: themeProvider.appTheme.whiteColor),
                       ),
+                      style: TextButton.styleFrom(
+                        elevation: 0.0,
+                        backgroundColor: themeProvider.appTheme.greenColor,
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pushAndRemoveUntil<SightListScreen>(
+                          context,
+                          MaterialPageRoute<SightListScreen>(
+                            builder: (context) => const SightListScreen(null),
+                          ),
+                          ModalRoute.withName(SightListScreen.id),
+                        );
+                      },
                     ),
-               sizedBox32H,
-               if (_currentIndex == 2) SizedBox(
-                   width: double.infinity,
-                   height: 48,
-                   child: TextButton(
-                     child: Text(
-                       AppStrings.start.toUpperCase(),
-                       style: appTypography.text14Regular
-                           .copyWith(color: themeProvider.appTheme.whiteColor),
-                     ),
-                     style: TextButton.styleFrom(
-                       elevation: 0.0,
-                       backgroundColor: themeProvider.appTheme.greenColor,
-                       padding: const EdgeInsets.symmetric(vertical: 10),
-                       shape: RoundedRectangleBorder(
-                         borderRadius: BorderRadius.circular(12),
-                       ),
-                     ),
-                     onPressed: () {
-                       Navigator.pushAndRemoveUntil<SightListScreen>(context,
-                         MaterialPageRoute<SightListScreen>(builder: (context) => const SightListScreen(null)),
-                         ModalRoute.withName(SightListScreen.id),
-                       );
-                     },
-                   ),
-                 ) else const SizedBox(height: 48,),
-             ],
-           ),
+                  )
+                else
+                  const SizedBox(
+                    height: 48,
+                  ),
+              ],
+            ),
           ],
         ),
       ),
@@ -113,7 +138,12 @@ class Tutorial extends StatelessWidget {
   final String tutorial;
   final String tutorial1;
 
-  const Tutorial({Key? key, required this.icon, required this.tutorial, required this.tutorial1}) : super(key: key);
+  const Tutorial({
+    Key? key,
+    required this.icon,
+    required this.tutorial,
+    required this.tutorial1,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

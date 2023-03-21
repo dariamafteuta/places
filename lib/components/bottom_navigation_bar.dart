@@ -10,7 +10,8 @@ class BottomNavigation extends StatefulWidget {
   final int index;
 
   const BottomNavigation({
-    Key? key, required this.index,
+    Key? key,
+    required this.index,
   }) : super(key: key);
 
   @override
@@ -18,26 +19,35 @@ class BottomNavigation extends StatefulWidget {
 }
 
 class _BottomNavigationState extends State<BottomNavigation> {
-
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       onTap: (index) {
-        if(index == 0) {
-          Navigator.pushAndRemoveUntil<SightListScreen>(context,
-            MaterialPageRoute<SightListScreen>(builder: (context) => const SightListScreen(null)),
+        if (index == 0) {
+          Navigator.pushAndRemoveUntil<SightListScreen>(
+            context,
+            MaterialPageRoute<SightListScreen>(
+              builder: (context) => const SightListScreen(null),
+            ),
             ModalRoute.withName(SightListScreen.id),
           );
         }
-        if(index == 2) {
-          Navigator.pushAndRemoveUntil<VisitingScreen>(context,
-            MaterialPageRoute<VisitingScreen>(builder: (context) => const VisitingScreen()),
+        if (index == 2) {
+          Navigator.pushAndRemoveUntil<VisitingScreen>(
+            context,
+            MaterialPageRoute<VisitingScreen>(
+              builder: (context) => const VisitingScreen(),
+            ),
             ModalRoute.withName(VisitingScreen.id),
           );
         }
-        if(index == 3) {
-          Navigator.pushAndRemoveUntil<SettingsScreen>(context,
-            MaterialPageRoute<SettingsScreen>(builder: (context) => SettingsScreen(themeProvider: themeProvider)),
+        if (index == 3) {
+          Navigator.pushAndRemoveUntil<SettingsScreen>(
+            context,
+            MaterialPageRoute<SettingsScreen>(
+              builder: (context) =>
+                  SettingsScreen(themeProvider: themeProvider),
+            ),
             ModalRoute.withName(SettingsScreen.id),
           );
         }
