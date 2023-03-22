@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_job/theme_provider.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
-import 'package:flutter_job/ui/screens/new_place_screen/add_sight_screen.dart';
-import 'package:flutter_job/ui/screens/onboarding_screen.dart';
+import 'package:flutter_job/ui/screens/on_boarding_screen.dart';
 import 'package:flutter_job/ui/screens/res/themes.dart';
 import 'package:flutter_job/ui/screens/settings_screen.dart';
 import 'package:flutter_job/ui/screens/sight_list_screen/sight_list_screen.dart';
@@ -14,6 +13,7 @@ void main() {
 }
 
 final themeProvider = ThemeProvider();
+
 class App extends StatefulWidget {
   const App({
     Key? key,
@@ -24,20 +24,19 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: themeProvider.isLightTheme ? lightThemes : darkThemes,
       title: AppStrings.appTitle,
       debugShowCheckedModeBanner: false,
-      initialRoute: SightListScreen.id,
+      initialRoute: OnBoardingScreen.id,
       routes: {
-        SplashScreen.id: (context) => const SplashScreen(),
-        OnboardingScreen.id: (context) => const OnboardingScreen(),
-        SightListScreen.id: (context) => const SightListScreen(null),
-        VisitingScreen.id: (context) => const VisitingScreen(),
-        SettingsScreen.id: (context) => SettingsScreen(themeProvider: themeProvider),
+        SplashScreen.id: (_) => const SplashScreen(),
+        OnBoardingScreen.id: (_) => const OnBoardingScreen(),
+        SightListScreen.id: (_) => const SightListScreen(null),
+        VisitingScreen.id: (_) => const VisitingScreen(),
+        SettingsScreen.id: (_) => SettingsScreen(themeProvider: themeProvider),
       },
     );
   }

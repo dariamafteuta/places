@@ -9,7 +9,7 @@ import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/ui/screens/content.dart';
 import 'package:flutter_job/ui/screens/filters_screen.dart';
-import 'package:flutter_job/ui/screens/sight_details_screen/sight_details.dart';
+import 'package:flutter_job/ui/screens/sight_details_screen/sight_details_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 AppTypography appTypography = AppTypography();
@@ -106,7 +106,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                           Navigator.push<SightSearchScreen>(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const FiltersScreen(),
+                              builder: (_) => const FiltersScreen(),
                             ),
                           );
                         },
@@ -136,7 +136,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
               Expanded(
                 child: ListView.builder(
                   itemCount: 1,
-                  itemBuilder: (context, index) {
+                  itemBuilder: (_, index) {
                     return Column(
                       children: List.generate(searchResult.length, (index) {
                         return SearchResult(
@@ -200,7 +200,7 @@ class SearchResult extends StatelessWidget {
           Navigator.push<SearchResult>(
             context,
             MaterialPageRoute(
-              builder: (context) => SightDetails(sight: searchResult),
+              builder: (_) => SightDetailsScreen(sight: searchResult),
             ),
           );
           listSearch.add(searchResult);

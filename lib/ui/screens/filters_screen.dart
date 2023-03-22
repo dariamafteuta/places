@@ -197,7 +197,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                       Navigator.push<FiltersScreen>(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => SightListScreen(listOfPlaces),
+                          builder: (_) => SightListScreen(listOfPlaces),
                         ),
                       );
                     },

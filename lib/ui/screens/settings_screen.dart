@@ -7,7 +7,7 @@ import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/res/constants.dart';
-import 'package:flutter_job/ui/screens/onboarding_screen.dart';
+import 'package:flutter_job/ui/screens/on_boarding_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -73,7 +73,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     Navigator.push<SettingsScreen>(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const OnboardingScreen(),
+                        builder: (_) => const OnBoardingScreen(),
                       ),
                     );
                   },

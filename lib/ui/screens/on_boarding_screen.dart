@@ -11,15 +11,15 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 AppTypography appTypography = AppTypography();
 
-class OnboardingScreen extends StatefulWidget {
-  static String id = 'onboarding_screen';
-  const OnboardingScreen({Key? key}) : super(key: key);
+class OnBoardingScreen extends StatefulWidget {
+  static String id = 'on_boarding_screen';
+  const OnBoardingScreen({Key? key}) : super(key: key);
 
   @override
-  State<OnboardingScreen> createState() => _OnboardingScreenState();
+  State<OnBoardingScreen> createState() => _OnBoardingScreenState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen> {
+class _OnBoardingScreenState extends State<OnBoardingScreen> {
   final PageController _controller = PageController();
   int _currentIndex = 0;
 
@@ -85,7 +85,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   controller: _controller,
                   count: 3,
                   effect: ExpandingDotsEffect(
-                    radius: 10,
+                    radius: 8,
                     dotColor: themeProvider.appTheme.inactiveColor,
                     activeDotColor: themeProvider.appTheme.greenColor,
                   ),
@@ -113,7 +113,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         Navigator.pushAndRemoveUntil<SightListScreen>(
                           context,
                           MaterialPageRoute<SightListScreen>(
-                            builder: (context) => const SightListScreen(null),
+                            builder: (_) => const SightListScreen(null),
                           ),
                           ModalRoute.withName(SightListScreen.id),
                         );
@@ -155,7 +155,7 @@ class Tutorial extends StatelessWidget {
             icon,
             color: themeProvider.appTheme.mainWhiteColor,
           ),
-          sizedBox32H,
+          sizedBox42H,
           SizedBox(
             height: 58,
             width: 244,
@@ -172,7 +172,8 @@ class Tutorial extends StatelessWidget {
             width: 244,
             child: Text(
               tutorial1,
-              style: appTypography.textGreyInactive14Regular,
+              style: appTypography.text14Regular
+                  .copyWith(color: themeProvider.appTheme.secondary2Color),
               textAlign: TextAlign.center,
             ),
           ),
