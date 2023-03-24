@@ -26,6 +26,9 @@ class SightCardPlan extends StatefulWidget {
 AppTypography appTypography = AppTypography();
 
 class _SightCardPlanState extends State<SightCardPlan> {
+  String? month;
+  DateTime? _date;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -100,7 +103,77 @@ class _SightCardPlanState extends State<SightCardPlan> {
                             AppAssets.calendar,
                             color: themeProvider.appTheme.whiteColor,
                           ),
-                          onPressed: () {},
+                          onPressed: () async {
+                            final dataPicker = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(2000),
+                              lastDate: DateTime(2100),
+                              builder: (context, child) {
+                                return Theme(
+                                  data: Theme.of(context).copyWith(
+                                    colorScheme: ColorScheme.light(
+                                      primary: themeProvider.appTheme.mainBackgroundColor, // <-- SEE HERE
+                                      onPrimary: themeProvider.appTheme.whiteColor, // <-- SEE HERE
+                                      onSurface: themeProvider.appTheme.mainWhiteColor,
+                                    ),
+                                    dialogBackgroundColor: themeProvider.appTheme.whiteMainColor,
+                                    textButtonTheme: TextButtonThemeData(
+                                      style: TextButton.styleFrom(
+                                        primary: themeProvider.appTheme.mainWhiteColor, // button text color
+                                      ),
+                                    ),
+                                  ),
+                                  child: child!,
+                                );
+                              },
+                            );
+                            if (dataPicker != null) {
+                              setState(() {
+                                _date = dataPicker;
+                                if (_date?.month != null) {
+                                  switch (_date?.month) {
+                                    case 1:
+                                      month = 'января';
+                                      break;
+                                    case 2:
+                                      month = 'февраля';
+                                      break;
+                                    case 3:
+                                      month = 'марта';
+                                      break;
+                                    case 4:
+                                      month = 'апреля';
+                                      break;
+                                    case 5:
+                                      month = 'майя';
+                                      break;
+                                    case 6:
+                                      month = 'июня';
+                                      break;
+                                    case 7:
+                                      month = 'июля';
+                                      break;
+                                    case 8:
+                                      month = 'августа';
+                                      break;
+                                    case 9:
+                                      month = 'сентября';
+                                      break;
+                                    case 10:
+                                      month = 'октября';
+                                      break;
+                                    case 11:
+                                      month = 'ноября';
+                                      break;
+                                    case 12:
+                                      month = 'декабря';
+                                      break;
+                                  }
+                                }
+                              });
+                            }
+                          },
                         ),
                         CupertinoButton(
                           padding: const EdgeInsets.all(10),
@@ -161,7 +234,7 @@ class _SightCardPlanState extends State<SightCardPlan> {
                       ),
                       alignment: Alignment.topLeft,
                       child: Text(
-                        'Запланировано на 12 окт. 2022',
+                        _date == null ? 'Запланировано на ...' : 'Запланировано на ${_date?.day} $month ${_date?.year}',
                         style: appTypography.text14Regular
                             .copyWith(color: themeProvider.appTheme.greenColor),
                       ),
