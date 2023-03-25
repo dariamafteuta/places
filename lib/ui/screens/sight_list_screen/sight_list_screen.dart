@@ -13,8 +13,12 @@ import 'package:flutter_job/ui/screens/sight_list_screen/sight_card.dart';
 import 'package:flutter_job/ui/screens/sight_search_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+
 class SightListScreen extends StatefulWidget {
-  const SightListScreen({Key? key}) : super(key: key);
+  static String id = 'sight_list_screen';
+  final Iterable<Sight>? sight;
+
+  const SightListScreen(this.sight, {Key? key}) : super(key: key);
 
   @override
   State<SightListScreen> createState() => _SightListScreenState();
@@ -26,7 +30,7 @@ class _SightListScreenState extends State<SightListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: const BottomNavigation(),
+      bottomNavigationBar: const BottomNavigation(index: 0),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Container(
         decoration: BoxDecoration(
@@ -128,9 +132,11 @@ class _SightListScreenState extends State<SightListScreen> {
                         ),
                       ),
                     ),
-                    ...mocks.map(
+                   if (widget.sight == null) ...mocks.map(
                       (e) => SightCard(UniqueKey(), e),
-                    ),
+                    ) else ...?widget.sight?.map(
+                         (e) => SightCard(UniqueKey(), e),
+                   ),
                   ],
                 );
               },

@@ -1,14 +1,17 @@
 import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/domain/coordinate.dart';
+import 'package:flutter_job/domain/sight.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/mocks.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
+import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/ui/screens/content.dart';
+import 'package:flutter_job/ui/screens/sight_list_screen/sight_list_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class FiltersScreen extends StatefulWidget {
@@ -25,7 +28,7 @@ double start = 0.1;
 double end = 10;
 
 class _FiltersScreenState extends State<FiltersScreen> {
-  Iterable<String> listOfPlaces = mocks.map((e) => e.type);
+  Iterable<Sight> listOfPlaces = mocks.map((e) => e);
   Set<String> selectedType = {};
 
   @override
@@ -36,6 +39,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
         leading: CupertinoButton(
           child: SvgPicture.asset(
             AppAssets.arrow,
+            color: themeProvider.appTheme.mainWhiteColor,
           ),
           onPressed: () => Navigator.pop(context),
         ),
@@ -50,7 +54,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
             onPressed: () {
               setState(() {
                 selectedType.clear();
-                listOfPlaces = mocks.map((e) => e.type);
+                listOfPlaces = mocks.map((e) => e);
                 start = 0.1;
                 end = 10;
               });
@@ -189,7 +193,14 @@ class _FiltersScreenState extends State<FiltersScreen> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push<FiltersScreen>(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SightListScreen(listOfPlaces),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),
@@ -207,14 +218,14 @@ class _FiltersScreenState extends State<FiltersScreen> {
   }
 
   void addPlaces() {
-    final selectedPlaces = <String>[];
+    final selectedPlaces = <Sight>[];
 
     for (var i = 0; i < mocks.length; i++) {
       if (selectedType.contains(mocks[i].type) &&
           radius(mocks[i].coordinate, start, end)) {
-        selectedPlaces.add(mocks[i].name);
+        selectedPlaces.add(mocks[i]);
       } else {
-        selectedPlaces.remove(mocks[i].name);
+        selectedPlaces.remove(mocks[i]);
       }
     }
 
@@ -225,7 +236,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
     addPlaces();
   }
 
-  void setListOfPlaces(List<String> newList) {
+  void setListOfPlaces(List<Sight> newList) {
     setState(() {
       listOfPlaces = newList;
     });

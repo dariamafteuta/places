@@ -4,6 +4,8 @@ import 'package:flutter_job/domain/sight.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
+import 'package:flutter_job/ui/screens/sight_details_screen/sight_details.dart';
+import 'package:flutter_job/ui/screens/sight_list_screen/sight_list_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SightCard extends StatefulWidget {
@@ -29,7 +31,14 @@ class _SightCardState extends State<SightCard> {
         right: 16,
       ),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.push<SightListScreen>(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SightDetails(sight: widget.sight),
+            ),
+          );
+        },
         splashColor: themeProvider.appTheme.whiteMainColor.withOpacity(0.3),
         borderRadius: BorderRadius.circular(10),
         child: Column(

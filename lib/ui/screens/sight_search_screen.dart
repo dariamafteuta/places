@@ -43,6 +43,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
         leading: CupertinoButton(
           child: SvgPicture.asset(
             AppAssets.arrow,
+            color: themeProvider.appTheme.mainWhiteColor,
           ),
           onPressed: () => Navigator.pop(context),
         ),
@@ -79,7 +80,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
               cursorWidth: 1,
               cursorColor: themeProvider.appTheme.mainWhiteColor,
               style: appTypography.text14Regular.copyWith(
-                color: themeProvider.appTheme.mainColor,
+                color: themeProvider.appTheme.mainWhiteColor,
               ),
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.zero,

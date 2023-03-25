@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
+import 'package:flutter_job/ui/screens/onboarding_screen.dart';
 import 'package:flutter_svg/svg.dart';
 
 class SplashScreen extends StatefulWidget {
+  static String id = 'splash_screen';
   const SplashScreen({Key? key}) : super(key: key);
 
   @override
@@ -40,9 +42,13 @@ class _SplashScreenState extends State<SplashScreen> {
     final isInitialized =
         await Future<bool>.delayed(const Duration(seconds: 2), () => true);
     if (isInitialized) {
-      debugPrint('Переход на следующий экран');
+      _navigation();
     } else {
       debugPrint('Ошибка');
     }
+  }
+
+  void _navigation() {
+    Navigator.pushNamed(context, OnboardingScreen.id);
   }
 }
