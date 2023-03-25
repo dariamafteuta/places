@@ -19,6 +19,7 @@ abstract class BaseTheme {
   Color get secondaryWhiteColor;
   Color get secondary2WhiteColor;
   Color get whiteMainColor;
+  Color get mainBackgroundColor;
 
   Color get transparentColor;
 
@@ -57,6 +58,8 @@ class LightTheme implements BaseTheme {
   Color secondary2WhiteColor = const Color.fromRGBO(123, 125, 146, 1.0);
   @override
   Color whiteMainColor = const Color.fromRGBO(255, 255, 255, 1.0);
+  @override
+  Color mainBackgroundColor = const Color.fromRGBO(42, 44, 76, 1.0);
 
   @override
   Color transparentColor = Colors.transparent;
@@ -97,6 +100,8 @@ class DarkTheme extends BaseTheme{
   Color secondary2WhiteColor = const Color.fromRGBO(255, 255, 255, 1.0);
   @override
   Color whiteMainColor = const Color.fromRGBO(38, 39, 48, 1.0);
+  @override
+  Color mainBackgroundColor = const Color.fromRGBO(31, 32, 37, 1.0);
 
   @override
   Color transparentColor = Colors.transparent;
