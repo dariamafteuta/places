@@ -23,11 +23,16 @@ class CardDeleteBackground extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SvgPicture.asset(AppAssets.bucket, color: themeProvider.appTheme.whiteColor,),
+              SvgPicture.asset(
+                AppAssets.bucket,
+                color: themeProvider.appTheme.whiteColor,
+              ),
               sizedBox10H,
               Text(
                 AppStrings.delete,
-                style: appTypography.text14Bold.copyWith(color: themeProvider.appTheme.whiteColor,),
+                style: appTypography.text14Bold.copyWith(
+                  color: themeProvider.appTheme.whiteColor,
+                ),
               ),
             ],
           ),

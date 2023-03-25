@@ -69,7 +69,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
         ),
         child: Column(
           children: [
-           const Content(content: AppStrings.categories),
+            const Content(content: AppStrings.categories),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -197,7 +197,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                       Navigator.push<FiltersScreen>(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => SightListScreen(listOfPlaces),
+                          builder: (_) => SightListScreen(listOfPlaces),
                         ),
                       );
                     },

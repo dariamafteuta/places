@@ -39,6 +39,8 @@ const sizedBox24H = SizedBox(height: 24);
 
 const sizedBox32H = SizedBox(height: 32);
 
+const sizedBox42H = SizedBox(height: 42);
+
 const sizedBox60H = SizedBox(height: 60);
 
 

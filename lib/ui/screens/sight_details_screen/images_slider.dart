@@ -4,7 +4,13 @@ import 'package:flutter_job/main.dart';
 
 class ImagesSlider extends StatefulWidget {
   final Sight sight;
-  const ImagesSlider({Key? key, required this.sight}) : super(key: key);
+  final double borderRadius;
+
+  const ImagesSlider({
+    Key? key,
+    required this.sight,
+    required this.borderRadius,
+  }) : super(key: key);
 
   @override
   State<ImagesSlider> createState() => _ImagesSliderState();
@@ -28,11 +34,14 @@ class _ImagesSliderState extends State<ImagesSlider> {
               });
             },
             itemCount: widget.sight.url.length,
-            itemBuilder: (context, index) {
-              return SizedBox(
+            itemBuilder: (_, index) {
+              return ClipRRect(
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(widget.borderRadius),
+                ),
                 child: Image.network(
                   widget.sight.url[index],
-                  loadingBuilder: (context, child, loadingProgress) =>
+                  loadingBuilder: (_, child, loadingProgress) =>
                       loadingProgress == null
                           ? child
                           : CupertinoActivityIndicator(

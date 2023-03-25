@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
-import 'package:flutter_job/ui/screens/onboarding_screen.dart';
+import 'package:flutter_job/ui/screens/on_boarding_screen.dart';
 import 'package:flutter_svg/svg.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -49,6 +49,6 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _navigation() {
-    Navigator.pushNamed(context, OnboardingScreen.id);
+    Navigator.pushNamed(context, OnBoardingScreen.id);
   }
 }

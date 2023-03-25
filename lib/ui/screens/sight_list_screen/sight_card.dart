@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_job/components/bottom_sheet_details.dart';
 import 'package:flutter_job/domain/sight.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
-import 'package:flutter_job/ui/screens/sight_details_screen/sight_details.dart';
 import 'package:flutter_job/ui/screens/sight_list_screen/sight_list_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -32,11 +32,16 @@ class _SightCardState extends State<SightCard> {
       ),
       child: InkWell(
         onTap: () {
-          Navigator.push<SightListScreen>(
-            context,
-            MaterialPageRoute(
-              builder: (context) => SightDetails(sight: widget.sight),
-            ),
+          showModalBottomSheet<SightListScreen>(
+            isScrollControlled: true,
+            isDismissible: false,
+            context: context,
+            backgroundColor: themeProvider.appTheme.transparentColor,
+            builder: (_) {
+              return BottomSheetDetails(
+                sight: widget.sight,
+              );
+            },
           );
         },
         splashColor: themeProvider.appTheme.whiteMainColor.withOpacity(0.3),

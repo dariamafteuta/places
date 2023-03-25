@@ -59,14 +59,18 @@ class AppStrings {
   //categories
   static const save = 'Сохранить';
 
-  //onboarding_screen
-  static const tutorial1 = 'Добро пожаловать в Путеводитель';
+  //on_boarding_screen
+  static const tutorial1 = 'Добро пожаловать\nв Путеводитель';
   static const tutorial1_1 = 'Ищи новые локации и сохраняй самые любимые.';
-  static const tutorial2 = 'Построй маршрути отправляйся в путь';
-  static const tutorial2_1 = 'Достигай цели максимальнобыстро и комфортно.';
+  static const tutorial2 = 'Построй маршрут\nи отправляйся в путь';
+  static const tutorial2_1 = 'Достигай цели максимально\nбыстро и комфортно.';
   static const tutorial3 = 'Добавляй места, которые нашёл сам';
-  static const tutorial3_1 = 'Делись самыми интересными помоги нам стать лучше!';
+  static const tutorial3_1 = 'Делись самыми интересными\nи помоги нам стать лучше!';
   static const start = 'На старт';
   static const skip = 'Пропустить';
 
+  //new_place_image
+  static const camera = 'Камера';
+  static const photo = 'Фотография';
+  static const fail = 'Файл';
 }

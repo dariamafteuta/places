@@ -1,10 +1,12 @@
 import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/mocks.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
+import 'package:flutter_job/ui/res/app_strings.dart';
+import 'package:flutter_job/ui/res/constants.dart';
+import 'package:flutter_job/ui/screens/new_place_screen/add_sight_screen.dart';
 import 'package:flutter_svg/svg.dart';
 
 class NewImage extends StatefulWidget {
@@ -31,6 +33,102 @@ class _NewImageState extends State<NewImage> {
                 randomIndex();
                 listUrlImage.add(mocks[index].url[0]);
               });
+              showModalBottomSheet<AddSightScreen>(
+                context: context,
+                backgroundColor: themeProvider.appTheme.transparentColor,
+                builder: (_) {
+                  return Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          child: Column(
+                            children: [
+                              ListTile(
+                                title: Text(
+                                  AppStrings.camera,
+                                  style: appTypography.text16Bold.copyWith(
+                                    color: themeProvider
+                                        .appTheme.secondary2WhiteColor,
+                                  ),
+                                ),
+                                leading: SvgPicture.asset(
+                                  AppAssets.camera,
+                                  color: themeProvider
+                                      .appTheme.secondary2WhiteColor,
+                                ),
+                                onTap: () {},
+                              ),
+                              divider,
+                              ListTile(
+                                title: Text(
+                                  AppStrings.photo,
+                                  style: appTypography.text16Bold.copyWith(
+                                    color: themeProvider
+                                        .appTheme.secondary2WhiteColor,
+                                  ),
+                                ),
+                                leading: SvgPicture.asset(
+                                  AppAssets.photo,
+                                  color: themeProvider
+                                      .appTheme.secondary2WhiteColor,
+                                ),
+                                onTap: () {},
+                              ),
+                              divider,
+                              ListTile(
+                                title: Text(
+                                  AppStrings.fail,
+                                  style: appTypography.text16Bold.copyWith(
+                                    color: themeProvider
+                                        .appTheme.secondary2WhiteColor,
+                                  ),
+                                ),
+                                leading: SvgPicture.asset(
+                                  AppAssets.fail,
+                                  color: themeProvider
+                                      .appTheme.secondary2WhiteColor,
+                                ),
+                                onTap: () {},
+                              ),
+                            ],
+                          ),
+                          decoration: BoxDecoration(
+                            color: themeProvider.appTheme.whiteMainColor,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        sizedBox8H,
+                        SizedBox(
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                              AppStrings.cancel.toUpperCase(),
+                              style: appTypography.text16Bold.copyWith(
+                                color: themeProvider.appTheme.greenColor,
+                              ),
+                            ),
+                            style: TextButton.styleFrom(
+                              elevation: 0.0,
+                              backgroundColor:
+                                  themeProvider.appTheme.whiteMainColor,
+                              padding: const EdgeInsets.symmetric(vertical: 15),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                          ),
+                          width: double.infinity,
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
             },
             child: Container(
               width: 72,
