@@ -67,7 +67,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
           vertical: 24,
           horizontal: 16,
         ),
-        child: Column(
+        child: ListView(
           children: [
             const Content(content: AppStrings.categories),
             Row(
@@ -173,36 +173,32 @@ class _FiltersScreenState extends State<FiltersScreen> {
                 ),
               ],
             ),
-            Expanded(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  width: double.infinity,
-                  height: 48,
-                  child: TextButton(
-                    child: Text(
-                      '${AppStrings.show} (${listOfPlaces.length})',
-                      style: appTypography.text14Regular
-                          .copyWith(color: themeProvider.appTheme.whiteColor),
-                    ),
-                    style: TextButton.styleFrom(
-                      elevation: 0.0,
-                      backgroundColor: themeProvider.appTheme.greenColor,
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.push<FiltersScreen>(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => SightListScreen(listOfPlaces),
-                        ),
-                      );
-                    },
+            sizedBox24H,
+            SizedBox(
+              width: double.infinity,
+              height: 48,
+              child: TextButton(
+                child: Text(
+                  '${AppStrings.show} (${listOfPlaces.length})',
+                  style: appTypography.text14Regular
+                      .copyWith(color: themeProvider.appTheme.whiteColor),
+                ),
+                style: TextButton.styleFrom(
+                  elevation: 0.0,
+                  backgroundColor: themeProvider.appTheme.greenColor,
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
                   ),
                 ),
+                onPressed: () {
+                  Navigator.push<FiltersScreen>(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => SightListScreen(listOfPlaces),
+                    ),
+                  );
+                },
               ),
             ),
           ],
