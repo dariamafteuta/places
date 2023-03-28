@@ -28,6 +28,22 @@ double start = 0.1;
 double end = 10;
 
 class _FiltersScreenState extends State<FiltersScreen> {
+  List<String> listStrings = [
+    AppStrings.hotel,
+    AppStrings.restaurant,
+    AppStrings.particularPlace,
+    AppStrings.park,
+    AppStrings.museum,
+    AppStrings.cafe,
+  ];
+  List<String> listImages = [
+    AppAssets.hotelWhite,
+    AppAssets.restaurantWhite,
+    AppAssets.particularPlaceWhite,
+    AppAssets.parkWhite,
+    AppAssets.museumWhite,
+    AppAssets.cafeWhite,
+  ];
   Iterable<Sight> listOfPlaces = mocks.map((e) => e);
   Set<String> selectedType = {};
 
@@ -70,67 +86,51 @@ class _FiltersScreenState extends State<FiltersScreen> {
         child: ListView(
           children: [
             const Content(content: AppStrings.categories),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Column(
-                  children: [
-                    CategoryPlace(
-                      isSelected: selectedType.contains(AppStrings.cafe),
-                      image: AppAssets.cafeWhite,
-                      type: AppStrings.cafe,
+            if (MediaQuery.of(context).size.width > 320)
+              GridView.count(
+                crossAxisCount: 3,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                children: List.generate(6, (index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 24, bottom: 16),
+                    child: CategoryPlace(
+                      isSelected: selectedType.contains(listStrings[index]),
+                      image: listImages[index],
+                      type: listStrings[index],
                       setSelectedType: setSelectedType,
                       removePlace: removePlace,
                     ),
-                    CategoryPlace(
-                      isSelected: selectedType.contains(AppStrings.hotel),
-                      image: AppAssets.hotelWhite,
-                      type: AppStrings.hotel,
-                      setSelectedType: setSelectedType,
-                      removePlace: removePlace,
-                    ),
-                  ],
+                  );
+                }),
+              )
+            else
+              SizedBox(
+                height: 140,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: listStrings.length,
+                  itemBuilder: (_, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 24,
+                      ),
+                      child: CategoryPlace(
+                        isSelected: selectedType.contains(listStrings[index]),
+                        image: listImages[index],
+                        type: listStrings[index],
+                        setSelectedType: setSelectedType,
+                        removePlace: removePlace,
+                      ),
+                    );
+                  },
                 ),
-                Column(
-                  children: [
-                    CategoryPlace(
-                      isSelected: selectedType.contains(AppStrings.park),
-                      image: AppAssets.parkWhite,
-                      type: AppStrings.park,
-                      setSelectedType: setSelectedType,
-                      removePlace: removePlace,
-                    ),
-                    CategoryPlace(
-                      isSelected: selectedType.contains(AppStrings.restaurant),
-                      image: AppAssets.restaurantWhite,
-                      type: AppStrings.restaurant,
-                      setSelectedType: setSelectedType,
-                      removePlace: removePlace,
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    CategoryPlace(
-                      isSelected:
-                          selectedType.contains(AppStrings.particularPlace),
-                      image: AppAssets.particularPlaceWhite,
-                      type: AppStrings.particularPlace,
-                      setSelectedType: setSelectedType,
-                      removePlace: removePlace,
-                    ),
-                    CategoryPlace(
-                      isSelected: selectedType.contains(AppStrings.museum),
-                      image: AppAssets.museumWhite,
-                      type: AppStrings.museum,
-                      setSelectedType: setSelectedType,
-                      removePlace: removePlace,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            sizedBox60H,
+              ),
+            if (MediaQuery.of(context).size.width > 320)
+              sizedBox60H
+            else
+              sizedBox2H,
             Column(
               children: [
                 Row(
@@ -283,44 +283,48 @@ class CategoryPlace extends StatefulWidget {
 class _CategoryPlaceState extends State<CategoryPlace> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        CupertinoButton(
-          child: !widget.isSelected
-              ? SvgPicture.asset(widget.image)
-              : SizedBox(
-                  height: 64,
-                  width: 64,
-                  child: Stack(
-                    children: [
-                      SvgPicture.asset(widget.image),
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: SvgPicture.asset(
-                          AppAssets.tickChoice,
-                        ),
-                      ),
-                    ],
+    return InkWell(
+      highlightColor: themeProvider.appTheme.transparentColor,
+      splashColor: themeProvider.appTheme.transparentColor,
+      onTap: () {
+        setState(() {
+          final isSelected = !widget.isSelected;
+          if (isSelected) {
+            widget.setSelectedType(widget.type);
+          } else {
+            widget.removePlace(widget.type);
+          }
+        });
+      },
+      child: Column(
+        children: [
+          if (!widget.isSelected)
+            SvgPicture.asset(widget.image)
+          else
+            SizedBox(
+              height: 64,
+              width: 64,
+              child: Stack(
+                children: [
+                  SvgPicture.asset(widget.image),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: SvgPicture.asset(
+                      AppAssets.tickChoice,
+                    ),
                   ),
-                ),
-          onPressed: () {
-            setState(() {
-              final isSelected = !widget.isSelected;
-              if (isSelected) {
-                widget.setSelectedType(widget.type);
-              } else {
-                widget.removePlace(widget.type);
-              }
-            });
-          },
-        ),
-        Text(
-          widget.type,
-          style: appTypography.text14Regular.copyWith(
-            color: themeProvider.appTheme.secondaryWhiteColor,
+                ],
+              ),
+            ),
+          sizedBox12H,
+          Text(
+            widget.type,
+            style: appTypography.text14Regular.copyWith(
+              color: themeProvider.appTheme.secondaryWhiteColor,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
