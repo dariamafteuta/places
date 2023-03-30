@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job/components/bottom_sheet_details.dart';
@@ -5,9 +6,12 @@ import 'package:flutter_job/components/card_delete_background.dart';
 import 'package:flutter_job/domain/sight.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
+import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/screens/visiting_screen/visiting_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+AppTypography appTypography = AppTypography();
 
 class SightCardPlan extends StatefulWidget {
   final Sight sight;
@@ -22,8 +26,6 @@ class SightCardPlan extends StatefulWidget {
   @override
   State<SightCardPlan> createState() => _SightCardPlanState();
 }
-
-AppTypography appTypography = AppTypography();
 
 class _SightCardPlanState extends State<SightCardPlan> {
   String? month;
@@ -104,75 +106,12 @@ class _SightCardPlanState extends State<SightCardPlan> {
                             color: themeProvider.appTheme.whiteColor,
                           ),
                           onPressed: () async {
-                            final dataPicker = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(2000),
-                              lastDate: DateTime(2100),
-                              builder: (context, child) {
-                                return Theme(
-                                  data: Theme.of(context).copyWith(
-                                    colorScheme: ColorScheme.light(
-                                      primary: themeProvider.appTheme.mainBackgroundColor, // <-- SEE HERE
-                                      onPrimary: themeProvider.appTheme.whiteColor, // <-- SEE HERE
-                                      onSurface: themeProvider.appTheme.mainWhiteColor,
-                                    ),
-                                    dialogBackgroundColor: themeProvider.appTheme.whiteMainColor,
-                                    textButtonTheme: TextButtonThemeData(
-                                      style: TextButton.styleFrom(
-                                        primary: themeProvider.appTheme.mainWhiteColor, // button text color
-                                      ),
-                                    ),
-                                  ),
-                                  child: child!,
-                                );
-                              },
-                            );
-                            if (dataPicker != null) {
-                              setState(() {
-                                _date = dataPicker;
-                                if (_date?.month != null) {
-                                  switch (_date?.month) {
-                                    case 1:
-                                      month = 'января';
-                                      break;
-                                    case 2:
-                                      month = 'февраля';
-                                      break;
-                                    case 3:
-                                      month = 'марта';
-                                      break;
-                                    case 4:
-                                      month = 'апреля';
-                                      break;
-                                    case 5:
-                                      month = 'майя';
-                                      break;
-                                    case 6:
-                                      month = 'июня';
-                                      break;
-                                    case 7:
-                                      month = 'июля';
-                                      break;
-                                    case 8:
-                                      month = 'августа';
-                                      break;
-                                    case 9:
-                                      month = 'сентября';
-                                      break;
-                                    case 10:
-                                      month = 'октября';
-                                      break;
-                                    case 11:
-                                      month = 'ноября';
-                                      break;
-                                    case 12:
-                                      month = 'декабря';
-                                      break;
-                                  }
-                                }
-                              });
-                            }
+                            final dataPicker = Platform.isAndroid
+                                ? iosPicker()
+                                : androidPicker();
+                            setState(() {
+                              _date = dataPicker as DateTime?;
+                            });
                           },
                         ),
                         CupertinoButton(
@@ -234,7 +173,9 @@ class _SightCardPlanState extends State<SightCardPlan> {
                       ),
                       alignment: Alignment.topLeft,
                       child: Text(
-                        _date == null ? 'Запланировано на ...' : 'Запланировано на ${_date?.day} $month ${_date?.year}',
+                        _date == null
+                            ? AppStrings.scheduledFor
+                            : 'Запланировано на ${_date?.day} ${_date?.month} ${_date?.year}',
                         style: appTypography.text14Regular
                             .copyWith(color: themeProvider.appTheme.greenColor),
                       ),
@@ -244,6 +185,71 @@ class _SightCardPlanState extends State<SightCardPlan> {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> androidPicker() {
+    return showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: themeProvider.appTheme.greenColor, // <-- SEE HERE
+              onPrimary: themeProvider.appTheme.whiteColor, // <-- SEE HERE
+              onSurface: themeProvider.appTheme.mainWhiteColor,
+            ),
+            dialogBackgroundColor: themeProvider.appTheme.whiteMainColor,
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                primary:
+                    themeProvider.appTheme.mainWhiteColor, // button text color
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+  }
+
+  Future<void> iosPicker() async {
+    return showCupertinoModalPopup(
+      context: context,
+      builder: (_) => Container(
+        height: 260,
+        color: const Color.fromARGB(255, 255, 255, 255),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 200,
+              child: CupertinoDatePicker(
+                initialDateTime: DateTime.now(),
+                minimumDate: DateTime(2000),
+                maximumDate: DateTime(2100),
+                mode: CupertinoDatePickerMode.date,
+                onDateTimeChanged: (val) {
+                  setState(() {
+                    _date = val;
+                  });
+                },
+              ),
+            ),
+            CupertinoButton(
+              child: Text(
+                AppStrings.save,
+                style: TextStyle(
+                  color: themeProvider.appTheme.greenColor,
+                ),
+              ),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ],
         ),
       ),
     );

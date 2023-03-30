@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
-import 'package:flutter_job/ui/screens/settings_screen.dart';
-import 'package:flutter_job/ui/screens/sight_list_screen/sight_list_screen.dart';
-import 'package:flutter_job/ui/screens/visiting_screen/visiting_screen.dart';
+import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class BottomNavigation extends StatefulWidget {
@@ -24,32 +22,13 @@ class _BottomNavigationState extends State<BottomNavigation> {
     return BottomNavigationBar(
       onTap: (index) {
         if (index == 0) {
-          Navigator.pushAndRemoveUntil<SightListScreen>(
-            context,
-            MaterialPageRoute<SightListScreen>(
-              builder: (context) => const SightListScreen(null),
-            ),
-            ModalRoute.withName(SightListScreen.id),
-          );
+          AppNavigation.goToSightList(context, null);
         }
         if (index == 2) {
-          Navigator.pushAndRemoveUntil<VisitingScreen>(
-            context,
-            MaterialPageRoute<VisitingScreen>(
-              builder: (context) => const VisitingScreen(),
-            ),
-            ModalRoute.withName(VisitingScreen.id),
-          );
+          AppNavigation.goToVisiting(context);
         }
         if (index == 3) {
-          Navigator.pushAndRemoveUntil<SettingsScreen>(
-            context,
-            MaterialPageRoute<SettingsScreen>(
-              builder: (context) =>
-                  SettingsScreen(themeProvider: themeProvider),
-            ),
-            ModalRoute.withName(SettingsScreen.id),
-          );
+          AppNavigation.goToSettings(context, themeProvider);
         }
       },
       items: [

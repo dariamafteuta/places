@@ -14,7 +14,6 @@ import 'package:flutter_svg/svg.dart';
 AppTypography appTypography = AppTypography();
 
 class VisitingScreen extends StatefulWidget {
-  static String id = 'visiting_screen';
   const VisitingScreen({Key? key}) : super(key: key);
 
   @override

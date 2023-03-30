@@ -14,6 +14,10 @@ import 'package:flutter_job/ui/screens/content.dart';
 import 'package:flutter_job/ui/screens/sight_list_screen/sight_list_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+AppTypography appTypography = AppTypography();
+double start = 0.1;
+double end = 10;
+
 class FiltersScreen extends StatefulWidget {
   const FiltersScreen({
     Key? key,
@@ -23,16 +27,31 @@ class FiltersScreen extends StatefulWidget {
   State<FiltersScreen> createState() => _FiltersScreenState();
 }
 
-AppTypography appTypography = AppTypography();
-double start = 0.1;
-double end = 10;
-
 class _FiltersScreenState extends State<FiltersScreen> {
+  List<String> listType = [
+    AppStrings.hotel,
+    AppStrings.restaurant,
+    AppStrings.particularPlace,
+    AppStrings.park,
+    AppStrings.museum,
+    AppStrings.cafe,
+  ];
+  List<String> listImages = [
+    AppAssets.hotelWhite,
+    AppAssets.restaurantWhite,
+    AppAssets.particularPlaceWhite,
+    AppAssets.parkWhite,
+    AppAssets.museumWhite,
+    AppAssets.cafeWhite,
+  ];
+
   Iterable<Sight> listOfPlaces = mocks.map((e) => e);
   Set<String> selectedType = {};
 
   @override
   Widget build(BuildContext context) {
+    final largeScreenSize = MediaQuery.of(context).size.width > 320;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -67,70 +86,31 @@ class _FiltersScreenState extends State<FiltersScreen> {
           vertical: 24,
           horizontal: 16,
         ),
-        child: Column(
+        child: ListView(
           children: [
             const Content(content: AppStrings.categories),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Column(
-                  children: [
-                    CategoryPlace(
-                      isSelected: selectedType.contains(AppStrings.cafe),
-                      image: AppAssets.cafeWhite,
-                      type: AppStrings.cafe,
+            SizedBox(
+              height: largeScreenSize ? null : 140,
+              child: GridView.count(
+                crossAxisCount: largeScreenSize ? 3 : 1,
+                shrinkWrap: true,
+                scrollDirection:
+                    largeScreenSize ? Axis.vertical : Axis.horizontal,
+                children: List.generate(listType.length, (index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 24, bottom: 16),
+                    child: CategoryPlace(
+                      isSelected: selectedType.contains(listType[index]),
+                      image: listImages[index],
+                      type: listType[index],
                       setSelectedType: setSelectedType,
                       removePlace: removePlace,
                     ),
-                    CategoryPlace(
-                      isSelected: selectedType.contains(AppStrings.hotel),
-                      image: AppAssets.hotelWhite,
-                      type: AppStrings.hotel,
-                      setSelectedType: setSelectedType,
-                      removePlace: removePlace,
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    CategoryPlace(
-                      isSelected: selectedType.contains(AppStrings.park),
-                      image: AppAssets.parkWhite,
-                      type: AppStrings.park,
-                      setSelectedType: setSelectedType,
-                      removePlace: removePlace,
-                    ),
-                    CategoryPlace(
-                      isSelected: selectedType.contains(AppStrings.restaurant),
-                      image: AppAssets.restaurantWhite,
-                      type: AppStrings.restaurant,
-                      setSelectedType: setSelectedType,
-                      removePlace: removePlace,
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    CategoryPlace(
-                      isSelected:
-                          selectedType.contains(AppStrings.particularPlace),
-                      image: AppAssets.particularPlaceWhite,
-                      type: AppStrings.particularPlace,
-                      setSelectedType: setSelectedType,
-                      removePlace: removePlace,
-                    ),
-                    CategoryPlace(
-                      isSelected: selectedType.contains(AppStrings.museum),
-                      image: AppAssets.museumWhite,
-                      type: AppStrings.museum,
-                      setSelectedType: setSelectedType,
-                      removePlace: removePlace,
-                    ),
-                  ],
-                ),
-              ],
+                  );
+                }),
+              ),
             ),
-            sizedBox60H,
+            if (largeScreenSize) sizedBox60H else sizedBox2H,
             Column(
               children: [
                 Row(
@@ -173,36 +153,32 @@ class _FiltersScreenState extends State<FiltersScreen> {
                 ),
               ],
             ),
-            Expanded(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  width: double.infinity,
-                  height: 48,
-                  child: TextButton(
-                    child: Text(
-                      '${AppStrings.show} (${listOfPlaces.length})',
-                      style: appTypography.text14Regular
-                          .copyWith(color: themeProvider.appTheme.whiteColor),
-                    ),
-                    style: TextButton.styleFrom(
-                      elevation: 0.0,
-                      backgroundColor: themeProvider.appTheme.greenColor,
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.push<FiltersScreen>(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => SightListScreen(listOfPlaces),
-                        ),
-                      );
-                    },
+            sizedBox24H,
+            SizedBox(
+              width: double.infinity,
+              height: 48,
+              child: TextButton(
+                child: Text(
+                  '${AppStrings.show} (${listOfPlaces.length})',
+                  style: appTypography.text14Regular
+                      .copyWith(color: themeProvider.appTheme.whiteColor),
+                ),
+                style: TextButton.styleFrom(
+                  elevation: 0.0,
+                  backgroundColor: themeProvider.appTheme.greenColor,
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
                   ),
                 ),
+                onPressed: () {
+                  Navigator.push<FiltersScreen>(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => SightListScreen(listOfPlaces),
+                    ),
+                  );
+                },
               ),
             ),
           ],
@@ -287,44 +263,48 @@ class CategoryPlace extends StatefulWidget {
 class _CategoryPlaceState extends State<CategoryPlace> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        CupertinoButton(
-          child: !widget.isSelected
-              ? SvgPicture.asset(widget.image)
-              : SizedBox(
-                  height: 64,
-                  width: 64,
-                  child: Stack(
-                    children: [
-                      SvgPicture.asset(widget.image),
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: SvgPicture.asset(
-                          AppAssets.tickChoice,
-                        ),
-                      ),
-                    ],
+    return InkWell(
+      highlightColor: themeProvider.appTheme.transparentColor,
+      splashColor: themeProvider.appTheme.transparentColor,
+      onTap: () {
+        setState(() {
+          final isSelected = !widget.isSelected;
+          if (isSelected) {
+            widget.setSelectedType(widget.type);
+          } else {
+            widget.removePlace(widget.type);
+          }
+        });
+      },
+      child: Column(
+        children: [
+          if (!widget.isSelected)
+            SvgPicture.asset(widget.image)
+          else
+            SizedBox(
+              height: 64,
+              width: 64,
+              child: Stack(
+                children: [
+                  SvgPicture.asset(widget.image),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: SvgPicture.asset(
+                      AppAssets.tickChoice,
+                    ),
                   ),
-                ),
-          onPressed: () {
-            setState(() {
-              final isSelected = !widget.isSelected;
-              if (isSelected) {
-                widget.setSelectedType(widget.type);
-              } else {
-                widget.removePlace(widget.type);
-              }
-            });
-          },
-        ),
-        Text(
-          widget.type,
-          style: appTypography.text14Regular.copyWith(
-            color: themeProvider.appTheme.secondaryWhiteColor,
+                ],
+              ),
+            ),
+          sizedBox12H,
+          Text(
+            widget.type,
+            style: appTypography.text14Regular.copyWith(
+              color: themeProvider.appTheme.secondaryWhiteColor,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

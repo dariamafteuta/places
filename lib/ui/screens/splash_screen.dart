@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
-import 'package:flutter_job/ui/screens/on_boarding_screen.dart';
+import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_svg/svg.dart';
 
 class SplashScreen extends StatefulWidget {
-  static String id = 'splash_screen';
   const SplashScreen({Key? key}) : super(key: key);
 
   @override
@@ -49,6 +48,6 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _navigation() {
-    Navigator.pushNamed(context, OnBoardingScreen.id);
+    Navigator.pushNamed(context, AppNavigation.onBoardingScreen);
   }
 }

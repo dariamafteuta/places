@@ -22,9 +22,11 @@ class AppStrings {
   static const visited = 'Посетил';
   static const favorites = 'Избранное';
   static const blank = 'Пусто';
-  static const favoritesPlace = 'Отмечайте понравившиеся\nместа и они появятся здесь.';
+  static const favoritesPlace =
+      'Отмечайте понравившиеся\nместа и они появятся здесь.';
   static const completedRoute = 'Завершите маршрут,\nчтобы место попало сюда.';
   static const delete = 'Удалить';
+  static const scheduledFor = 'Запланировано на ...';
 
   //filter_screen
   static const cafe = 'Кафе';
@@ -65,7 +67,8 @@ class AppStrings {
   static const tutorial2 = 'Построй маршрут\nи отправляйся в путь';
   static const tutorial2_1 = 'Достигай цели максимально\nбыстро и комфортно.';
   static const tutorial3 = 'Добавляй места, которые нашёл сам';
-  static const tutorial3_1 = 'Делись самыми интересными\nи помоги нам стать лучше!';
+  static const tutorial3_1 =
+      'Делись самыми интересными\nи помоги нам стать лучше!';
   static const start = 'На старт';
   static const skip = 'Пропустить';
 

@@ -4,11 +4,13 @@ import 'package:flutter_job/components/bottom_navigation_bar.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/theme_provider.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
+import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/res/constants.dart';
-import 'package:flutter_job/ui/screens/on_boarding_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+AppTypography appTypography = AppTypography();
 
 class SettingsScreen extends StatefulWidget {
   static String id = 'settings_screen';
@@ -24,8 +26,6 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  AppTypography appTypography = AppTypography();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,12 +70,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 CupertinoButton(
                   padding: EdgeInsets.zero,
                   onPressed: () {
-                    Navigator.push<SettingsScreen>(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const OnBoardingScreen(),
-                      ),
-                    );
+                    AppNavigation.goToOnBoarding(context);
                   },
                   child: Text(
                     AppStrings.watchTutorial,

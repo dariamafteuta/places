@@ -9,6 +9,8 @@ import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/screens/visiting_screen/visiting_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+AppTypography appTypography = AppTypography();
+
 class SightCardVisited extends StatefulWidget {
   final Sight sight;
   final Function(Sight) visitedRemoveSight;
@@ -22,8 +24,6 @@ class SightCardVisited extends StatefulWidget {
   @override
   State<SightCardVisited> createState() => _SightCardVisitedState();
 }
-
-AppTypography appTypography = AppTypography();
 
 class _SightCardVisitedState extends State<SightCardVisited> {
   @override

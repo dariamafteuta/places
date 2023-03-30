@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
+import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/res/constants.dart';
-import 'package:flutter_job/ui/screens/sight_list_screen/sight_list_screen.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -110,13 +110,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         ),
                       ),
                       onPressed: () {
-                        Navigator.pushAndRemoveUntil<SightListScreen>(
-                          context,
-                          MaterialPageRoute<SightListScreen>(
-                            builder: (_) => const SightListScreen(null),
-                          ),
-                          ModalRoute.withName(SightListScreen.id),
-                        );
+                        AppNavigation.goToSightList(context, null);
                       },
                     ),
                   )
