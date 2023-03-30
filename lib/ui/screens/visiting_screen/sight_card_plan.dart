@@ -11,6 +11,8 @@ import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/screens/visiting_screen/visiting_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+AppTypography appTypography = AppTypography();
+
 class SightCardPlan extends StatefulWidget {
   final Sight sight;
   final Function(Sight) planRemoveSight;
@@ -24,8 +26,6 @@ class SightCardPlan extends StatefulWidget {
   @override
   State<SightCardPlan> createState() => _SightCardPlanState();
 }
-
-AppTypography appTypography = AppTypography();
 
 class _SightCardPlanState extends State<SightCardPlan> {
   String? month;
@@ -174,7 +174,7 @@ class _SightCardPlanState extends State<SightCardPlan> {
                       alignment: Alignment.topLeft,
                       child: Text(
                         _date == null
-                            ? 'Запланировано на ...'
+                            ? AppStrings.scheduledFor
                             : 'Запланировано на ${_date?.day} ${_date?.month} ${_date?.year}',
                         style: appTypography.text14Regular
                             .copyWith(color: themeProvider.appTheme.greenColor),

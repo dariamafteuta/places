@@ -5,16 +5,15 @@ import 'package:flutter_job/domain/sight.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/mocks.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
+import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
-import 'package:flutter_job/ui/screens/filters_screen.dart';
-import 'package:flutter_job/ui/screens/new_place_screen/add_sight_screen.dart';
 import 'package:flutter_job/ui/screens/sight_list_screen/sight_card.dart';
-import 'package:flutter_job/ui/screens/sight_search_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+AppTypography appTypography = AppTypography();
+
 class SightListScreen extends StatefulWidget {
-  static String id = 'sight_list_screen';
   final Iterable<Sight>? sight;
 
   const SightListScreen(this.sight, {Key? key}) : super(key: key);
@@ -23,13 +22,12 @@ class SightListScreen extends StatefulWidget {
   State<SightListScreen> createState() => _SightListScreenState();
 }
 
-AppTypography appTypography = AppTypography();
-
 class _SightListScreenState extends State<SightListScreen> {
-  bool isPortrait = true;
-
   @override
   Widget build(BuildContext context) {
+    final orientationPortrait =
+        MediaQuery.of(context).orientation == Orientation.portrait;
+
     return Scaffold(
       bottomNavigationBar: const BottomNavigation(index: 0),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -45,14 +43,7 @@ class _SightListScreenState extends State<SightListScreen> {
           backgroundColor: themeProvider.appTheme.transparentColor,
           highlightElevation: 0,
           onPressed: () {
-            Navigator.push<SightListScreen>(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AddSightScreen(
-                  newSight: newSight,
-                ),
-              ),
-            );
+            AppNavigation.goToAddSight(context, newSight);
           },
           icon: SvgPicture.asset(
             AppAssets.plus,
@@ -73,10 +64,7 @@ class _SightListScreenState extends State<SightListScreen> {
             elevation: 0,
             expandedHeight: 160,
             flexibleSpace: FlexibleSpaceBar(
-              centerTitle:
-                  MediaQuery.of(context).orientation == Orientation.portrait
-                      ? isPortrait
-                      : !isPortrait,
+              centerTitle: orientationPortrait,
               titlePadding: const EdgeInsets.symmetric(horizontal: 16),
               title: Text(
                 AppStrings.listOfInterestingPlaces,
@@ -112,12 +100,7 @@ class _SightListScreenState extends State<SightListScreen> {
                         ),
                       ),
                       suffixIcon: CupertinoButton(
-                        onPressed: () => Navigator.push<SightListScreen>(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const FiltersScreen(),
-                          ),
-                        ),
+                        onPressed: () => AppNavigation.goToFilter(context),
                         padding: EdgeInsets.zero,
                         child: SvgPicture.asset(
                           AppAssets.filter,
@@ -125,18 +108,13 @@ class _SightListScreenState extends State<SightListScreen> {
                         ),
                       ),
                     ),
-                    onTap: () => Navigator.push<SightListScreen>(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SightSearchScreen(),
-                      ),
-                    ),
+                    onTap: () => AppNavigation.goToSightSearch(context),
                   ),
                 ),
               ],
             ),
           ),
-          if (MediaQuery.of(context).orientation == Orientation.portrait)
+          if (orientationPortrait)
             SightPortrait(sight: widget.sight)
           else
             SightLandscape(sight: widget.sight),

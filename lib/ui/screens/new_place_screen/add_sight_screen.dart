@@ -5,11 +5,11 @@ import 'package:flutter_job/domain/coordinate.dart';
 import 'package:flutter_job/domain/sight.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
+import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/ui/screens/content.dart';
-import 'package:flutter_job/ui/screens/new_place_screen/new_place_category.dart';
 import 'package:flutter_job/ui/screens/new_place_screen/new_place_image.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -357,14 +357,7 @@ class _TextFieldOnlyReadeState extends State<TextFieldOnlyReade> {
       readOnly: true,
       controller: TextEditingController(text: widget.controller),
       onTap: () {
-        Navigator.push<AddSightScreen>(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Categories(
-              updateSelectedCategory: widget.updateSelectedCategory,
-            ),
-          ),
-        );
+        AppNavigation.goToCategories(context, widget.updateSelectedCategory);
       },
       decoration: InputDecoration(
         focusedBorder: UnderlineInputBorder(
@@ -374,13 +367,9 @@ class _TextFieldOnlyReadeState extends State<TextFieldOnlyReade> {
         hintStyle: appTypography.textGreyInactive18Bold,
         suffixIcon: CupertinoButton(
           onPressed: () {
-            Navigator.push<AddSightScreen>(
+            AppNavigation.goToCategories(
               context,
-              MaterialPageRoute(
-                builder: (context) => Categories(
-                  updateSelectedCategory: widget.updateSelectedCategory,
-                ),
-              ),
+              widget.updateSelectedCategory,
             );
           },
           child: SvgPicture.asset(

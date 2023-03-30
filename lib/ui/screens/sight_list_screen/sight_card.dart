@@ -8,6 +8,8 @@ import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/screens/sight_list_screen/sight_list_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+AppTypography appTypography = AppTypography();
+
 class SightCard extends StatefulWidget {
   final Sight sight;
 
@@ -16,8 +18,6 @@ class SightCard extends StatefulWidget {
   @override
   State<SightCard> createState() => _SightCardState();
 }
-
-AppTypography appTypography = AppTypography();
 
 class _SightCardState extends State<SightCard> {
   bool isSelected = false;

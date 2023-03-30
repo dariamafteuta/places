@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_job/theme_provider.dart';
+import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
+import 'package:flutter_job/ui/screens/filters_screen.dart';
 import 'package:flutter_job/ui/screens/on_boarding_screen.dart';
 import 'package:flutter_job/ui/screens/res/themes.dart';
 import 'package:flutter_job/ui/screens/settings_screen.dart';
@@ -30,14 +32,8 @@ class _AppState extends State<App> {
       theme: themeProvider.isLightTheme ? lightThemes : darkThemes,
       title: AppStrings.appTitle,
       debugShowCheckedModeBanner: false,
-      initialRoute: OnBoardingScreen.id,
-      routes: {
-        SplashScreen.id: (_) => const SplashScreen(),
-        OnBoardingScreen.id: (_) => const OnBoardingScreen(),
-        SightListScreen.id: (_) => const SightListScreen(null),
-        VisitingScreen.id: (_) => const VisitingScreen(),
-        SettingsScreen.id: (_) => SettingsScreen(themeProvider: themeProvider),
-      },
+      initialRoute: AppNavigation.splashScreen,
+      onGenerateRoute: AppNavigation.generateRoute,
     );
   }
 

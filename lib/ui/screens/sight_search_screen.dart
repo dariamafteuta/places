@@ -4,12 +4,12 @@ import 'package:flutter_job/domain/sight.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/mocks.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
+import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/ui/screens/content.dart';
 import 'package:flutter_job/ui/screens/filters_screen.dart';
-import 'package:flutter_job/ui/screens/sight_details_screen/sight_details_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 AppTypography appTypography = AppTypography();
@@ -103,12 +103,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                 suffixIcon: _searchController.text.isEmpty
                     ? CupertinoButton(
                         onPressed: () {
-                          Navigator.push<SightSearchScreen>(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const FiltersScreen(),
-                            ),
-                          );
+                          AppNavigation.goToFilter(context);
                         },
                         padding: EdgeInsets.zero,
                         child: SvgPicture.asset(
@@ -197,12 +192,7 @@ class SearchResult extends StatelessWidget {
         highlightColor: themeProvider.appTheme.transparentColor,
         splashColor: themeProvider.appTheme.transparentColor,
         onTap: () {
-          Navigator.push<SearchResult>(
-            context,
-            MaterialPageRoute(
-              builder: (_) => SightDetailsScreen(sight: searchResult),
-            ),
-          );
+          AppNavigation.goToSightDetails(context, searchResult);
           listSearch.add(searchResult);
         },
         child: Column(

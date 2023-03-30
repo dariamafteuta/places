@@ -14,6 +14,10 @@ import 'package:flutter_job/ui/screens/content.dart';
 import 'package:flutter_job/ui/screens/sight_list_screen/sight_list_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+AppTypography appTypography = AppTypography();
+double start = 0.1;
+double end = 10;
+
 class FiltersScreen extends StatefulWidget {
   const FiltersScreen({
     Key? key,
@@ -23,12 +27,8 @@ class FiltersScreen extends StatefulWidget {
   State<FiltersScreen> createState() => _FiltersScreenState();
 }
 
-AppTypography appTypography = AppTypography();
-double start = 0.1;
-double end = 10;
-
 class _FiltersScreenState extends State<FiltersScreen> {
-  List<String> listStrings = [
+  List<String> listType = [
     AppStrings.hotel,
     AppStrings.restaurant,
     AppStrings.particularPlace,
@@ -44,11 +44,14 @@ class _FiltersScreenState extends State<FiltersScreen> {
     AppAssets.museumWhite,
     AppAssets.cafeWhite,
   ];
+
   Iterable<Sight> listOfPlaces = mocks.map((e) => e);
   Set<String> selectedType = {};
 
   @override
   Widget build(BuildContext context) {
+    final largeScreenSize = MediaQuery.of(context).size.width > 320;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -86,51 +89,28 @@ class _FiltersScreenState extends State<FiltersScreen> {
         child: ListView(
           children: [
             const Content(content: AppStrings.categories),
-            if (MediaQuery.of(context).size.width > 320)
-              GridView.count(
-                crossAxisCount: 3,
+            SizedBox(
+              height: largeScreenSize ? null : 140,
+              child: GridView.count(
+                crossAxisCount: largeScreenSize ? 3 : 1,
                 shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                children: List.generate(6, (index) {
+                scrollDirection:
+                    largeScreenSize ? Axis.vertical : Axis.horizontal,
+                children: List.generate(listType.length, (index) {
                   return Padding(
                     padding: const EdgeInsets.only(top: 24, bottom: 16),
                     child: CategoryPlace(
-                      isSelected: selectedType.contains(listStrings[index]),
+                      isSelected: selectedType.contains(listType[index]),
                       image: listImages[index],
-                      type: listStrings[index],
+                      type: listType[index],
                       setSelectedType: setSelectedType,
                       removePlace: removePlace,
                     ),
                   );
                 }),
-              )
-            else
-              SizedBox(
-                height: 140,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: listStrings.length,
-                  itemBuilder: (_, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 24,
-                      ),
-                      child: CategoryPlace(
-                        isSelected: selectedType.contains(listStrings[index]),
-                        image: listImages[index],
-                        type: listStrings[index],
-                        setSelectedType: setSelectedType,
-                        removePlace: removePlace,
-                      ),
-                    );
-                  },
-                ),
               ),
-            if (MediaQuery.of(context).size.width > 320)
-              sizedBox60H
-            else
-              sizedBox2H,
+            ),
+            if (largeScreenSize) sizedBox60H else sizedBox2H,
             Column(
               children: [
                 Row(
