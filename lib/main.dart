@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_job/dio.dart';
 import 'package:flutter_job/theme_provider.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
-import 'package:flutter_job/ui/screens/filters_screen.dart';
-import 'package:flutter_job/ui/screens/on_boarding_screen.dart';
 import 'package:flutter_job/ui/screens/res/themes.dart';
-import 'package:flutter_job/ui/screens/settings_screen.dart';
-import 'package:flutter_job/ui/screens/sight_list_screen/sight_list_screen.dart';
-import 'package:flutter_job/ui/screens/splash_screen.dart';
-import 'package:flutter_job/ui/screens/visiting_screen/visiting_screen.dart';
 
 void main() {
   runApp(const App());
@@ -32,7 +27,7 @@ class _AppState extends State<App> {
       theme: themeProvider.isLightTheme ? lightThemes : darkThemes,
       title: AppStrings.appTitle,
       debugShowCheckedModeBanner: false,
-      initialRoute: AppNavigation.splashScreen,
+      initialRoute: AppNavigation.sightListScreen,
       onGenerateRoute: AppNavigation.generateRoute,
     );
   }
@@ -40,6 +35,7 @@ class _AppState extends State<App> {
   @override
   void initState() {
     super.initState();
+    testNetworkCall();
     themeProvider.addListener(_onThemeChange);
   }
 
@@ -47,6 +43,11 @@ class _AppState extends State<App> {
   void dispose() {
     themeProvider.removeListener(_onThemeChange);
     super.dispose();
+  }
+
+  Future<void> testNetworkCall() async {
+    final dynamic response = await getPost();
+    debugPrint('Response HTTP  call = $response');
   }
 
   void _onThemeChange() {
