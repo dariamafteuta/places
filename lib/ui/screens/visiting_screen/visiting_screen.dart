@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_job/components/bottom_navigation_bar.dart';
-import 'package:flutter_job/domain/sight.dart';
+import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/main.dart';
-import 'package:flutter_job/mocks.dart';
+import 'package:flutter_job/ui/components/bottom_navigation_bar.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/res/constants.dart';
+import 'package:flutter_job/ui/screens/sight_list_screen/sight_list_screen.dart';
 import 'package:flutter_job/ui/screens/visiting_screen/sight_card_plan.dart';
 import 'package:flutter_job/ui/screens/visiting_screen/sight_card_visited.dart';
 import 'package:flutter_svg/svg.dart';
@@ -21,9 +21,6 @@ class VisitingScreen extends StatefulWidget {
 }
 
 class _VisitingScreenState extends State<VisitingScreen> {
-  final _planMocks = [mocks[0], mocks[3], mocks[2], mocks[5]];
-  final _visitedMocks = [mocks[7], mocks[4], mocks[1]];
-
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -68,25 +65,24 @@ class _VisitingScreenState extends State<VisitingScreen> {
         ),
         body: TabBarView(
           children: [
-            if (_planMocks.isNotEmpty)
+            if (placeIterator.favoritePlaces.isNotEmpty)
               ReorderableListView(
                 onReorder: _onReorderPlan,
-                children: List.generate(_planMocks.length, (index) {
+                children: placeIterator.favoritePlaces.map((place) {
                   return SightCardPlan(
-                    Key(_planMocks[index].name),
-                    _planMocks[index],
-                    planRemoveSight,
+                    ValueKey(place.id),
+                    place,
+                    removeFavoritePlace,
+                    validateData,
                   );
-                }),
+                }).toList(), // преобразование множества в список
               )
-            else
+            else if (placeIterator.favoritePlaces.isEmpty)
               Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SvgPicture.asset(
-                      AppAssets.cardEmptyPage,
-                    ),
+                    SvgPicture.asset(AppAssets.cardEmptyPage),
                     sizedBox32H,
                     Text(
                       AppStrings.blank,
@@ -101,25 +97,23 @@ class _VisitingScreenState extends State<VisitingScreen> {
                   ],
                 ),
               ),
-            if (_visitedMocks.isNotEmpty)
+            if (placeIterator.visitedPlaces.isNotEmpty)
               ReorderableListView(
                 onReorder: _onReorderVisited,
-                children: List.generate(_visitedMocks.length, (index) {
+                children: placeIterator.visitedPlaces.map((place) {
                   return SightCardVisited(
-                    ValueKey(index),
-                    _visitedMocks[index],
-                    visitedRemoveSight,
+                    ValueKey(place.id),
+                    place,
+                    removeVisitedPlace,
                   );
-                }),
+                }).toList(),
               )
-            else
+            else if (placeIterator.visitedPlaces.isEmpty)
               Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SvgPicture.asset(
-                      AppAssets.goEmptyPage,
-                    ),
+                    SvgPicture.asset(AppAssets.goEmptyPage),
                     sizedBox32H,
                     Text(
                       AppStrings.blank,
@@ -140,15 +134,29 @@ class _VisitingScreenState extends State<VisitingScreen> {
     );
   }
 
-  void visitedRemoveSight(Sight sight) {
+  void validateData(Place place) {
+    if (placeIterator.dataVisited[place.id]?.isBefore(DateTime.now()) ??
+        false) {
+      placeIterator.favoriteIdPlaces.remove(place.id);
+      placeIterator.visitedIdPlaces.add(place.id);
+
+      placeIterator.visitedPlaces.add(place);
+    }
+  }
+
+  void removeFavoritePlace(Place place) {
     setState(() {
-      _visitedMocks.remove(sight);
+      placeIterator.favoritePlaces.remove(place);
+      placeIterator.favoriteIdPlaces.remove(place.id);
+      placeIterator.dataVisited.remove(place.id);
     });
   }
 
-  void planRemoveSight(Sight sight) {
+  void removeVisitedPlace(Place place) {
     setState(() {
-      _planMocks.remove(sight);
+      placeIterator.visitedPlaces.remove(place);
+      placeIterator.visitedIdPlaces.remove(place.id);
+      placeIterator.dataVisited.remove(place.id);
     });
   }
 
@@ -157,8 +165,6 @@ class _VisitingScreenState extends State<VisitingScreen> {
       if (newIndex > oldIndex) {
         newIndex -= 1;
       }
-      final visitedMocks = _visitedMocks.removeAt(oldIndex);
-      _visitedMocks.insert(newIndex, visitedMocks);
     });
   }
 
@@ -167,8 +173,6 @@ class _VisitingScreenState extends State<VisitingScreen> {
       if (newIndex > oldIndex) {
         newIndex -= 1;
       }
-      final planMocks = _planMocks.removeAt(oldIndex);
-      _planMocks.insert(newIndex, planMocks);
     });
   }
 }

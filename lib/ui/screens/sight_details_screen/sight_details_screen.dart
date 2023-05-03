@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_job/domain/sight.dart';
+import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
@@ -8,9 +8,9 @@ import 'package:flutter_job/ui/screens/sight_details_screen/sight_details.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SightDetailsScreen extends StatefulWidget {
-  final Sight sight;
+  final Place place;
 
-  const SightDetailsScreen({Key? key, required this.sight}) : super(key: key);
+  const SightDetailsScreen({Key? key, required this.place}) : super(key: key);
 
   @override
   State<SightDetailsScreen> createState() => _SightDetailsScreenState();
@@ -29,7 +29,7 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
             leading: const _BackButton(),
             flexibleSpace: FlexibleSpaceBar(
               background: ImagesSlider(
-                sight: widget.sight,
+                place: widget.place,
                 borderRadius: 0,
               ),
             ),
@@ -37,7 +37,7 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
           SliverList(
             delegate: SliverChildListDelegate(
               [
-                SightDetails(sight: widget.sight),
+                SightDetails(place: widget.place),
               ],
             ),
           ),

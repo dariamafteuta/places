@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/res/app_colors.dart';
 
 LightTheme lightTheme = LightTheme();
@@ -13,13 +12,11 @@ ThemeData lightThemes = ThemeData(
     thumbColor: lightTheme.whiteMainColor,
     overlayColor: Colors.transparent,
   ),
-
   primaryColor: lightTheme.backgroundColor,
   primaryColorLight: lightTheme.whiteColor,
   primaryColorDark: lightTheme.secondary2Color,
   backgroundColor: lightTheme.whiteColor,
   scaffoldBackgroundColor: lightTheme.whiteColor,
-
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     elevation: 10,
     type: BottomNavigationBarType.fixed,
@@ -27,7 +24,6 @@ ThemeData lightThemes = ThemeData(
     showSelectedLabels: false,
     showUnselectedLabels: false,
   ),
-
   tabBarTheme: TabBarTheme(
     labelColor: lightTheme.whiteColor,
     unselectedLabelColor: lightTheme.inactiveColor,
@@ -38,7 +34,6 @@ ThemeData lightThemes = ThemeData(
       borderRadius: BorderRadius.circular(40),
     ),
   ),
-
   appBarTheme: AppBarTheme(
     color: lightTheme.whiteColor,
   ),
@@ -47,13 +42,11 @@ ThemeData lightThemes = ThemeData(
 ThemeData darkThemes = ThemeData(
   primaryColor: darkTheme.mainColor,
   scaffoldBackgroundColor: darkTheme.mainColor,
-
   sliderTheme: SliderThemeData(
     activeTrackColor: lightTheme.greenColor,
     inactiveTrackColor: lightTheme.inactiveColor,
     thumbColor: lightTheme.whiteMainColor,
   ),
-
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     elevation: 10,
     type: BottomNavigationBarType.fixed,
@@ -61,7 +54,6 @@ ThemeData darkThemes = ThemeData(
     showSelectedLabels: false,
     showUnselectedLabels: false,
   ),
-
   tabBarTheme: TabBarTheme(
     labelColor: darkTheme.mainColor,
     unselectedLabelColor: darkTheme.inactiveColor,
@@ -72,7 +64,6 @@ ThemeData darkThemes = ThemeData(
       borderRadius: BorderRadius.circular(40),
     ),
   ),
-
   appBarTheme: AppBarTheme(
     color: darkTheme.mainColor,
   ),

@@ -1,24 +1,25 @@
-import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job/main.dart';
-import 'package:flutter_job/mocks.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/ui/screens/new_place_screen/add_sight_screen.dart';
 import 'package:flutter_svg/svg.dart';
 
-class NewImage extends StatefulWidget {
-  const NewImage({Key? key}) : super(key: key);
+class NewPlaceImage extends StatefulWidget {
+  final Function(List<String>) images;
+
+  const NewPlaceImage({Key? key, required this.images}) : super(key: key);
 
   @override
-  State<NewImage> createState() => _NewImageState();
+  State<NewPlaceImage> createState() => _NewPlaceImageState();
 }
 
-class _NewImageState extends State<NewImage> {
-  final listUrlImage = <String>[];
+class _NewPlaceImageState extends State<NewPlaceImage> {
   int index = 0;
+
+  List<String> listUrlImages = [];
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +31,9 @@ class _NewImageState extends State<NewImage> {
           GestureDetector(
             onTap: () {
               setState(() {
-                randomIndex();
-                listUrlImage.add(mocks[index].url[0]);
+                addUrls(
+                  'https://novostipmr.com/sites/default/files/filefield_paths/silverlake002.jpg',
+                );
               });
               showModalBottomSheet<AddSightScreen>(
                 context: context,
@@ -144,7 +146,7 @@ class _NewImageState extends State<NewImage> {
               ),
             ),
           ),
-          ...listUrlImage.map(
+          ...listUrlImages.map(
             (e) => ImageCard(
               url: e,
               removeUrl: removeUrl,
@@ -155,14 +157,20 @@ class _NewImageState extends State<NewImage> {
     );
   }
 
-  void removeUrl(String url) {
+  void addUrls(String url) {
     setState(() {
-      listUrlImage.remove(url);
+      listUrlImages.add(url);
+
+      widget.images(listUrlImages);
     });
   }
 
-  void randomIndex() {
-    index = Random().nextInt(9);
+  void removeUrl(String url) {
+    setState(() {
+      listUrlImages.remove(url);
+
+      widget.images(listUrlImages);
+    });
   }
 }
 

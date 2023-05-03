@@ -1,11 +1,8 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_job/domain/coordinate.dart';
-import 'package:flutter_job/domain/sight.dart';
+import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/main.dart';
-import 'package:flutter_job/mocks.dart';
+import 'package:flutter_job/translate_type.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
@@ -16,7 +13,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 AppTypography appTypography = AppTypography();
 double start = 0.1;
-double end = 10;
+double end = 10000;
 
 class FiltersScreen extends StatefulWidget {
   const FiltersScreen({
@@ -29,12 +26,12 @@ class FiltersScreen extends StatefulWidget {
 
 class _FiltersScreenState extends State<FiltersScreen> {
   List<String> listType = [
-    AppStrings.hotel,
-    AppStrings.restaurant,
-    AppStrings.particularPlace,
-    AppStrings.park,
-    AppStrings.museum,
-    AppStrings.cafe,
+    'hotel',
+    'restaurant',
+    'particularPlace',
+    'park',
+    'museum',
+    'cafe',
   ];
   List<String> listImages = [
     AppAssets.hotelWhite,
@@ -45,8 +42,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
     AppAssets.cafeWhite,
   ];
 
-  Iterable<Sight> listOfPlaces = mocks.map((e) => e);
-  Set<String> selectedType = {};
+  List<String> selectedType = [];
+  Future<List<Place>> selectedPlaces = Future.value([]);
 
   @override
   Widget build(BuildContext context) {
@@ -73,9 +70,9 @@ class _FiltersScreenState extends State<FiltersScreen> {
             onPressed: () {
               setState(() {
                 selectedType.clear();
-                listOfPlaces = mocks.map((e) => e);
                 start = 0.1;
-                end = 10;
+                end = 10000;
+                filter();
               });
             },
           ),
@@ -103,8 +100,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
                       isSelected: selectedType.contains(listType[index]),
                       image: listImages[index],
                       type: listType[index],
-                      setSelectedType: setSelectedType,
-                      removePlace: removePlace,
+                      addType: addType,
+                      removeType: removeType,
                     ),
                   );
                 }),
@@ -134,7 +131,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                 sizedBox32H,
                 RangeSlider(
                   min: 0.1,
-                  max: 10,
+                  max: 10000,
                   values: RangeValues(
                     start,
                     end,
@@ -148,7 +145,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                       start = values.start;
                       end = values.end;
                     });
-                    handleChangeRadius();
+                    filter();
                   },
                 ),
               ],
@@ -159,7 +156,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
               height: 48,
               child: TextButton(
                 child: Text(
-                  '${AppStrings.show} (${listOfPlaces.length})',
+                  AppStrings.show.toUpperCase(),
                   style: appTypography.text14Regular
                       .copyWith(color: themeProvider.appTheme.whiteColor),
                 ),
@@ -175,7 +172,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                   Navigator.push<FiltersScreen>(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => SightListScreen(listOfPlaces),
+                      builder: (_) => SightListScreen(places: selectedPlaces),
                     ),
                   );
                 },
@@ -187,73 +184,40 @@ class _FiltersScreenState extends State<FiltersScreen> {
     );
   }
 
-  void removePlace(String type) {
+  void removeType(String type) {
     selectedType.remove(type);
 
-    handleChangeRadius();
+    filter();
   }
 
-  void addPlaces() {
-    final selectedPlaces = <Sight>[];
-
-    for (var i = 0; i < mocks.length; i++) {
-      if (selectedType.contains(mocks[i].type) &&
-          radius(mocks[i].coordinate, start, end)) {
-        selectedPlaces.add(mocks[i]);
-      } else {
-        selectedPlaces.remove(mocks[i]);
-      }
-    }
-
-    setListOfPlaces(selectedPlaces);
-  }
-
-  void handleChangeRadius() {
-    addPlaces();
-  }
-
-  void setListOfPlaces(List<Sight> newList) {
+  void filter() {
     setState(() {
-      listOfPlaces = newList;
+      selectedPlaces =
+          placeIterator.getPlaces(RangeValues(start, end), selectedType);
     });
   }
 
-  void setSelectedType(String type) {
+  void addType(String type) {
     selectedType.add(type);
 
-    handleChangeRadius();
+    filter();
   }
-}
-
-bool radius(Coordinate checkPoint, double start, double end) {
-  final centerPoint = Coordinate(
-    lat: 47.52882,
-    lon: 29.0336,
-  );
-  const ky = 40000 / 360;
-  final kx = cos(pi * centerPoint.lat / 180.0) * ky;
-  final dx = (centerPoint.lon - checkPoint.lon).abs() * kx;
-  final dy = (centerPoint.lat - checkPoint.lat).abs() * ky;
-
-  final calculatedDistance = sqrt(dx * dx + dy * dy);
-
-  return calculatedDistance >= start && calculatedDistance <= end;
 }
 
 class CategoryPlace extends StatefulWidget {
   final bool isSelected;
   final String type;
   final String image;
-  final Function(String) setSelectedType;
-  final Function(String) removePlace;
+  final Function(String) addType;
+  final Function(String) removeType;
 
   const CategoryPlace({
     Key? key,
     required this.type,
     required this.image,
-    required this.setSelectedType,
-    required this.removePlace,
     required this.isSelected,
+    required this.addType,
+    required this.removeType,
   }) : super(key: key);
 
   @override
@@ -270,9 +234,9 @@ class _CategoryPlaceState extends State<CategoryPlace> {
         setState(() {
           final isSelected = !widget.isSelected;
           if (isSelected) {
-            widget.setSelectedType(widget.type);
+            widget.addType(widget.type);
           } else {
-            widget.removePlace(widget.type);
+            widget.removeType(widget.type);
           }
         });
       },
@@ -298,7 +262,7 @@ class _CategoryPlaceState extends State<CategoryPlace> {
             ),
           sizedBox12H,
           Text(
-            widget.type,
+            translateTypeEng(widget.type),
             style: appTypography.text14Regular.copyWith(
               color: themeProvider.appTheme.secondaryWhiteColor,
             ),

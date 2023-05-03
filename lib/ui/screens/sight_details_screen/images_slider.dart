@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_job/domain/sight.dart';
+import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/main.dart';
 
 class ImagesSlider extends StatefulWidget {
-  final Sight sight;
+  final Place place;
   final double borderRadius;
 
   const ImagesSlider({
     Key? key,
-    required this.sight,
+    required this.place,
     required this.borderRadius,
   }) : super(key: key);
 
@@ -33,14 +33,14 @@ class _ImagesSliderState extends State<ImagesSlider> {
                 _currentIndex = value;
               });
             },
-            itemCount: widget.sight.url.length,
+            itemCount: widget.place.urls.length,
             itemBuilder: (_, index) {
               return ClipRRect(
                 borderRadius: BorderRadius.vertical(
                   top: Radius.circular(widget.borderRadius),
                 ),
                 child: Image.network(
-                  widget.sight.url[index],
+                  widget.place.urls[index],
                   loadingBuilder: (_, child, loadingProgress) =>
                       loadingProgress == null
                           ? child
@@ -61,7 +61,7 @@ class _ImagesSliderState extends State<ImagesSlider> {
             height: 8,
             child: Row(
               children: [
-                for (int i = 0; i < widget.sight.url.length; i += 1)
+                for (int i = 0; i < widget.place.urls.length; i += 1)
                   Expanded(
                     child: i == _currentIndex
                         ? Container(
