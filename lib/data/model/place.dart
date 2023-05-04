@@ -1,3 +1,5 @@
+import 'package:flutter_job/translate_type.dart';
+
 class Place {
   final int id;
   final double lat;
@@ -27,7 +29,7 @@ class Place {
             : (json['urls'] as List<dynamic>)
                 .map((dynamic e) => e as String)
                 .toList(),
-        placeType: json['placeType'] as String? ?? 'type',
+        placeType: translateTypeEng(json['placeType']),
         description: json['description'] as String? ?? 'description',
       );
 }

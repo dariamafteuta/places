@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/main.dart';
-import 'package:flutter_job/translate_type.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/screens/sight_details_screen/bottom_sheet_details.dart';
@@ -115,7 +114,7 @@ class _SightCardState extends State<SightCard> {
                   top: 16,
                   left: 16,
                   child: Text(
-                    translateTypeEng(widget.place.placeType),
+                    widget.place.placeType,
                     style: appTypography.text14w700.copyWith(
                       color: themeProvider.appTheme.whiteColor,
                     ),

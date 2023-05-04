@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/main.dart';
-import 'package:flutter_job/translate_type.dart';
 import 'package:flutter_job/ui/components/card_delete_background.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
@@ -119,7 +118,7 @@ class _SightCardVisitedState extends State<SightCardVisited> {
                     top: 16,
                     left: 16,
                     child: Text(
-                      translateTypeEng(widget.visitedPlace.placeType),
+                      widget.visitedPlace.placeType,
                       style: appTypography.text14w700.copyWith(
                         color: themeProvider.appTheme.whiteColor,
                       ),

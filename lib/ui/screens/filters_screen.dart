@@ -26,12 +26,12 @@ class FiltersScreen extends StatefulWidget {
 
 class _FiltersScreenState extends State<FiltersScreen> {
   List<String> listType = [
-    'hotel',
-    'restaurant',
-    'particularPlace',
-    'park',
-    'museum',
-    'cafe',
+    AppStrings.hotel,
+    AppStrings.restaurant,
+    AppStrings.particularPlace,
+    AppStrings.park,
+    AppStrings.museum,
+    AppStrings.cafe,
   ];
   List<String> listImages = [
     AppAssets.hotelWhite,
@@ -44,6 +44,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
 
   List<String> selectedType = [];
   Future<List<Place>> selectedPlaces = Future.value([]);
+  int length = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -156,7 +157,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
               height: 48,
               child: TextButton(
                 child: Text(
-                  AppStrings.show.toUpperCase(),
+                  '${AppStrings.show.toUpperCase()} ($length)',
                   style: appTypography.text14Regular
                       .copyWith(color: themeProvider.appTheme.whiteColor),
                 ),
@@ -172,7 +173,12 @@ class _FiltersScreenState extends State<FiltersScreen> {
                   Navigator.push<FiltersScreen>(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => SightListScreen(places: selectedPlaces),
+                      builder: (_) => SightListScreen(
+                        places: placeIterator.getPlaces(
+                          RangeValues(start, end),
+                          selectedType,
+                        ),
+                      ),
                     ),
                   );
                 },
@@ -185,22 +191,28 @@ class _FiltersScreenState extends State<FiltersScreen> {
   }
 
   void removeType(String type) {
-    selectedType.remove(type);
+    setState(() {
+      selectedType.remove(type);
 
-    filter();
+      filter();
+    });
   }
 
-  void filter() {
+  Future<void> filter() async {
+    final selectedPlaces =
+        await placeIterator.getPlaces(RangeValues(start, end), selectedType);
+
     setState(() {
-      selectedPlaces =
-          placeIterator.getPlaces(RangeValues(start, end), selectedType);
+      length = selectedPlaces.length;
     });
   }
 
   void addType(String type) {
-    selectedType.add(type);
+    setState(() {
+      selectedType.add(type);
 
-    filter();
+      filter();
+    });
   }
 }
 

@@ -60,8 +60,9 @@ class _VisitingScreenState extends State<VisitingScreen> {
             ),
           ),
         ),
-        bottomNavigationBar: const BottomNavigation(
+        bottomNavigationBar: BottomNavigation(
           index: 2,
+          themeProvider: themeProvider,
         ),
         body: TabBarView(
           children: [

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_job/main.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
+import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/components/bottom_navigation_bar.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
@@ -39,7 +39,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: const BottomNavigation(index: 3),
+      bottomNavigationBar: BottomNavigation(
+        index: 3,
+        themeProvider: themeProvider,
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
         child: Column(

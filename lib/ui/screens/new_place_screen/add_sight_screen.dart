@@ -10,7 +10,7 @@ import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/ui/screens/content.dart';
 import 'package:flutter_job/ui/screens/new_place_screen/new_place_image.dart';
-import 'package:flutter_job/ui/screens/on_boarding_screen.dart';
+import 'package:flutter_job/ui/screens/sight_list_screen/sight_list_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 AppTypography appTypography = AppTypography();
@@ -58,6 +58,9 @@ class _AddSightScreenState extends State<AddSightScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final orientationPortrait =
+        MediaQuery.of(context).orientation == Orientation.portrait;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -110,7 +113,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
               ),
               sizedBox24H,
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: orientationPortrait ? MainAxisAlignment.spaceBetween : MainAxisAlignment.start,
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,6 +132,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
                       ),
                     ],
                   ),
+                 if (!orientationPortrait) sizedBox24W,
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -213,7 +217,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
   Future<void> _submitForm() async {
     if (_formKey.currentState!.validate()) {
       final place = Place(
-        id: placeInteractor.placeFromNet.length + 1,
+        id: placeIterator.placeFromNet.length + 1,
         lat: double.parse(_latController.text),
         lon: double.parse(_lonController.text),
         name: _nameController.text,
@@ -225,7 +229,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
       try {
         Navigator.pop(context);
 
-        await placeInteractor.addNewPlace(place);
+        await placeIterator.addNewPlace(place);
       } catch (e) {
         debugPrint('Error: $e');
       }

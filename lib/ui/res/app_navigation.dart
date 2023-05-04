@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_job/data/iterator/place_iterator.dart';
 import 'package:flutter_job/data/model/place.dart';
-import 'package:flutter_job/main.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
+import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/screens/filters_screen.dart';
 import 'package:flutter_job/ui/screens/new_place_screen/add_sight_screen.dart';
 import 'package:flutter_job/ui/screens/new_place_screen/new_place_category.dart';
@@ -139,7 +139,7 @@ class AppNavigation {
     Navigator.push<AddSightScreen>(
       context,
       MaterialPageRoute(
-        builder: (_) => AddSightScreen(),
+        builder: (_) => const AddSightScreen(),
       ),
     );
   }

@@ -14,6 +14,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 AppTypography appTypography = AppTypography();
 PlaceRepository placeRepository = PlaceRepository();
+PlaceIterator placeIterator = PlaceIterator();
 
 class SightListScreen extends StatefulWidget {
   final Future<List<Place>> places;
@@ -34,7 +35,10 @@ class _SightListScreenState extends State<SightListScreen> {
         MediaQuery.of(context).orientation == Orientation.portrait;
 
     return Scaffold(
-      bottomNavigationBar: const BottomNavigation(index: 0),
+      bottomNavigationBar: BottomNavigation(
+        index: 0,
+        themeProvider: themeProvider,
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Container(
         decoration: BoxDecoration(
@@ -135,8 +139,6 @@ class _SightListScreenState extends State<SightListScreen> {
   }
 }
 
-PlaceIterator placeIterator = PlaceIterator();
-
 class SightPortrait extends StatelessWidget {
   final Future<List<Place>> places;
 
@@ -213,8 +215,10 @@ class SightLandscape extends StatelessWidget {
                   child: Text('Ошибка: ${snapshot.error}'),
                 );
               } else {
-                return CircularProgressIndicator(
-                  color: themeProvider.appTheme.inactiveColor,
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: themeProvider.appTheme.inactiveColor,
+                  ),
                 );
               }
             },

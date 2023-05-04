@@ -17,7 +17,7 @@ String translateTypeRu(String type) {
   }
 }
 
-String translateTypeEng(String type) {
+String translateTypeEng(dynamic type) {
   switch (type) {
     case 'cafe':
       return AppStrings.cafe;

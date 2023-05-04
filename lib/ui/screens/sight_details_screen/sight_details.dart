@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/main.dart';
-import 'package:flutter_job/translate_type.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
@@ -132,7 +131,7 @@ class _PlaceType extends StatelessWidget {
     return Container(
       alignment: Alignment.topLeft,
       child: Text(
-        translateTypeEng(type),
+        type,
         style: appTypography.text14Bold
             .copyWith(color: themeProvider.appTheme.secondarySecondary2Color),
       ),

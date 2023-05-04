@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_job/data/iterator/place_iterator.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
@@ -8,13 +7,13 @@ import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/ui/screens/filters_screen.dart';
+import 'package:flutter_job/ui/screens/sight_list_screen/sight_list_screen.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 AppTypography appTypography = AppTypography();
 
 class OnBoardingScreen extends StatefulWidget {
-  static String id = 'on_boarding_screen';
   const OnBoardingScreen({Key? key}) : super(key: key);
 
   @override
@@ -27,6 +26,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final orientationPortrait =
+        MediaQuery.of(context).orientation == Orientation.portrait;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -92,7 +94,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     activeDotColor: themeProvider.appTheme.greenColor,
                   ),
                 ),
-                sizedBox32H,
+                if (orientationPortrait) sizedBox32H else sizedBox12H,
                 if (_currentIndex == 2)
                   SizedBox(
                     width: double.infinity,
@@ -114,7 +116,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       onPressed: () {
                         AppNavigation.goToSightList(
                           context,
-                          placeInteractor.getPlaces(
+                          placeIterator.getPlaces(
                             RangeValues(start, end),
                             null,
                           ),
@@ -134,8 +136,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     );
   }
 }
-
-PlaceIterator placeInteractor = PlaceIterator();
 
 class Tutorial extends StatelessWidget {
   final String icon;
