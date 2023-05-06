@@ -8,8 +8,8 @@ import 'package:flutter_job/main.dart';
 class PlaceIterator {
   PlaceRepository placeRepository = PlaceRepository();
 
-  Set<int> favoriteIdPlaces = {};
-  Set<int> visitedIdPlaces = {};
+  List<int> favoriteIdPlaces = [];
+  List<int> visitedIdPlaces = [];
   Map<int, DateTime?> dataVisited = {};
 
   List<Place> favoritePlaces = [];
