@@ -44,6 +44,8 @@ const sizedBox42H = SizedBox(height: 42);
 const sizedBox60H = SizedBox(height: 60);
 
 
+const sizedBox24W = SizedBox(width: 24);
+
 const sizedBox10W = SizedBox(width: 10);
 
 const sizedBox50W = SizedBox(width: 50);

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_job/domain/sight.dart';
+import 'package:flutter_job/data/iterator/place_iterator.dart';
+import 'package:flutter_job/data/model/place.dart';
+import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
 import 'package:flutter_job/main.dart';
-import 'package:flutter_job/theme_provider.dart';
 import 'package:flutter_job/ui/screens/filters_screen.dart';
 import 'package:flutter_job/ui/screens/new_place_screen/add_sight_screen.dart';
 import 'package:flutter_job/ui/screens/new_place_screen/new_place_category.dart';
@@ -24,14 +25,21 @@ class AppNavigation {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case splashScreen:
-        return MaterialPageRoute<SplashScreen>(builder: (_) => const SplashScreen());
+        return MaterialPageRoute<SplashScreen>(
+          builder: (_) => const SplashScreen(),
+        );
       case onBoardingScreen:
         return MaterialPageRoute<OnBoardingScreen>(
           builder: (_) => const OnBoardingScreen(),
         );
       case sightListScreen:
         return MaterialPageRoute<SightListScreen>(
-          builder: (_) => const SightListScreen(null),
+          builder: (_) => SightListScreen(
+            places: PlaceIterator().getPlaces(
+              null,
+              null,
+            ),
+          ),
         );
       case visitingScreen:
         return MaterialPageRoute<VisitingScreen>(
@@ -62,11 +70,13 @@ class AppNavigation {
     );
   }
 
-  static void goToSightList(BuildContext context, Iterable<Sight>? sight) {
+  static void goToSightList(BuildContext context, Future<List<Place>> places) {
     Navigator.pushAndRemoveUntil<SightListScreen>(
       context,
       MaterialPageRoute<SightListScreen>(
-        builder: (_) => SightListScreen(sight),
+        builder: (_) => SightListScreen(
+          places: places,
+        ),
       ),
       ModalRoute.withName(sightListScreen),
     );
@@ -82,11 +92,11 @@ class AppNavigation {
     );
   }
 
-  static void goToSightDetails(BuildContext context, Sight searchResult) {
+  static void goToSightDetails(BuildContext context, Place searchResult) {
     Navigator.push<SightDetailsScreen>(
       context,
       MaterialPageRoute(
-        builder: (_) => SightDetailsScreen(sight: searchResult),
+        builder: (_) => SightDetailsScreen(place: searchResult),
       ),
     );
   }
@@ -123,13 +133,13 @@ class AppNavigation {
     );
   }
 
-  static void goToAddSight(BuildContext context, Function(Sight) newSight) {
+  static void goToAddSight(
+    BuildContext context,
+  ) {
     Navigator.push<AddSightScreen>(
       context,
       MaterialPageRoute(
-        builder: (_) => AddSightScreen(
-          newSight: newSight,
-        ),
+        builder: (_) => const AddSightScreen(),
       ),
     );
   }

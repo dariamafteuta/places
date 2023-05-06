@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_job/domain/coordinate.dart';
-import 'package:flutter_job/domain/sight.dart';
+import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
@@ -11,14 +10,13 @@ import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/ui/screens/content.dart';
 import 'package:flutter_job/ui/screens/new_place_screen/new_place_image.dart';
+import 'package:flutter_job/ui/screens/sight_list_screen/sight_list_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 AppTypography appTypography = AppTypography();
 
 class AddSightScreen extends StatefulWidget {
-  final Function(Sight) newSight;
-
-  const AddSightScreen({Key? key, required this.newSight}) : super(key: key);
+  const AddSightScreen({Key? key}) : super(key: key);
 
   @override
   State<AddSightScreen> createState() => _AddSightScreenState();
@@ -40,6 +38,8 @@ class _AddSightScreenState extends State<AddSightScreen> {
 
   String selectedCategory = '';
 
+  List<String> list = [];
+
   @override
   void dispose() {
     _nameController.dispose();
@@ -58,6 +58,9 @@ class _AddSightScreenState extends State<AddSightScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final orientationPortrait =
+        MediaQuery.of(context).orientation == Orientation.portrait;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -86,7 +89,9 @@ class _AddSightScreenState extends State<AddSightScreen> {
           key: _formKey,
           child: ListView(
             children: [
-              const NewImage(),
+              NewPlaceImage(
+                images: images,
+              ),
               sizedBox24H,
               const Content(content: AppStrings.category),
               sizedBox12H,
@@ -108,7 +113,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
               ),
               sizedBox24H,
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: orientationPortrait ? MainAxisAlignment.spaceBetween : MainAxisAlignment.start,
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -127,6 +132,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
                       ),
                     ],
                   ),
+                 if (!orientationPortrait) sizedBox24W,
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -180,7 +186,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
                   ),
                   style: TextButton.styleFrom(
                     elevation: 0.0,
-                    backgroundColor: _color(),
+                    backgroundColor: themeProvider.appTheme.greenColor,
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -202,39 +208,31 @@ class _AddSightScreenState extends State<AddSightScreen> {
     });
   }
 
-  Color _color() {
-    var color = themeProvider.appTheme.inactiveColor;
-
-    if (selectedCategory.isNotEmpty &&
-        _nameController.text.isNotEmpty &&
-        _lonController.text.isNotEmpty &&
-        _latController.text.isNotEmpty &&
-        _descriptionController.text.isNotEmpty) {
-      color = themeProvider.appTheme.greenColor;
-    }
-
-    return color;
+  void images(List<String> image) {
+    setState(() {
+      list = image;
+    });
   }
 
-  void _submitForm() {
+  Future<void> _submitForm() async {
     if (_formKey.currentState!.validate()) {
-      setState(() {
-        widget.newSight(
-          Sight(
-            name: _nameController.text,
-            coordinate: Coordinate(
-              lat: double.parse(_latController.text),
-              lon: double.parse(_lonController.text),
-            ),
-            url: [
-              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKwIViXzr8IpPKK5ASHcPXyLdfo5yHtNjk9Q&usqp=CAU',
-            ],
-            details: _descriptionController.text,
-            type: selectedCategory,
-          ),
-        );
-      });
-      Navigator.pop(context);
+      final place = Place(
+        id: placeIterator.placeFromNet.length + 1,
+        lat: double.parse(_latController.text),
+        lon: double.parse(_lonController.text),
+        name: _nameController.text,
+        urls: list,
+        placeType: selectedCategory,
+        description: _descriptionController.text,
+      );
+
+      try {
+        Navigator.pop(context);
+
+        await placeIterator.addNewPlace(place);
+      } catch (e) {
+        debugPrint('Error: $e');
+      }
     }
   }
 

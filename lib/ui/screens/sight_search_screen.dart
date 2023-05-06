@@ -1,19 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_job/domain/sight.dart';
+import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/main.dart';
-import 'package:flutter_job/mocks.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/ui/screens/content.dart';
-import 'package:flutter_job/ui/screens/filters_screen.dart';
+import 'package:flutter_job/ui/screens/sight_list_screen/sight_list_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 AppTypography appTypography = AppTypography();
-Set<Sight> listSearch = {};
+Set<Place> listSearch = {};
 
 class SightSearchScreen extends StatefulWidget {
   const SightSearchScreen({Key? key}) : super(key: key);
@@ -23,9 +22,9 @@ class SightSearchScreen extends StatefulWidget {
 }
 
 class _SightSearchScreenState extends State<SightSearchScreen> {
-  final searchResult = <Sight>[];
-
   final _searchController = TextEditingController();
+
+  List<Place> searchResult = [];
 
   @override
   void dispose() {
@@ -65,16 +64,12 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
               onEditingComplete: () => FocusScope.of(context).unfocus(),
               controller: _searchController,
               onChanged: (value) {
+                placeIterator.getPlaces(null, null);
+
                 setState(() {
                   searchResult.clear();
 
-                  for (final mock in mocks) {
-                    if (mock.name.toLowerCase().contains(value.toLowerCase()) ||
-                        mock.type.toLowerCase().contains(value.toLowerCase()) &&
-                            radius(mock.coordinate, start, end)) {
-                      searchResult.add(mock);
-                    }
-                  }
+                  searchResult = placeIterator.searchPlaces(value);
                 });
               },
               cursorWidth: 1,
@@ -180,7 +175,7 @@ class SearchError extends StatelessWidget {
 }
 
 class SearchResult extends StatelessWidget {
-  final Sight searchResult;
+  final Place searchResult;
 
   const SearchResult({Key? key, required this.searchResult}) : super(key: key);
 
@@ -205,8 +200,8 @@ class SearchResult extends StatelessWidget {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: NetworkImage(
-                        searchResult.url.isNotEmpty
-                            ? searchResult.url[0]
+                        searchResult.urls.isNotEmpty
+                            ? searchResult.urls[0]
                             : 'https://www.sirvisual.com/Attachment/100/5055_31356_420%20Principale.jpg',
                       ),
                       fit: BoxFit.fill,
@@ -215,23 +210,25 @@ class SearchResult extends StatelessWidget {
                   ),
                 ),
                 sizedBox10W,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(
-                      searchResult.name,
-                      style: appTypography.text16Bold.copyWith(
-                        color: themeProvider.appTheme.mainWhiteColor,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        searchResult.name,
+                        style: appTypography.text16Bold.copyWith(
+                          color: themeProvider.appTheme.mainWhiteColor,
+                        ),
                       ),
-                    ),
-                    Text(
-                      searchResult.type,
-                      style: appTypography.text14Regular.copyWith(
-                        color: themeProvider.appTheme.inactiveColor,
+                      Text(
+                        searchResult.placeType,
+                        style: appTypography.text14Regular.copyWith(
+                          color: themeProvider.appTheme.inactiveColor,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),

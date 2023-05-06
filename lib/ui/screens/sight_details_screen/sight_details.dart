@@ -1,17 +1,17 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_job/domain/sight.dart';
+import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/res/constants.dart';
+import 'package:flutter_job/ui/screens/sight_list_screen/sight_list_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SightDetails extends StatefulWidget {
-  final Sight sight;
+  final Place place;
 
-  const SightDetails({Key? key, required this.sight}) : super(key: key);
+  const SightDetails({Key? key, required this.place}) : super(key: key);
 
   @override
   State<SightDetails> createState() => _SightDetailsState();
@@ -20,6 +20,14 @@ class SightDetails extends StatefulWidget {
 AppTypography appTypography = AppTypography();
 
 class _SightDetailsState extends State<SightDetails> {
+  bool isFavorite = false;
+
+  @override
+  void initState() {
+    super.initState();
+    isFavorite = placeIterator.favoriteIdPlaces.contains(widget.place.id);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -27,11 +35,11 @@ class _SightDetailsState extends State<SightDetails> {
       child: Column(
         children: [
           sizedBox24H,
-          _PlaceName(sight: widget.sight),
+          _PlaceName(name: widget.place.name),
           sizedBox24H,
-          _PlaceType(sight: widget.sight),
+          _PlaceType(type: widget.place.placeType),
           sizedBox24H,
-          _PlaceDetails(sight: widget.sight),
+          _PlaceDetails(details: widget.place.description),
           sizedBox24H,
           const _BuildRouteButton(),
           Divider(
@@ -39,7 +47,56 @@ class _SightDetailsState extends State<SightDetails> {
             color: themeProvider.appTheme.inactiveColor,
             thickness: 0.8,
           ),
-          const _PlanAndChosen(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextButton.icon(
+                onPressed: () {},
+                icon: SvgPicture.asset(
+                  placeIterator.dataVisited[widget.place.id] != null
+                      ? AppAssets.calendarFull
+                      : AppAssets.calendar,
+                  color: isFavorite
+                      ? themeProvider.appTheme.secondaryWhiteColor
+                      : themeProvider.appTheme.inactiveColor,
+                ),
+                label: Text(
+                  AppStrings.plan,
+                  style: isFavorite
+                      ? appTypography.text14Regular.copyWith(
+                          color: themeProvider.appTheme.secondaryWhiteColor,
+                        )
+                      : appTypography.textGreyInactive14Regular,
+                ),
+              ),
+              sizedBox50W,
+              TextButton.icon(
+                onPressed: () {
+                  setState(() {
+                    isFavorite = !isFavorite;
+
+                    if (isFavorite) {
+                      placeIterator.favoriteIdPlaces.add(widget.place.id);
+                      placeIterator.getFavoritePlace();
+                    } else {
+                      placeIterator.favoriteIdPlaces.remove(widget.place.id);
+                      placeIterator.getFavoritePlace();
+                    }
+                  });
+                },
+                icon: SvgPicture.asset(
+                  isFavorite ? AppAssets.heartFull : AppAssets.heart,
+                  color: themeProvider.appTheme.secondaryWhiteColor,
+                ),
+                label: Text(
+                  AppStrings.toFavorites,
+                  style: appTypography.text14Regular.copyWith(
+                    color: themeProvider.appTheme.secondaryWhiteColor,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
@@ -47,14 +104,15 @@ class _SightDetailsState extends State<SightDetails> {
 }
 
 class _PlaceName extends StatelessWidget {
-  final Sight sight;
-  const _PlaceName({Key? key, required this.sight}) : super(key: key);
+  final String name;
+
+  const _PlaceName({Key? key, required this.name}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.topLeft,
       child: Text(
-        sight.name,
+        name,
         style: appTypography.text24Bold.copyWith(
           color: themeProvider.appTheme.mainWhiteColor,
         ),
@@ -64,16 +122,16 @@ class _PlaceName extends StatelessWidget {
 }
 
 class _PlaceType extends StatelessWidget {
-  final Sight sight;
+  final String type;
 
-  const _PlaceType({Key? key, required this.sight}) : super(key: key);
+  const _PlaceType({Key? key, required this.type}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.topLeft,
       child: Text(
-        sight.type,
+        type,
         style: appTypography.text14Bold
             .copyWith(color: themeProvider.appTheme.secondarySecondary2Color),
       ),
@@ -82,16 +140,16 @@ class _PlaceType extends StatelessWidget {
 }
 
 class _PlaceDetails extends StatelessWidget {
-  final Sight sight;
+  final String details;
 
-  const _PlaceDetails({Key? key, required this.sight}) : super(key: key);
+  const _PlaceDetails({Key? key, required this.details}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.topLeft,
       child: Text(
-        sight.details,
+        details,
         style: appTypography.text14Regular.copyWith(
           color: themeProvider.appTheme.secondaryWhiteColor,
         ),
@@ -126,51 +184,6 @@ class _BuildRouteButton extends StatelessWidget {
         ),
         onPressed: () {},
       ),
-    );
-  }
-}
-
-class _PlanAndChosen extends StatelessWidget {
-  const _PlanAndChosen({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        TextButton.icon(
-          onPressed: () {
-            if (kDebugMode) {
-              print('Calendar Pressed');
-            }
-          },
-          icon: SvgPicture.asset(
-            AppAssets.calendar,
-            color: themeProvider.appTheme.inactiveColor,
-          ),
-          label: Text(
-            AppStrings.plan,
-            style: appTypography.textGreyInactive14Regular,
-          ),
-        ),
-        sizedBox50W,
-        TextButton.icon(
-          onPressed: () {
-            if (kDebugMode) {
-              print('Heart Pressed');
-            }
-          },
-          icon: SvgPicture.asset(
-            AppAssets.heart,
-            color: themeProvider.appTheme.secondaryWhiteColor,
-          ),
-          label: Text(
-            AppStrings.toFavorites,
-            style: appTypography.text14Regular.copyWith(
-              color: themeProvider.appTheme.secondaryWhiteColor,
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

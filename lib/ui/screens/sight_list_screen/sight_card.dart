@@ -1,26 +1,35 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_job/components/bottom_sheet_details.dart';
-import 'package:flutter_job/domain/sight.dart';
+import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
+import 'package:flutter_job/ui/screens/sight_details_screen/bottom_sheet_details.dart';
 import 'package:flutter_job/ui/screens/sight_list_screen/sight_list_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 AppTypography appTypography = AppTypography();
 
 class SightCard extends StatefulWidget {
-  final Sight sight;
+  final Place place;
 
-  const SightCard(Key? key, this.sight) : super(key: key);
+  const SightCard(
+    Key? key,
+    this.place,
+  ) : super(key: key);
 
   @override
   State<SightCard> createState() => _SightCardState();
 }
 
 class _SightCardState extends State<SightCard> {
-  bool isSelected = false;
+  bool isFavorite = false;
+
+  @override
+  void initState() {
+    super.initState();
+    isFavorite = placeIterator.favoriteIdPlaces.contains(widget.place.id);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +48,7 @@ class _SightCardState extends State<SightCard> {
             backgroundColor: themeProvider.appTheme.transparentColor,
             builder: (_) {
               return BottomSheetDetails(
-                sight: widget.sight,
+                sight: widget.place,
               );
             },
           );
@@ -61,8 +70,8 @@ class _SightCardState extends State<SightCard> {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: NetworkImage(
-                            widget.sight.url.isNotEmpty
-                                ? widget.sight.url[0]
+                            widget.place.urls.isNotEmpty
+                                ? widget.place.urls[0]
                                 : 'https://www.sirvisual.com/Attachment/100/5055_31356_420%20Principale.jpg',
                           ),
                           fit: BoxFit.fitWidth,
@@ -78,14 +87,25 @@ class _SightCardState extends State<SightCard> {
                   right: 0,
                   child: CupertinoButton(
                     child: SvgPicture.asset(
-                      !isSelected ? AppAssets.heart : AppAssets.heartFull,
+                      isFavorite ? AppAssets.heartFull : AppAssets.heart,
                       color: themeProvider.appTheme.whiteColor,
                       height: 25,
                       width: 25,
                     ),
                     onPressed: () {
                       setState(() {
-                        isSelected = !isSelected;
+                        placeIterator.visitedIdPlaces.contains(widget.place.id)
+                            ? isFavorite = false
+                            : isFavorite = !isFavorite;
+
+                        if (isFavorite) {
+                          placeIterator.favoriteIdPlaces.add(widget.place.id);
+                          placeIterator.getFavoritePlace();
+                        } else {
+                          placeIterator.favoriteIdPlaces
+                              .remove(widget.place.id);
+                          placeIterator.getFavoritePlace();
+                        }
                       });
                     },
                   ),
@@ -94,7 +114,7 @@ class _SightCardState extends State<SightCard> {
                   top: 16,
                   left: 16,
                   child: Text(
-                    widget.sight.type,
+                    widget.place.placeType,
                     style: appTypography.text14w700.copyWith(
                       color: themeProvider.appTheme.whiteColor,
                     ),
@@ -120,7 +140,7 @@ class _SightCardState extends State<SightCard> {
                     ),
                     alignment: Alignment.topLeft,
                     child: Text(
-                      widget.sight.name,
+                      widget.place.name,
                       style: appTypography.text16Bold.copyWith(
                         color: themeProvider.appTheme.secondaryWhiteColor,
                       ),
@@ -134,7 +154,7 @@ class _SightCardState extends State<SightCard> {
                     ),
                     alignment: Alignment.topLeft,
                     child: Text(
-                      widget.sight.details,
+                      widget.place.description,
                       overflow: TextOverflow.ellipsis,
                       style: appTypography.textGreyInactive14Regular,
                     ),

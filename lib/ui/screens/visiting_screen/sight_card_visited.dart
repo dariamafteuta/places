@@ -1,24 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_job/components/bottom_sheet_details.dart';
-import 'package:flutter_job/components/card_delete_background.dart';
-import 'package:flutter_job/domain/sight.dart';
+import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/main.dart';
+import 'package:flutter_job/ui/components/card_delete_background.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
+import 'package:flutter_job/ui/screens/sight_details_screen/bottom_sheet_details.dart';
+import 'package:flutter_job/ui/screens/sight_list_screen/sight_list_screen.dart';
 import 'package:flutter_job/ui/screens/visiting_screen/visiting_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 AppTypography appTypography = AppTypography();
 
 class SightCardVisited extends StatefulWidget {
-  final Sight sight;
-  final Function(Sight) visitedRemoveSight;
+  final Place visitedPlace;
+  final Function(Place) remove;
 
   const SightCardVisited(
     Key? key,
-    this.sight,
-    this.visitedRemoveSight,
+    this.visitedPlace,
+    this.remove,
   ) : super(key: key);
 
   @override
@@ -43,7 +44,7 @@ class _SightCardVisitedState extends State<SightCardVisited> {
             backgroundColor: themeProvider.appTheme.transparentColor,
             builder: (_) {
               return BottomSheetDetails(
-                sight: widget.sight,
+                sight: widget.visitedPlace,
               );
             },
           );
@@ -52,10 +53,8 @@ class _SightCardVisitedState extends State<SightCardVisited> {
         borderRadius: BorderRadius.circular(10),
         child: Dismissible(
           key: UniqueKey(),
-          onDismissed: (direction) {
-            setState(() {
-              widget.visitedRemoveSight(widget.sight);
-            });
+          onDismissed: (_) {
+            widget.remove(widget.visitedPlace);
           },
           background: const CardDeleteBackground(),
           child: Column(
@@ -73,8 +72,8 @@ class _SightCardVisitedState extends State<SightCardVisited> {
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             image: NetworkImage(
-                              widget.sight.url.isNotEmpty
-                                  ? widget.sight.url[0]
+                              widget.visitedPlace.urls.isNotEmpty
+                                  ? widget.visitedPlace.urls[0]
                                   : 'https://www.sirvisual.com/Attachment/100/5055_31356_420%20Principale.jpg',
                             ),
                             fit: BoxFit.fitWidth,
@@ -109,9 +108,7 @@ class _SightCardVisitedState extends State<SightCardVisited> {
                             color: themeProvider.appTheme.whiteColor,
                           ),
                           onPressed: () {
-                            setState(() {
-                              widget.visitedRemoveSight(widget.sight);
-                            });
+                            widget.remove(widget.visitedPlace);
                           },
                         ),
                       ],
@@ -121,7 +118,7 @@ class _SightCardVisitedState extends State<SightCardVisited> {
                     top: 16,
                     left: 16,
                     child: Text(
-                      widget.sight.type,
+                      widget.visitedPlace.placeType,
                       style: appTypography.text14w700.copyWith(
                         color: themeProvider.appTheme.whiteColor,
                       ),
@@ -146,7 +143,7 @@ class _SightCardVisitedState extends State<SightCardVisited> {
                       ),
                       alignment: Alignment.topLeft,
                       child: Text(
-                        widget.sight.name,
+                        widget.visitedPlace.name,
                         style: appTypography.text16Bold.copyWith(
                           color: themeProvider.appTheme.secondaryWhiteColor,
                         ),
@@ -160,7 +157,7 @@ class _SightCardVisitedState extends State<SightCardVisited> {
                       ),
                       alignment: Alignment.topLeft,
                       child: Text(
-                        'Цель достигнута 12 окт. 2022',
+                        _dataString(),
                         style: appTypography.textGreyInactive14Regular,
                       ),
                     ),
@@ -172,5 +169,11 @@ class _SightCardVisitedState extends State<SightCardVisited> {
         ),
       ),
     );
+  }
+
+  String _dataString() {
+    final data = placeIterator.dataVisited[widget.visitedPlace.id];
+
+    return 'Цель достигнута ${data?.day} ${data?.month} ${data?.year}';
   }
 }

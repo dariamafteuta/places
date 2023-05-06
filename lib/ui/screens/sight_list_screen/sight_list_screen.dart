@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_job/components/bottom_navigation_bar.dart';
-import 'package:flutter_job/domain/sight.dart';
+import 'package:flutter_job/data/iterator/place_iterator.dart';
+import 'package:flutter_job/data/model/place.dart';
+import 'package:flutter_job/data/repository/place_repository.dart';
 import 'package:flutter_job/main.dart';
-import 'package:flutter_job/mocks.dart';
+import 'package:flutter_job/ui/components/bottom_navigation_bar.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
@@ -12,11 +13,16 @@ import 'package:flutter_job/ui/screens/sight_list_screen/sight_card.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 AppTypography appTypography = AppTypography();
+PlaceRepository placeRepository = PlaceRepository();
+PlaceIterator placeIterator = PlaceIterator();
 
 class SightListScreen extends StatefulWidget {
-  final Iterable<Sight>? sight;
+  final Future<List<Place>> places;
 
-  const SightListScreen(this.sight, {Key? key}) : super(key: key);
+  const SightListScreen({
+    Key? key,
+    required this.places,
+  }) : super(key: key);
 
   @override
   State<SightListScreen> createState() => _SightListScreenState();
@@ -29,7 +35,10 @@ class _SightListScreenState extends State<SightListScreen> {
         MediaQuery.of(context).orientation == Orientation.portrait;
 
     return Scaffold(
-      bottomNavigationBar: const BottomNavigation(index: 0),
+      bottomNavigationBar: BottomNavigation(
+        index: 0,
+        themeProvider: themeProvider,
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Container(
         decoration: BoxDecoration(
@@ -43,7 +52,9 @@ class _SightListScreenState extends State<SightListScreen> {
           backgroundColor: themeProvider.appTheme.transparentColor,
           highlightElevation: 0,
           onPressed: () {
-            AppNavigation.goToAddSight(context, newSight);
+            AppNavigation.goToAddSight(
+              context,
+            );
           },
           icon: SvgPicture.asset(
             AppAssets.plus,
@@ -115,54 +126,69 @@ class _SightListScreenState extends State<SightListScreen> {
             ),
           ),
           if (orientationPortrait)
-            SightPortrait(sight: widget.sight)
+            SightPortrait(
+              places: widget.places,
+            )
           else
-            SightLandscape(sight: widget.sight),
+            SightLandscape(
+              places: widget.places,
+            ),
         ],
       ),
     );
   }
-
-  void newSight(Sight sight) {
-    setState(() {
-      mocks.add(sight);
-    });
-  }
 }
 
 class SightPortrait extends StatelessWidget {
-  final Iterable<Sight>? sight;
+  final Future<List<Place>> places;
 
-  const SightPortrait({Key? key, required this.sight}) : super(key: key);
+  const SightPortrait({Key? key, required this.places}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SliverList(
-      delegate: SliverChildBuilderDelegate(
-        childCount: 1,
-        (context, index) {
-          return Column(
-            children: [
-              if (sight == null)
-                ...mocks.map(
-                  (e) => SightCard(UniqueKey(), e),
-                )
-              else
-                ...?sight?.map(
-                  (e) => SightCard(UniqueKey(), e),
-                ),
-            ],
+    return FutureBuilder<List<Place>>(
+      future: places,
+      builder: (_, snapshot) {
+        if (snapshot.hasData) {
+          final places = snapshot.data!;
+
+          return SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (_, index) {
+                final place = places[index];
+
+                return SightCard(
+                  ValueKey(place.id),
+                  place,
+                );
+              },
+              childCount: places.length,
+            ),
           );
-        },
-      ),
+        } else if (snapshot.hasError) {
+          return SliverFillRemaining(
+            child: Center(
+              child: Text('Ошибка: ${snapshot.error}'),
+            ),
+          );
+        } else {
+          return SliverFillRemaining(
+            child: Center(
+              child: CircularProgressIndicator(
+                color: themeProvider.appTheme.inactiveColor,
+              ),
+            ),
+          );
+        }
+      },
     );
   }
 }
 
 class SightLandscape extends StatelessWidget {
-  final Iterable<Sight>? sight;
+  final Future<List<Place>> places;
 
-  const SightLandscape({Key? key, required this.sight}) : super(key: key);
+  const SightLandscape({Key? key, required this.places}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -172,11 +198,31 @@ class SightLandscape extends StatelessWidget {
         mainAxisExtent: 216,
       ),
       delegate: SliverChildBuilderDelegate(
-        childCount: sight == null ? mocks.length : sight?.length,
+        childCount: placeIterator.placeFromNet.length,
         (_, index) {
-          return sight == null
-              ? SightCard(UniqueKey(), mocks[index])
-              : SightCard(UniqueKey(), sight!.toList()[index]);
+          return FutureBuilder<List<Place>>(
+            future: places,
+            builder: (_, snapshot) {
+              if (snapshot.hasData) {
+                final places = snapshot.data!;
+
+                return SightCard(
+                  ValueKey(places[index].id),
+                  places[index],
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text('Ошибка: ${snapshot.error}'),
+                );
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: themeProvider.appTheme.inactiveColor,
+                  ),
+                );
+              }
+            },
+          );
         },
       ),
     );
