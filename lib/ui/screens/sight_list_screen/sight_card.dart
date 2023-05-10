@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job/data/model/place.dart';
@@ -23,12 +25,15 @@ class SightCard extends StatefulWidget {
 }
 
 class _SightCardState extends State<SightCard> {
-  bool isFavorite = false;
+  final StreamController<List<int>> _favoritePlacesController =
+      StreamController<List<int>>();
+  Stream<List<int>> get favoritePlacesStream =>
+      _favoritePlacesController.stream;
 
   @override
-  void initState() {
-    super.initState();
-    isFavorite = placeIterator.favoriteIdPlaces.contains(widget.place.id);
+  void dispose() {
+    _favoritePlacesController.close();
+    super.dispose();
   }
 
   @override
@@ -83,32 +88,38 @@ class _SightCardState extends State<SightCard> {
                     ),
                   ),
                 ),
-                Positioned(
-                  right: 0,
-                  child: CupertinoButton(
-                    child: SvgPicture.asset(
-                      isFavorite ? AppAssets.heartFull : AppAssets.heart,
-                      color: themeProvider.appTheme.whiteColor,
-                      height: 25,
-                      width: 25,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        placeIterator.visitedIdPlaces.contains(widget.place.id)
-                            ? isFavorite = false
-                            : isFavorite = !isFavorite;
+                StreamBuilder<List<int>>(
+                  stream: favoritePlacesStream,
+                  initialData: placeIterator.favoriteIdPlaces,
+                  builder: (_, snapshot) {
+                    final favoritePlaces = snapshot.data!;
+                    final isFavorite = favoritePlaces.contains(widget.place.id);
 
-                        if (isFavorite) {
-                          placeIterator.favoriteIdPlaces.add(widget.place.id);
-                          placeIterator.getFavoritePlace();
-                        } else {
-                          placeIterator.favoriteIdPlaces
-                              .remove(widget.place.id);
-                          placeIterator.getFavoritePlace();
-                        }
-                      });
-                    },
-                  ),
+                    return snapshot.hasData
+                        ? Positioned(
+                            right: 0,
+                            child: CupertinoButton(
+                              child: SvgPicture.asset(
+                                isFavorite
+                                    ? AppAssets.heartFull
+                                    : AppAssets.heart,
+                                color: themeProvider.appTheme.whiteColor,
+                                height: 25,
+                                width: 25,
+                              ),
+                              onPressed: () {
+                                if (isFavorite) {
+                                  favoritePlaces.remove(widget.place.id);
+                                } else {
+                                  favoritePlaces.add(widget.place.id);
+                                }
+                                _updateFavoritePlaces(favoritePlaces);
+                                placeIterator.getFavoritePlace();
+                              },
+                            ),
+                          )
+                        : const SizedBox.shrink();
+                  },
                 ),
                 Positioned(
                   top: 16,
@@ -166,5 +177,9 @@ class _SightCardState extends State<SightCard> {
         ),
       ),
     );
+  }
+
+  void _updateFavoritePlaces(List<int> places) {
+    _favoritePlacesController.add(places);
   }
 }

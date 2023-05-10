@@ -127,11 +127,11 @@ class _SightListScreenState extends State<SightListScreen> {
           ),
           if (orientationPortrait)
             SightPortrait(
-              places: widget.places,
+              placesStream: Stream.fromFuture(widget.places),
             )
           else
             SightLandscape(
-              places: widget.places,
+              placesStream: Stream.fromFuture(widget.places),
             ),
         ],
       ),
@@ -140,14 +140,14 @@ class _SightListScreenState extends State<SightListScreen> {
 }
 
 class SightPortrait extends StatelessWidget {
-  final Future<List<Place>> places;
+  final Stream<List<Place>> placesStream;
 
-  const SightPortrait({Key? key, required this.places}) : super(key: key);
+  const SightPortrait({Key? key, required this.placesStream}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Place>>(
-      future: places,
+    return StreamBuilder<List<Place>>(
+      stream: placesStream,
       builder: (_, snapshot) {
         if (snapshot.hasData) {
           final places = snapshot.data!;
@@ -186,45 +186,52 @@ class SightPortrait extends StatelessWidget {
 }
 
 class SightLandscape extends StatelessWidget {
-  final Future<List<Place>> places;
+  final Stream<List<Place>> placesStream;
 
-  const SightLandscape({Key? key, required this.places}) : super(key: key);
+  const SightLandscape({Key? key, required this.placesStream})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SliverGrid(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisExtent: 216,
-      ),
-      delegate: SliverChildBuilderDelegate(
-        childCount: placeIterator.placeFromNet.length,
-        (_, index) {
-          return FutureBuilder<List<Place>>(
-            future: places,
-            builder: (_, snapshot) {
-              if (snapshot.hasData) {
-                final places = snapshot.data!;
+    return StreamBuilder<List<Place>>(
+      stream: placesStream.distinct(),
+      builder: (_, snapshot) {
+        if (snapshot.hasData) {
+          final places = snapshot.data!;
+
+          return SliverGrid(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisExtent: 216,
+            ),
+            delegate: SliverChildBuilderDelegate(
+              childCount: places.length,
+              (_, index) {
+                final place = places[index];
 
                 return SightCard(
-                  ValueKey(places[index].id),
-                  places[index],
+                  ValueKey(place.id),
+                  place,
                 );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text('Ошибка: ${snapshot.error}'),
-                );
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(
-                    color: themeProvider.appTheme.inactiveColor,
-                  ),
-                );
-              }
-            },
+              },
+            ),
           );
-        },
-      ),
+        } else if (snapshot.hasError) {
+          return SliverFillRemaining(
+            child: Center(
+              child: Text('Ошибка: ${snapshot.error}'),
+            ),
+          );
+        } else {
+          return SliverFillRemaining(
+            child: Center(
+              child: CircularProgressIndicator(
+                color: themeProvider.appTheme.inactiveColor,
+              ),
+            ),
+          );
+        }
+      },
     );
   }
 }
