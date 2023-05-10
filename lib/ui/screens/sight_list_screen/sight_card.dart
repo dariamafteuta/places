@@ -95,27 +95,30 @@ class _SightCardState extends State<SightCard> {
                     final favoritePlaces = snapshot.data!;
                     final isFavorite = favoritePlaces.contains(widget.place.id);
 
-                    return Positioned(
-                      right: 0,
-                      child: CupertinoButton(
-                        child: SvgPicture.asset(
-                          isFavorite ? AppAssets.heartFull : AppAssets.heart,
-                          color: themeProvider.appTheme.whiteColor,
-                          height: 25,
-                          width: 25,
-                        ),
-                        onPressed: () {
-                          if (isFavorite) {
-                            favoritePlaces.remove(widget.place.id);
-                          } else {
-                            favoritePlaces.add(widget.place.id);
-                          }
-
-                          _updateFavoritePlaces(favoritePlaces);
-                          placeIterator.getFavoritePlace();
-                        },
-                      ),
-                    );
+                    return snapshot.hasData
+                        ? Positioned(
+                            right: 0,
+                            child: CupertinoButton(
+                              child: SvgPicture.asset(
+                                isFavorite
+                                    ? AppAssets.heartFull
+                                    : AppAssets.heart,
+                                color: themeProvider.appTheme.whiteColor,
+                                height: 25,
+                                width: 25,
+                              ),
+                              onPressed: () {
+                                if (isFavorite) {
+                                  favoritePlaces.remove(widget.place.id);
+                                } else {
+                                  favoritePlaces.add(widget.place.id);
+                                }
+                                _updateFavoritePlaces(favoritePlaces);
+                                placeIterator.getFavoritePlace();
+                              },
+                            ),
+                          )
+                        : const SizedBox.shrink();
                   },
                 ),
                 Positioned(
@@ -177,6 +180,6 @@ class _SightCardState extends State<SightCard> {
   }
 
   void _updateFavoritePlaces(List<int> places) {
-    _favoritePlacesController.sink.add(places);
+    _favoritePlacesController.add(places);
   }
 }
