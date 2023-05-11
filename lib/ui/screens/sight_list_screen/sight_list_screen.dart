@@ -5,6 +5,7 @@ import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/data/repository/place_repository.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/components/bottom_navigation_bar.dart';
+import 'package:flutter_job/ui/components/simple_dialog.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
@@ -166,10 +167,8 @@ class SightPortrait extends StatelessWidget {
             ),
           );
         } else if (snapshot.hasError) {
-          return SliverFillRemaining(
-            child: Center(
-              child: Text('Ошибка: ${snapshot.error}'),
-            ),
+          return const SliverFillRemaining(
+              child: SimpleDialogWrapper(),
           );
         } else {
           return SliverFillRemaining(
@@ -217,10 +216,8 @@ class SightLandscape extends StatelessWidget {
             ),
           );
         } else if (snapshot.hasError) {
-          return SliverFillRemaining(
-            child: Center(
-              child: Text('Ошибка: ${snapshot.error}'),
-            ),
+          return const SliverFillRemaining(
+            child: SimpleDialogWrapper(),
           );
         } else {
           return SliverFillRemaining(
