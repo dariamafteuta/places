@@ -76,4 +76,8 @@ class AppStrings {
   static const camera = 'Камера';
   static const photo = 'Фотография';
   static const fail = 'Файл';
+
+  //error_dialog
+  static const error = 'Ошибка';
+  static const errorTut = 'Что то пошло не так\nПопробуйте позже.';
 }

@@ -9,6 +9,7 @@ import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
+import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/ui/screens/sight_list_screen/sight_card.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -167,9 +168,24 @@ class SightPortrait extends StatelessWidget {
           );
         } else if (snapshot.hasError) {
           return SliverFillRemaining(
-            child: Center(
-              child: Text('Ошибка: ${snapshot.error}'),
-            ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(AppAssets.group_5922EmptyPage),
+                  sizedBox24H,
+                  Text(
+                    AppStrings.error,
+                    style: appTypography.textGreyInactive18Bold,
+                    textAlign: TextAlign.center,
+                  ),
+                  sizedBox8H,
+                  Text(
+                    AppStrings.errorTut,
+                    style: appTypography.textGreyInactive14Regular,
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
           );
         } else {
           return SliverFillRemaining(
@@ -218,8 +234,23 @@ class SightLandscape extends StatelessWidget {
           );
         } else if (snapshot.hasError) {
           return SliverFillRemaining(
-            child: Center(
-              child: Text('Ошибка: ${snapshot.error}'),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(AppAssets.group_5922EmptyPage),
+                sizedBox24H,
+                Text(
+                  AppStrings.error,
+                  style: appTypography.textGreyInactive18Bold,
+                  textAlign: TextAlign.center,
+                ),
+                sizedBox8H,
+                Text(
+                  AppStrings.errorTut,
+                  style: appTypography.textGreyInactive14Regular,
+                  textAlign: TextAlign.center,
+                ),
+              ],
             ),
           );
         } else {
