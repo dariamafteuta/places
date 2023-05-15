@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_job/data/iterator/place_provider.dart';
 import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/translate_type.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/ui/screens/content.dart';
 import 'package:flutter_job/ui/screens/sight_list_screen/sight_list_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 AppTypography appTypography = AppTypography();
 double start = 0.1;
@@ -173,8 +175,11 @@ class _FiltersScreenState extends State<FiltersScreen> {
                   Navigator.push<FiltersScreen>(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => SightListScreen(
-                        places: placeIterator.getPlaces(
+                      builder: (context) => SightListScreen(
+                        places: Provider.of<PlaceProvider>(
+                          context,
+                          listen: false,
+                        ).getPlaces(
                           RangeValues(start, end),
                           selectedType,
                         ),
@@ -199,8 +204,12 @@ class _FiltersScreenState extends State<FiltersScreen> {
   }
 
   Future<void> filter() async {
+    final placeProvider = Provider.of<PlaceProvider>(
+      context,
+      listen: false,
+    );
     final selectedPlaces =
-        await placeIterator.getPlaces(RangeValues(start, end), selectedType);
+        await placeProvider.getPlaces(RangeValues(start, end), selectedType);
 
     setState(() {
       length = selectedPlaces.length;

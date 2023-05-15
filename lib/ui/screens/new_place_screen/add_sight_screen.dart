@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_job/data/iterator/add_place_provider.dart';
+import 'package:flutter_job/data/iterator/place_provider.dart';
 import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
@@ -10,8 +12,8 @@ import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/ui/screens/content.dart';
 import 'package:flutter_job/ui/screens/new_place_screen/new_place_image.dart';
-import 'package:flutter_job/ui/screens/sight_list_screen/sight_list_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 AppTypography appTypography = AppTypography();
 
@@ -113,7 +115,9 @@ class _AddSightScreenState extends State<AddSightScreen> {
               ),
               sizedBox24H,
               Row(
-                mainAxisAlignment: orientationPortrait ? MainAxisAlignment.spaceBetween : MainAxisAlignment.start,
+                mainAxisAlignment: orientationPortrait
+                    ? MainAxisAlignment.spaceBetween
+                    : MainAxisAlignment.start,
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,7 +136,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
                       ),
                     ],
                   ),
-                 if (!orientationPortrait) sizedBox24W,
+                  if (!orientationPortrait) sizedBox24W,
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -215,9 +219,18 @@ class _AddSightScreenState extends State<AddSightScreen> {
   }
 
   Future<void> _submitForm() async {
+    final addPlaceProvider = Provider.of<AddPlaceProvider>(
+      context,
+      listen: false,
+    );
+    final placeProvider = Provider.of<PlaceProvider>(
+      context,
+      listen: false,
+    );
+
     if (_formKey.currentState!.validate()) {
       final place = Place(
-        id: placeIterator.placeFromNet.length + 1,
+        id: placeProvider.placeFromNet.length + 1,
         lat: double.parse(_latController.text),
         lon: double.parse(_lonController.text),
         name: _nameController.text,
@@ -229,7 +242,8 @@ class _AddSightScreenState extends State<AddSightScreen> {
       try {
         Navigator.pop(context);
 
-        await placeIterator.addNewPlace(place);
+        await addPlaceProvider.addNewPlace(place);
+      // ignore: avoid_catches_without_on_clauses
       } catch (e) {
         debugPrint('Error: $e');
       }

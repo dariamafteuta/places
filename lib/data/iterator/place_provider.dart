@@ -5,15 +5,11 @@ import 'package:flutter_job/data/repository/place_repository.dart';
 import 'package:flutter_job/domain/coordinate.dart';
 import 'package:flutter_job/main.dart';
 
-class PlaceIterator {
+PlaceRepository placeRepository = PlaceRepository();
+
+class PlaceProvider extends ChangeNotifier {
   PlaceRepository placeRepository = PlaceRepository();
 
-  List<int> favoriteIdPlaces = [];
-  List<int> visitedIdPlaces = [];
-  Map<int, DateTime?> dataVisited = {};
-
-  List<Place> favoritePlaces = [];
-  List<Place> visitedPlaces = [];
   List<Place> placeFromNet = [];
 
   Future<List<Place>> getPlaces(
@@ -117,47 +113,6 @@ class PlaceIterator {
     return searchResult
       ..sort((a, b) => distanceCalculate(a).compareTo(distanceCalculate(b)));
   }
-
-  Future<void> addNewPlace(Place place) async {
-    await placeRepository.postPlace(place);
-  }
-
-  void getFavoritePlace() {
-    favoritePlaces.clear();
-
-    for (final id in favoriteIdPlaces) {
-      final place = placeRepository.getPlaceId(id);
-
-      addFavoritePlace(place);
-    }
-  }
-
-  Future<void> addFavoritePlace(Future<Place> placeFuture) async {
-    final place = await placeFuture;
-
-    if (dataVisited[place.id]?.isBefore(DateTime.now()) ?? false) {
-      favoriteIdPlaces.remove(place.id);
-      visitedIdPlaces.add(place.id);
-
-      getVisitedPlace();
-    } else {
-      favoritePlaces.add(place);
-    }
-  }
-
-  void getVisitedPlace() {
-    visitedPlaces.clear();
-
-    for (final id in visitedIdPlaces) {
-      final place = placeRepository.getPlaceId(id);
-
-      addVisitedPlace(place);
-    }
-  }
-
-  Future<void> addVisitedPlace(Future<Place> placeFuture) async {
-    final place = await placeFuture;
-
-    visitedPlaces.add(place);
-  }
 }
+
+

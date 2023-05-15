@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_job/data/iterator/place_provider.dart';
 import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
@@ -8,8 +9,8 @@ import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/ui/screens/content.dart';
-import 'package:flutter_job/ui/screens/sight_list_screen/sight_list_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 AppTypography appTypography = AppTypography();
 Set<Place> listSearch = {};
@@ -35,6 +36,8 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final placeProvider = Provider.of<PlaceProvider>(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -64,12 +67,12 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
               onEditingComplete: () => FocusScope.of(context).unfocus(),
               controller: _searchController,
               onChanged: (value) {
-                placeIterator.getPlaces(null, null);
+                placeProvider.getPlaces(null, null);
 
                 setState(() {
                   searchResult.clear();
 
-                  searchResult = placeIterator.searchPlaces(value);
+                  searchResult = placeProvider.searchPlaces(value);
                 });
               },
               cursorWidth: 1,
