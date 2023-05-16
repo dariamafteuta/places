@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_job/data/repository/place_repository.dart';
+import 'package:flutter_job/data/iterator/add_place_provider.dart';
+import 'package:flutter_job/data/iterator/favorite_provider.dart';
+import 'package:flutter_job/data/iterator/place_provider.dart';
+import 'package:flutter_job/data/iterator/visited_provider.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/screens/res/themes.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const App());
@@ -27,12 +31,31 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: themeProvider.isLightTheme ? lightThemes : darkThemes,
-      title: AppStrings.appTitle,
-      debugShowCheckedModeBanner: false,
-      initialRoute: AppNavigation.onBoardingScreen,
-      onGenerateRoute: AppNavigation.generateRoute,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<ThemeProvider>(
+          create: (_) => ThemeProvider(),
+        ),
+        ChangeNotifierProvider<PlaceProvider>(
+          create: (_) => PlaceProvider(),
+        ),
+        ChangeNotifierProvider<FavoriteProvider>(
+          create: (_) => FavoriteProvider(),
+        ),
+        ChangeNotifierProvider<VisitedProvider>(
+          create: (_) => VisitedProvider(),
+        ),
+        ChangeNotifierProvider<AddPlaceProvider>(
+          create: (_) => AddPlaceProvider(),
+        ),
+      ],
+      child: MaterialApp(
+        theme: themeProvider.isLightTheme ? lightThemes : darkThemes,
+        title: AppStrings.appTitle,
+        debugShowCheckedModeBanner: false,
+        initialRoute: AppNavigation.onBoardingScreen,
+        onGenerateRoute: AppNavigation.generateRoute,
+      ),
     );
   }
 
@@ -48,7 +71,6 @@ class _AppState extends State<App> {
     themeProvider.removeListener(_onThemeChange);
     super.dispose();
   }
-
 
   void _onThemeChange() {
     setState(() {});

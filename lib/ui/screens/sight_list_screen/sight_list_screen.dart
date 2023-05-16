@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_job/data/iterator/place_iterator.dart';
 import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/data/repository/place_repository.dart';
 import 'package:flutter_job/main.dart';
@@ -15,7 +14,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 AppTypography appTypography = AppTypography();
 PlaceRepository placeRepository = PlaceRepository();
-PlaceIterator placeIterator = PlaceIterator();
 
 class SightListScreen extends StatefulWidget {
   final Future<List<Place>> places;
@@ -168,24 +166,24 @@ class SightPortrait extends StatelessWidget {
           );
         } else if (snapshot.hasError) {
           return SliverFillRemaining(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SvgPicture.asset(AppAssets.group_5922EmptyPage),
-                  sizedBox24H,
-                  Text(
-                    AppStrings.error,
-                    style: appTypography.textGreyInactive18Bold,
-                    textAlign: TextAlign.center,
-                  ),
-                  sizedBox8H,
-                  Text(
-                    AppStrings.errorTut,
-                    style: appTypography.textGreyInactive14Regular,
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(AppAssets.group_5922EmptyPage),
+                sizedBox24H,
+                Text(
+                  AppStrings.error,
+                  style: appTypography.textGreyInactive18Bold,
+                  textAlign: TextAlign.center,
+                ),
+                sizedBox8H,
+                Text(
+                  AppStrings.errorTut,
+                  style: appTypography.textGreyInactive14Regular,
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
           );
         } else {
           return SliverFillRemaining(

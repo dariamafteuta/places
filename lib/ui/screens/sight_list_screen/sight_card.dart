@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_job/data/iterator/favorite_provider.dart';
 import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/screens/sight_details_screen/bottom_sheet_details.dart';
 import 'package:flutter_job/ui/screens/sight_list_screen/sight_list_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 AppTypography appTypography = AppTypography();
 
@@ -38,6 +40,11 @@ class _SightCardState extends State<SightCard> {
 
   @override
   Widget build(BuildContext context) {
+    final favoriteProvider = Provider.of<FavoriteProvider>(
+      context,
+      listen: false,
+    );
+
     return Padding(
       padding: const EdgeInsets.only(
         bottom: 16,
@@ -90,7 +97,7 @@ class _SightCardState extends State<SightCard> {
                 ),
                 StreamBuilder<List<int>>(
                   stream: favoritePlacesStream,
-                  initialData: placeIterator.favoriteIdPlaces,
+                  initialData: favoriteProvider.favoriteIdPlaces,
                   builder: (_, snapshot) {
                     final favoritePlaces = snapshot.data!;
                     final isFavorite = favoritePlaces.contains(widget.place.id);
@@ -114,7 +121,7 @@ class _SightCardState extends State<SightCard> {
                                   favoritePlaces.add(widget.place.id);
                                 }
                                 _updateFavoritePlaces(favoritePlaces);
-                                placeIterator.getFavoritePlace();
+                                favoriteProvider.getFavoritePlace();
                               },
                             ),
                           )

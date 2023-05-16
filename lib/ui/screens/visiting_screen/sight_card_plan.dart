@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_job/data/iterator/favorite_provider.dart';
 import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/components/card_delete_background.dart';
@@ -9,9 +10,9 @@ import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/screens/sight_details_screen/bottom_sheet_details.dart';
-import 'package:flutter_job/ui/screens/sight_list_screen/sight_list_screen.dart';
 import 'package:flutter_job/ui/screens/visiting_screen/visiting_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 AppTypography appTypography = AppTypography();
 
@@ -36,6 +37,11 @@ class _SightCardPlanState extends State<SightCardPlan> {
 
   @override
   Widget build(BuildContext context) {
+    final favoriteProvider = Provider.of<FavoriteProvider>(
+      context,
+      listen: false,
+    );
+
     return Padding(
       padding: const EdgeInsets.only(
         bottom: 16,
@@ -115,8 +121,8 @@ class _SightCardPlanState extends State<SightCardPlan> {
                               setState(() {
                                 date = selectedDate;
 
-                                placeIterator.getFavoritePlace();
-                                placeIterator
+                                favoriteProvider.getFavoritePlace();
+                                favoriteProvider
                                         .dataVisited[widget.favoritePlace.id] =
                                     date;
                                 widget.validateData(widget.favoritePlace);
@@ -198,8 +204,13 @@ class _SightCardPlanState extends State<SightCardPlan> {
   }
 
   String dataString() {
-    if (placeIterator.dataVisited.containsKey(widget.favoritePlace.id)) {
-      date = placeIterator.dataVisited[widget.favoritePlace.id];
+    final favoriteProvider = Provider.of<FavoriteProvider>(
+      context,
+      listen: false,
+    );
+
+    if (favoriteProvider.dataVisited.containsKey(widget.favoritePlace.id)) {
+      date = favoriteProvider.dataVisited[widget.favoritePlace.id];
 
       return 'Запланировано на ${date?.day} ${date?.month} ${date?.year}';
     } else {
@@ -236,6 +247,11 @@ class _SightCardPlanState extends State<SightCardPlan> {
   }
 
   Future<void> iosPicker() async {
+    final favoriteProvider = Provider.of<FavoriteProvider>(
+      context,
+      listen: false,
+    );
+
     return showCupertinoModalPopup(
       context: context,
       builder: (_) => Container(
@@ -254,7 +270,7 @@ class _SightCardPlanState extends State<SightCardPlan> {
                   setState(() {
                     date = val;
                   });
-                  placeIterator.dataVisited[widget.favoritePlace.id] = date;
+                  favoriteProvider.dataVisited[widget.favoritePlace.id] = date;
                 },
               ),
             ),
@@ -267,7 +283,7 @@ class _SightCardPlanState extends State<SightCardPlan> {
               ),
               onPressed: () {
                 setState(() {
-                  placeIterator.getFavoritePlace();
+                  favoriteProvider.getFavoritePlace();
                   widget.validateData(widget.favoritePlace);
                 });
                 Navigator.pop(context);

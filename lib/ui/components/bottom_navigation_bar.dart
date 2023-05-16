@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_job/data/iterator/place_provider.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/screens/filters_screen.dart';
-import 'package:flutter_job/ui/screens/sight_list_screen/sight_list_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class BottomNavigation extends StatefulWidget {
   final int index;
@@ -13,7 +14,8 @@ class BottomNavigation extends StatefulWidget {
 
   const BottomNavigation({
     Key? key,
-    required this.index, required this.themeProvider,
+    required this.index,
+    required this.themeProvider,
   }) : super(key: key);
 
   @override
@@ -23,12 +25,17 @@ class BottomNavigation extends StatefulWidget {
 class _BottomNavigationState extends State<BottomNavigation> {
   @override
   Widget build(BuildContext context) {
+    final placeProvider = Provider.of<PlaceProvider>(
+      context,
+      listen: false,
+    );
+
     return BottomNavigationBar(
       onTap: (index) {
         if (index == 0) {
           AppNavigation.goToSightList(
             context,
-            placeIterator.getPlaces(
+            placeProvider.getPlaces(
               RangeValues(start, end),
               null,
             ),

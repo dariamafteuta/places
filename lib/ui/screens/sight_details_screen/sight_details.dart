@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_job/data/iterator/favorite_provider.dart';
 import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/res/constants.dart';
-import 'package:flutter_job/ui/screens/sight_list_screen/sight_list_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class SightDetails extends StatefulWidget {
   final Place place;
@@ -24,12 +25,22 @@ class _SightDetailsState extends State<SightDetails> {
 
   @override
   void initState() {
+    final favoriteProvider = Provider.of<FavoriteProvider>(
+      context,
+      listen: false,
+    );
+
     super.initState();
-    isFavorite = placeIterator.favoriteIdPlaces.contains(widget.place.id);
+    isFavorite = favoriteProvider.favoriteIdPlaces.contains(widget.place.id);
   }
 
   @override
   Widget build(BuildContext context) {
+    final favoriteProvider = Provider.of<FavoriteProvider>(
+      context,
+      listen: false,
+    );
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -53,7 +64,7 @@ class _SightDetailsState extends State<SightDetails> {
               TextButton.icon(
                 onPressed: () {},
                 icon: SvgPicture.asset(
-                  placeIterator.dataVisited[widget.place.id] != null
+                  favoriteProvider.dataVisited[widget.place.id] != null
                       ? AppAssets.calendarFull
                       : AppAssets.calendar,
                   color: isFavorite
@@ -76,11 +87,11 @@ class _SightDetailsState extends State<SightDetails> {
                     isFavorite = !isFavorite;
 
                     if (isFavorite) {
-                      placeIterator.favoriteIdPlaces.add(widget.place.id);
-                      placeIterator.getFavoritePlace();
+                      favoriteProvider.favoriteIdPlaces.add(widget.place.id);
+                      favoriteProvider.getFavoritePlace();
                     } else {
-                      placeIterator.favoriteIdPlaces.remove(widget.place.id);
-                      placeIterator.getFavoritePlace();
+                      favoriteProvider.favoriteIdPlaces.remove(widget.place.id);
+                      favoriteProvider.getFavoritePlace();
                     }
                   });
                 },

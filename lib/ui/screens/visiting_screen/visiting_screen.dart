@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_job/data/iterator/favorite_provider.dart';
+import 'package:flutter_job/data/iterator/visited_provider.dart';
 import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/components/bottom_navigation_bar.dart';
@@ -6,10 +8,10 @@ import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/res/constants.dart';
-import 'package:flutter_job/ui/screens/sight_list_screen/sight_list_screen.dart';
 import 'package:flutter_job/ui/screens/visiting_screen/sight_card_plan.dart';
 import 'package:flutter_job/ui/screens/visiting_screen/sight_card_visited.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 AppTypography appTypography = AppTypography();
 
@@ -23,6 +25,15 @@ class VisitingScreen extends StatefulWidget {
 class _VisitingScreenState extends State<VisitingScreen> {
   @override
   Widget build(BuildContext context) {
+    final favoriteProvider = Provider.of<FavoriteProvider>(
+      context,
+      listen: false,
+    );
+    final visitedProvider = Provider.of<VisitedProvider>(
+      context,
+      listen: false,
+    );
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -66,10 +77,10 @@ class _VisitingScreenState extends State<VisitingScreen> {
         ),
         body: TabBarView(
           children: [
-            if (placeIterator.favoritePlaces.isNotEmpty)
+            if (favoriteProvider.favoritePlaces.isNotEmpty)
               ReorderableListView(
                 onReorder: _onReorderPlan,
-                children: placeIterator.favoritePlaces.map((place) {
+                children: favoriteProvider.favoritePlaces.map((place) {
                   return SightCardPlan(
                     ValueKey(place.id),
                     place,
@@ -78,7 +89,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
                   );
                 }).toList(), // преобразование множества в список
               )
-            else if (placeIterator.favoritePlaces.isEmpty)
+            else if (favoriteProvider.favoritePlaces.isEmpty)
               Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -98,10 +109,10 @@ class _VisitingScreenState extends State<VisitingScreen> {
                   ],
                 ),
               ),
-            if (placeIterator.visitedPlaces.isNotEmpty)
+            if (visitedProvider.visitedPlaces.isNotEmpty)
               ReorderableListView(
                 onReorder: _onReorderVisited,
-                children: placeIterator.visitedPlaces.map((place) {
+                children: visitedProvider.visitedPlaces.map((place) {
                   return SightCardVisited(
                     ValueKey(place.id),
                     place,
@@ -109,7 +120,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
                   );
                 }).toList(),
               )
-            else if (placeIterator.visitedPlaces.isEmpty)
+            else if (visitedProvider.visitedPlaces.isEmpty)
               Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -136,28 +147,51 @@ class _VisitingScreenState extends State<VisitingScreen> {
   }
 
   void validateData(Place place) {
-    if (placeIterator.dataVisited[place.id]?.isBefore(DateTime.now()) ??
-        false) {
-      placeIterator.favoriteIdPlaces.remove(place.id);
-      placeIterator.visitedIdPlaces.add(place.id);
+    final favoriteProvider = Provider.of<FavoriteProvider>(
+      context,
+      listen: false,
+    );
+    final visitedProvider = Provider.of<VisitedProvider>(
+      context,
+      listen: false,
+    );
 
-      placeIterator.visitedPlaces.add(place);
+    if (favoriteProvider.dataVisited[place.id]?.isBefore(DateTime.now()) ??
+        false) {
+      favoriteProvider.favoriteIdPlaces.remove(place.id);
+      visitedProvider.visitedIdPlaces.add(place.id);
+
+      visitedProvider.visitedPlaces.add(place);
     }
   }
 
   void removeFavoritePlace(Place place) {
+    final favoriteProvider = Provider.of<FavoriteProvider>(
+      context,
+      listen: false,
+    );
+
     setState(() {
-      placeIterator.favoritePlaces.remove(place);
-      placeIterator.favoriteIdPlaces.remove(place.id);
-      placeIterator.dataVisited.remove(place.id);
+      favoriteProvider.favoritePlaces.remove(place);
+      favoriteProvider.favoriteIdPlaces.remove(place.id);
+      favoriteProvider.dataVisited.remove(place.id);
     });
   }
 
   void removeVisitedPlace(Place place) {
+    final visitedProvider = Provider.of<VisitedProvider>(
+      context,
+      listen: false,
+    );
+    final favoriteProvider = Provider.of<FavoriteProvider>(
+      context,
+      listen: false,
+    );
+
     setState(() {
-      placeIterator.visitedPlaces.remove(place);
-      placeIterator.visitedIdPlaces.remove(place.id);
-      placeIterator.dataVisited.remove(place.id);
+      visitedProvider.visitedPlaces.remove(place);
+      visitedProvider.visitedIdPlaces.remove(place.id);
+      favoriteProvider.dataVisited.remove(place.id);
     });
   }
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_job/data/iterator/place_iterator.dart';
+import 'package:flutter_job/data/iterator/place_provider.dart';
 import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
 import 'package:flutter_job/main.dart';
@@ -13,6 +13,7 @@ import 'package:flutter_job/ui/screens/sight_list_screen/sight_list_screen.dart'
 import 'package:flutter_job/ui/screens/sight_search_screen.dart';
 import 'package:flutter_job/ui/screens/splash_screen.dart';
 import 'package:flutter_job/ui/screens/visiting_screen/visiting_screen.dart';
+import 'package:provider/provider.dart';
 
 class AppNavigation {
   static const String splashScreen = '/splash_screen';
@@ -34,8 +35,11 @@ class AppNavigation {
         );
       case sightListScreen:
         return MaterialPageRoute<SightListScreen>(
-          builder: (_) => SightListScreen(
-            places: PlaceIterator().getPlaces(
+          builder: (context) => SightListScreen(
+            places: Provider.of<PlaceProvider>(
+              context,
+              listen: false,
+            ).getPlaces(
               null,
               null,
             ),
