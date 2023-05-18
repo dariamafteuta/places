@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_job/data/iterator/place_provider.dart';
+import 'package:flutter_job/data/iterator/place_store.dart';
 import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
 import 'package:flutter_job/main.dart';
@@ -36,7 +36,7 @@ class AppNavigation {
       case sightListScreen:
         return MaterialPageRoute<SightListScreen>(
           builder: (context) => SightListScreen(
-            places: Provider.of<PlaceProvider>(
+            places: Provider.of<PlaceStore>(
               context,
               listen: false,
             ).getPlaces(
@@ -115,9 +115,9 @@ class AppNavigation {
   }
 
   static void goToCategories(
-    BuildContext context,
-    Function(String) updateSelectedCategory,
-  ) {
+      BuildContext context,
+      Function(String) updateSelectedCategory,
+      ) {
     Navigator.push<Categories>(
       context,
       MaterialPageRoute(
@@ -138,8 +138,8 @@ class AppNavigation {
   }
 
   static void goToAddSight(
-    BuildContext context,
-  ) {
+      BuildContext context,
+      ) {
     Navigator.push<AddSightScreen>(
       context,
       MaterialPageRoute(

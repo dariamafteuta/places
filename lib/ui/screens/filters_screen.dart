@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_job/data/iterator/place_provider.dart';
+import 'package:flutter_job/data/iterator/place_store.dart';
 import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/translate_type.dart';
@@ -50,6 +50,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final placeStore = Provider.of<PlaceStore>(context, listen: false);
     final largeScreenSize = MediaQuery.of(context).size.width > 320;
 
     return Scaffold(
@@ -95,7 +96,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                 crossAxisCount: largeScreenSize ? 3 : 1,
                 shrinkWrap: true,
                 scrollDirection:
-                    largeScreenSize ? Axis.vertical : Axis.horizontal,
+                largeScreenSize ? Axis.vertical : Axis.horizontal,
                 children: List.generate(listType.length, (index) {
                   return Padding(
                     padding: const EdgeInsets.only(top: 24, bottom: 16),
@@ -154,40 +155,37 @@ class _FiltersScreenState extends State<FiltersScreen> {
               ],
             ),
             sizedBox24H,
-            SizedBox(
-              width: double.infinity,
-              height: 48,
-              child: TextButton(
-                child: Text(
-                  '${AppStrings.show.toUpperCase()} ($length)',
-                  style: appTypography.text14Regular
-                      .copyWith(color: themeProvider.appTheme.whiteColor),
-                ),
-                style: TextButton.styleFrom(
-                  elevation: 0.0,
-                  backgroundColor: themeProvider.appTheme.greenColor,
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.push<FiltersScreen>(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SightListScreen(
-                        places: Provider.of<PlaceProvider>(
-                          context,
-                          listen: false,
-                        ).getPlaces(
-                          RangeValues(start, end),
-                          selectedType,
-                        ),
+             SizedBox(
+                  width: double.infinity,
+                  height: 48,
+                  child: TextButton(
+                    child: Text(
+                      '${AppStrings.show.toUpperCase()} ($length)',
+                      style: appTypography.text14Regular
+                          .copyWith(color: themeProvider.appTheme.whiteColor),
+                    ),
+                    style: TextButton.styleFrom(
+                      elevation: 0.0,
+                      backgroundColor: themeProvider.appTheme.greenColor,
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                  );
-                },
-              ),
+                    onPressed: () {
+                      Navigator.push<FiltersScreen>(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SightListScreen(
+                            places: placeStore.getPlaces(
+                              RangeValues(start, end),
+                              selectedType,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
             ),
           ],
         ),
@@ -204,12 +202,9 @@ class _FiltersScreenState extends State<FiltersScreen> {
   }
 
   Future<void> filter() async {
-    final placeProvider = Provider.of<PlaceProvider>(
-      context,
-      listen: false,
-    );
+    final placeStore = Provider.of<PlaceStore>(context, listen: false);
     final selectedPlaces =
-        await placeProvider.getPlaces(RangeValues(start, end), selectedType);
+    await placeStore.getPlaces(RangeValues(start, end), selectedType);
 
     setState(() {
       length = selectedPlaces.length;

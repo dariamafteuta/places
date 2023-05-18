@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_job/data/iterator/place_provider.dart';
+import 'package:flutter_job/data/iterator/place_store.dart';
 import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
@@ -36,7 +36,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final placeProvider = Provider.of<PlaceProvider>(context, listen: false);
+    final placeStore = Provider.of<PlaceStore>(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(
@@ -67,12 +67,12 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
               onEditingComplete: () => FocusScope.of(context).unfocus(),
               controller: _searchController,
               onChanged: (value) {
-                placeProvider.getPlaces(null, null);
+                placeStore.getPlaces(null, null);
 
                 setState(() {
                   searchResult.clear();
 
-                  searchResult = placeProvider.searchPlaces(value);
+                  searchResult = placeStore.searchPlaces(value);
                 });
               },
               cursorWidth: 1,
