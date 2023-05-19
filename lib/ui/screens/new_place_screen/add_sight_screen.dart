@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_job/data/iterator/add_place_provider.dart';
-import 'package:flutter_job/data/iterator/place_provider.dart';
+import 'package:flutter_job/data/iterator/add_place_store.dart';
+import 'package:flutter_job/data/iterator/place_store.dart';
 import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
@@ -219,18 +219,12 @@ class _AddSightScreenState extends State<AddSightScreen> {
   }
 
   Future<void> _submitForm() async {
-    final addPlaceProvider = Provider.of<AddPlaceProvider>(
-      context,
-      listen: false,
-    );
-    final placeProvider = Provider.of<PlaceProvider>(
-      context,
-      listen: false,
-    );
+    final addPlaceStore = Provider.of<AddPlaceStore>(context, listen: false);
+    final placeStore = Provider.of<PlaceStore>(context, listen: false);
 
     if (_formKey.currentState!.validate()) {
       final place = Place(
-        id: placeProvider.placeFromNet.length + 1,
+        id: placeStore.placeFromNet.length + 1,
         lat: double.parse(_latController.text),
         lon: double.parse(_lonController.text),
         name: _nameController.text,
@@ -242,8 +236,8 @@ class _AddSightScreenState extends State<AddSightScreen> {
       try {
         Navigator.pop(context);
 
-        await addPlaceProvider.addNewPlace(place);
-      // ignore: avoid_catches_without_on_clauses
+        await addPlaceStore.addNewPlace(place);
+        // ignore: avoid_catches_without_on_clauses
       } catch (e) {
         debugPrint('Error: $e');
       }
@@ -323,15 +317,15 @@ class _TextFieldsState extends State<TextFields> {
         focusedBorder: focusBorder,
         suffixIcon: widget.controller.text.isNotEmpty
             ? CupertinoButton(
-                padding: EdgeInsets.zero,
-                onPressed: () {
-                  setState(widget.controller.clear);
-                },
-                child: SvgPicture.asset(
-                  AppAssets.clear,
-                  color: themeProvider.appTheme.mainWhiteColor,
-                ),
-              )
+          padding: EdgeInsets.zero,
+          onPressed: () {
+            setState(widget.controller.clear);
+          },
+          child: SvgPicture.asset(
+            AppAssets.clear,
+            color: themeProvider.appTheme.mainWhiteColor,
+          ),
+        )
             : null,
       ),
       inputFormatters: [

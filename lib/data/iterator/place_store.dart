@@ -4,14 +4,19 @@ import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/data/repository/place_repository.dart';
 import 'package:flutter_job/domain/coordinate.dart';
 import 'package:flutter_job/main.dart';
+import 'package:mobx/mobx.dart';
+
+part 'place_store.g.dart';
 
 PlaceRepository placeRepository = PlaceRepository();
 
-class PlaceProvider extends ChangeNotifier {
-  PlaceRepository placeRepository = PlaceRepository();
+class PlaceStore = PlaceStoreBase with _$PlaceStore;
 
+abstract class PlaceStoreBase with Store {
+  @observable
   List<Place> placeFromNet = [];
 
+  @action
   Future<List<Place>> getPlaces(
     RangeValues? radius,
     List<String>? category,
@@ -28,6 +33,7 @@ class PlaceProvider extends ChangeNotifier {
       ..sort((a, b) => distanceCalculate(a).compareTo(distanceCalculate(b)));
   }
 
+  @action
   Future<List<Place>> getPlacesFiltered(
     List<Place> listPlace, {
     RangeValues? radius,
@@ -76,6 +82,7 @@ class PlaceProvider extends ChangeNotifier {
         calculatedDistance <= rangeValues.end;
   }
 
+  @action
   List<Place> filterListPlacesCategory(
     List<Place> placeList,
     List<String> category,
@@ -86,6 +93,7 @@ class PlaceProvider extends ChangeNotifier {
     return listPlaceFiltered;
   }
 
+  @action
   double distanceCalculate(Place place) {
     final centerPoint = Coordinate(
       lat: userLatitude,
@@ -101,6 +109,7 @@ class PlaceProvider extends ChangeNotifier {
     return calculatedDistance;
   }
 
+  @action
   List<Place> searchPlaces(String name) {
     final searchResult = <Place>[];
 
@@ -114,5 +123,3 @@ class PlaceProvider extends ChangeNotifier {
       ..sort((a, b) => distanceCalculate(a).compareTo(distanceCalculate(b)));
   }
 }
-
-

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_job/data/iterator/add_place_provider.dart';
-import 'package:flutter_job/data/iterator/favorite_provider.dart';
-import 'package:flutter_job/data/iterator/place_provider.dart';
-import 'package:flutter_job/data/iterator/visited_provider.dart';
+import 'package:flutter_job/data/iterator/add_place_store.dart';
+import 'package:flutter_job/data/iterator/favorite_store.dart';
+import 'package:flutter_job/data/iterator/place_store.dart';
+import 'package:flutter_job/data/iterator/visited_store.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
@@ -36,17 +36,17 @@ class _AppState extends State<App> {
         ChangeNotifierProvider<ThemeProvider>(
           create: (_) => ThemeProvider(),
         ),
-        ChangeNotifierProvider<PlaceProvider>(
-          create: (_) => PlaceProvider(),
+        Provider<PlaceStore>(
+          create: (_) => PlaceStore(),
         ),
-        ChangeNotifierProvider<FavoriteProvider>(
-          create: (_) => FavoriteProvider(),
+        Provider<FavoriteStore>(
+          create: (_) => FavoriteStore(),
         ),
-        ChangeNotifierProvider<VisitedProvider>(
-          create: (_) => VisitedProvider(),
+        Provider<VisitedStore>(
+          create: (_) => VisitedStore(),
         ),
-        ChangeNotifierProvider<AddPlaceProvider>(
-          create: (_) => AddPlaceProvider(),
+        Provider<AddPlaceStore>(
+          create: (_) => AddPlaceStore(),
         ),
       ],
       child: MaterialApp(

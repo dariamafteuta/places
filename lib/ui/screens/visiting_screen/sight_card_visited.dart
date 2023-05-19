@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_job/data/iterator/favorite_provider.dart';
+import 'package:flutter_job/data/iterator/favorite_store.dart';
 import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/components/card_delete_background.dart';
@@ -173,12 +173,9 @@ class _SightCardVisitedState extends State<SightCardVisited> {
   }
 
   String _dataString() {
-    final favoriteProvider = Provider.of<FavoriteProvider>(
-      context,
-      listen: false,
-    );
+    final favoriteStore = Provider.of<FavoriteStore>(context, listen: false);
 
-    final data = favoriteProvider.dataVisited[widget.visitedPlace.id];
+    final data = favoriteStore.dataVisited[widget.visitedPlace.id];
 
     return 'Цель достигнута ${data?.day} ${data?.month} ${data?.year}';
   }

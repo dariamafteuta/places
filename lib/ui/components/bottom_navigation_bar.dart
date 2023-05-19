@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_job/data/iterator/place_provider.dart';
+import 'package:flutter_job/data/iterator/place_store.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
@@ -25,17 +25,14 @@ class BottomNavigation extends StatefulWidget {
 class _BottomNavigationState extends State<BottomNavigation> {
   @override
   Widget build(BuildContext context) {
-    final placeProvider = Provider.of<PlaceProvider>(
-      context,
-      listen: false,
-    );
+    final placeStore = Provider.of<PlaceStore>(context, listen: false);
 
     return BottomNavigationBar(
       onTap: (index) {
         if (index == 0) {
           AppNavigation.goToSightList(
             context,
-            placeProvider.getPlaces(
+            placeStore.getPlaces(
               RangeValues(start, end),
               null,
             ),

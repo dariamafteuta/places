@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_job/data/iterator/favorite_provider.dart';
+import 'package:flutter_job/data/iterator/favorite_store.dart';
 import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/main.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
@@ -25,21 +25,15 @@ class _SightDetailsState extends State<SightDetails> {
 
   @override
   void initState() {
-    final favoriteProvider = Provider.of<FavoriteProvider>(
-      context,
-      listen: false,
-    );
+    final favoriteStore = Provider.of<FavoriteStore>(context, listen: false);
 
     super.initState();
-    isFavorite = favoriteProvider.favoriteIdPlaces.contains(widget.place.id);
+    isFavorite = favoriteStore.favoriteIdPlaces.contains(widget.place.id);
   }
 
   @override
   Widget build(BuildContext context) {
-    final favoriteProvider = Provider.of<FavoriteProvider>(
-      context,
-      listen: false,
-    );
+    final favoriteStore = Provider.of<FavoriteStore>(context, listen: false);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -64,7 +58,7 @@ class _SightDetailsState extends State<SightDetails> {
               TextButton.icon(
                 onPressed: () {},
                 icon: SvgPicture.asset(
-                  favoriteProvider.dataVisited[widget.place.id] != null
+                  favoriteStore.dataVisited[widget.place.id] != null
                       ? AppAssets.calendarFull
                       : AppAssets.calendar,
                   color: isFavorite
@@ -75,8 +69,8 @@ class _SightDetailsState extends State<SightDetails> {
                   AppStrings.plan,
                   style: isFavorite
                       ? appTypography.text14Regular.copyWith(
-                          color: themeProvider.appTheme.secondaryWhiteColor,
-                        )
+                    color: themeProvider.appTheme.secondaryWhiteColor,
+                  )
                       : appTypography.textGreyInactive14Regular,
                 ),
               ),
@@ -87,11 +81,11 @@ class _SightDetailsState extends State<SightDetails> {
                     isFavorite = !isFavorite;
 
                     if (isFavorite) {
-                      favoriteProvider.favoriteIdPlaces.add(widget.place.id);
-                      favoriteProvider.getFavoritePlace();
+                      favoriteStore.favoriteIdPlaces.add(widget.place.id);
+                      favoriteStore.getFavoritePlace();
                     } else {
-                      favoriteProvider.favoriteIdPlaces.remove(widget.place.id);
-                      favoriteProvider.getFavoritePlace();
+                      favoriteStore.favoriteIdPlaces.remove(widget.place.id);
+                      favoriteStore.getFavoritePlace();
                     }
                   });
                 },
