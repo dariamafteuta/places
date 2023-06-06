@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_job/main.dart';
+import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_svg/svg.dart';

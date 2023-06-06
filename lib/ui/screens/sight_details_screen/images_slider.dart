@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_job/data/model/place.dart';
-import 'package:flutter_job/main.dart';
+import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
 
 class ImagesSlider extends StatefulWidget {
   final Place place;

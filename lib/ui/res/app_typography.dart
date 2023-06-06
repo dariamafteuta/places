@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_job/main.dart';
+import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
+
+AppTypography appTypography = AppTypography();
 
 class AppTypography {
   TextStyle text30Bold = const TextStyle(

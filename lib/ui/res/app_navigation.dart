@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_job/data/iterator/place_store.dart';
 import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
-import 'package:flutter_job/main.dart';
+import 'package:flutter_job/store/place_store_base.dart';
 import 'package:flutter_job/ui/screens/filters_screen.dart';
 import 'package:flutter_job/ui/screens/new_place_screen/add_sight_screen.dart';
 import 'package:flutter_job/ui/screens/new_place_screen/new_place_category.dart';
@@ -12,7 +11,7 @@ import 'package:flutter_job/ui/screens/sight_details_screen/sight_details_screen
 import 'package:flutter_job/ui/screens/sight_list_screen/sight_list_screen.dart';
 import 'package:flutter_job/ui/screens/sight_search_screen.dart';
 import 'package:flutter_job/ui/screens/splash_screen.dart';
-import 'package:flutter_job/ui/screens/visiting_screen/visiting_screen.dart';
+import 'package:flutter_job/ui/screens/visiting_screen/favorite_screen.dart';
 import 'package:provider/provider.dart';
 
 class AppNavigation {
@@ -46,8 +45,8 @@ class AppNavigation {
           ),
         );
       case visitingScreen:
-        return MaterialPageRoute<VisitingScreen>(
-          builder: (_) => const VisitingScreen(),
+        return MaterialPageRoute<FavoriteScreen>(
+          builder: (_) => const FavoriteScreen(),
         );
       case settingsScreen:
         return MaterialPageRoute<SettingsScreen>(
@@ -87,10 +86,10 @@ class AppNavigation {
   }
 
   static void goToVisiting(BuildContext context) {
-    Navigator.pushAndRemoveUntil<VisitingScreen>(
+    Navigator.pushAndRemoveUntil<FavoriteScreen>(
       context,
-      MaterialPageRoute<VisitingScreen>(
-        builder: (_) => const VisitingScreen(),
+      MaterialPageRoute<FavoriteScreen>(
+        builder: (_) => const FavoriteScreen(),
       ),
       ModalRoute.withName(visitingScreen),
     );
@@ -115,13 +114,13 @@ class AppNavigation {
   }
 
   static void goToCategories(
-      BuildContext context,
-      Function(String) updateSelectedCategory,
-      ) {
-    Navigator.push<Categories>(
+    BuildContext context,
+    Function(String) updateSelectedCategory,
+  ) {
+    Navigator.push<NewPlaceCategory>(
       context,
       MaterialPageRoute(
-        builder: (_) => Categories(
+        builder: (_) => NewPlaceCategory(
           updateSelectedCategory: updateSelectedCategory,
         ),
       ),
@@ -138,8 +137,8 @@ class AppNavigation {
   }
 
   static void goToAddSight(
-      BuildContext context,
-      ) {
+    BuildContext context,
+  ) {
     Navigator.push<AddSightScreen>(
       context,
       MaterialPageRoute(

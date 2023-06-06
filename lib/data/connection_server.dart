@@ -16,7 +16,8 @@ class ConnectionServer {
     try {
       return await dio.get<dynamic>(url);
     } on Exception catch (e) {
-      throw NetworkException(e, '$urlServerBackend$url');
+      NetworkException(e, '$urlServerBackend$url');
+      rethrow;
     }
   }
 
@@ -24,7 +25,8 @@ class ConnectionServer {
     try {
       return await dio.post<Future<Response>>(url, data: json);
     } on Exception catch (e) {
-      throw NetworkException(e, '$urlServerBackend$url');
+      NetworkException(e, '$urlServerBackend$url');
+      rethrow;
     }
   }
 
@@ -32,7 +34,8 @@ class ConnectionServer {
     try {
       return await dio.delete<Future<Response>>(url);
     } on Exception catch (e) {
-      throw NetworkException(e, '$urlServerBackend$url');
+      NetworkException(e, '$urlServerBackend$url');
+      rethrow;
     }
   }
 }

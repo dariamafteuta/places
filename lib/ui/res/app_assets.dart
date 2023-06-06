@@ -1,5 +1,5 @@
 class AppAssets {
-  //Catalog
+  // Catalog.
   static String cafe = 'assets/icons/catalog/cafe.svg';
   static String hotel = 'assets/icons/catalog/hotel.svg';
   static String museum = 'assets/icons/catalog/museum.svg';
@@ -21,14 +21,14 @@ class AppAssets {
       'assets/icons/catalog/white/particular_place.svg';
   static String restaurantWhite = 'assets/icons/catalog/white/restourant.svg';
 
-  //Empty page
+  // Empty page.
   static String goEmptyPage = 'assets/icons/empty_page/icon/go.svg';
   static String mapEmptyPage = 'assets/icons/empty_page/icon/map.svg';
   static String searchEmptyPage = 'assets/icons/empty_page/icon/search.svg';
   static String cardEmptyPage = 'assets/icons/empty_page/card.svg';
   static String group_5922EmptyPage = 'assets/icons/empty_page/group_5922.svg';
 
-  //menu
+  // Menu.
   static String heart = 'assets/icons/menu/heart.svg';
   static String heartFull = 'assets/icons/menu/heart_full.svg';
   static String list = 'assets/icons/menu/list.svg';
@@ -38,7 +38,7 @@ class AppAssets {
   static String settings = 'assets/icons/menu/settings.svg';
   static String settingsFull = 'assets/icons/menu/settings_full.svg';
 
-  //other
+  // Other.
   static String arrow = 'assets/icons/other/icon/arrow.svg';
   static String bucket = 'assets/icons/other/icon/bucket.svg';
   static String calendar = 'assets/icons/other/icon/calendar.svg';
@@ -67,11 +67,11 @@ class AppAssets {
   static String cardClose = 'assets/icons/other/card_close.svg';
   static String rectangle1339 = 'assets/icons/other/rectangle_1339.svg';
 
-  //tutorial
+  // Tutorial.
   static String tutorial1Frame = 'assets/icons/tutorial/tutorial1_frame.svg';
   static String tutorial2Frame = 'assets/icons/tutorial/tutorial2_frame.svg';
   static String tutorial3Frame = 'assets/icons/tutorial/tutorial3_frame.svg';
 
-  //icon_splash
+  // Icon_splash.
   static String iconSplash = 'assets/icons/icon_splash.svg';
 }

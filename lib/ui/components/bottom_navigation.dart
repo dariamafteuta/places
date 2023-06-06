@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_job/data/iterator/place_store.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
-import 'package:flutter_job/main.dart';
+import 'package:flutter_job/store/place_store_base.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/screens/filters_screen.dart';
@@ -10,12 +9,10 @@ import 'package:provider/provider.dart';
 
 class BottomNavigation extends StatefulWidget {
   final int index;
-  final ThemeProvider themeProvider;
 
   const BottomNavigation({
     Key? key,
     required this.index,
-    required this.themeProvider,
   }) : super(key: key);
 
   @override
@@ -23,6 +20,8 @@ class BottomNavigation extends StatefulWidget {
 }
 
 class _BottomNavigationState extends State<BottomNavigation> {
+  final mainWhiteColor = themeProvider.appTheme.mainWhiteColor;
+
   @override
   Widget build(BuildContext context) {
     final placeStore = Provider.of<PlaceStore>(context, listen: false);
@@ -49,28 +48,28 @@ class _BottomNavigationState extends State<BottomNavigation> {
         BottomNavigationBarItem(
           icon: SvgPicture.asset(
             widget.index == 0 ? AppAssets.listFull : AppAssets.list,
-            color: themeProvider.appTheme.mainWhiteColor,
+            color: mainWhiteColor,
           ),
           label: 'list',
         ),
         BottomNavigationBarItem(
           icon: SvgPicture.asset(
             widget.index == 1 ? AppAssets.mapFull : AppAssets.map,
-            color: themeProvider.appTheme.mainWhiteColor,
+            color: mainWhiteColor,
           ),
           label: 'map',
         ),
         BottomNavigationBarItem(
           icon: SvgPicture.asset(
             widget.index == 2 ? AppAssets.heartFull : AppAssets.heart,
-            color: themeProvider.appTheme.mainWhiteColor,
+            color: mainWhiteColor,
           ),
           label: 'favorite',
         ),
         BottomNavigationBarItem(
           icon: SvgPicture.asset(
             widget.index == 3 ? AppAssets.settingsFull : AppAssets.settings,
-            color: themeProvider.appTheme.mainWhiteColor,
+            color: mainWhiteColor,
           ),
           label: 'settings',
         ),

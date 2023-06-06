@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_job/data/iterator/favorite_store.dart';
 import 'package:flutter_job/data/model/place.dart';
-import 'package:flutter_job/main.dart';
+import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
+import 'package:flutter_job/store/favorite_store_base.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
@@ -18,17 +18,21 @@ class SightDetails extends StatefulWidget {
   State<SightDetails> createState() => _SightDetailsState();
 }
 
-AppTypography appTypography = AppTypography();
-
 class _SightDetailsState extends State<SightDetails> {
   bool isFavorite = false;
+
+  final inactiveColor = themeProvider.appTheme.inactiveColor;
+  final secondaryWhiteColor = themeProvider.appTheme.secondaryWhiteColor;
+  final text14RegularSecondaryColor = appTypography.text14Regular.copyWith(
+  color: themeProvider.appTheme.secondaryWhiteColor,
+  );
 
   @override
   void initState() {
     final favoriteStore = Provider.of<FavoriteStore>(context, listen: false);
 
     super.initState();
-    isFavorite = favoriteStore.favoriteIdPlaces.contains(widget.place.id);
+    isFavorite = favoriteStore.likeIdPlaces.contains(widget.place.id);
   }
 
   @override
@@ -46,10 +50,10 @@ class _SightDetailsState extends State<SightDetails> {
           sizedBox24H,
           _PlaceDetails(details: widget.place.description),
           sizedBox24H,
-          const _BuildRouteButton(),
+          _BuildRouteButton(),
           Divider(
             height: 39,
-            color: themeProvider.appTheme.inactiveColor,
+            color: inactiveColor,
             thickness: 0.8,
           ),
           Row(
@@ -62,15 +66,13 @@ class _SightDetailsState extends State<SightDetails> {
                       ? AppAssets.calendarFull
                       : AppAssets.calendar,
                   color: isFavorite
-                      ? themeProvider.appTheme.secondaryWhiteColor
-                      : themeProvider.appTheme.inactiveColor,
+                      ? secondaryWhiteColor
+                      : inactiveColor,
                 ),
                 label: Text(
                   AppStrings.plan,
                   style: isFavorite
-                      ? appTypography.text14Regular.copyWith(
-                    color: themeProvider.appTheme.secondaryWhiteColor,
-                  )
+                      ? text14RegularSecondaryColor
                       : appTypography.textGreyInactive14Regular,
                 ),
               ),
@@ -81,23 +83,21 @@ class _SightDetailsState extends State<SightDetails> {
                     isFavorite = !isFavorite;
 
                     if (isFavorite) {
-                      favoriteStore.favoriteIdPlaces.add(widget.place.id);
+                      favoriteStore.likeIdPlaces.add(widget.place.id);
                       favoriteStore.getFavoritePlace();
                     } else {
-                      favoriteStore.favoriteIdPlaces.remove(widget.place.id);
+                      favoriteStore.likeIdPlaces.remove(widget.place.id);
                       favoriteStore.getFavoritePlace();
                     }
                   });
                 },
                 icon: SvgPicture.asset(
                   isFavorite ? AppAssets.heartFull : AppAssets.heart,
-                  color: themeProvider.appTheme.secondaryWhiteColor,
+                  color: secondaryWhiteColor,
                 ),
                 label: Text(
                   AppStrings.toFavorites,
-                  style: appTypography.text14Regular.copyWith(
-                    color: themeProvider.appTheme.secondaryWhiteColor,
-                  ),
+                  style: text14RegularSecondaryColor,
                 ),
               ),
             ],
@@ -164,7 +164,9 @@ class _PlaceDetails extends StatelessWidget {
 }
 
 class _BuildRouteButton extends StatelessWidget {
-  const _BuildRouteButton({Key? key}) : super(key: key);
+  final whiteColor = themeProvider.appTheme.whiteColor;
+
+  _BuildRouteButton({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -172,12 +174,12 @@ class _BuildRouteButton extends StatelessWidget {
       child: TextButton.icon(
         icon: SvgPicture.asset(
           AppAssets.go,
-          color: themeProvider.appTheme.whiteColor,
+          color: whiteColor,
         ),
         label: Text(
           AppStrings.buildARoute,
           style: appTypography.text14Regular
-              .copyWith(color: themeProvider.appTheme.whiteColor),
+              .copyWith(color: whiteColor),
         ),
         style: TextButton.styleFrom(
           elevation: 0.0,

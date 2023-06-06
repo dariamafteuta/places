@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_job/data/iterator/favorite_store.dart';
 import 'package:flutter_job/data/model/place.dart';
-import 'package:flutter_job/main.dart';
+import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
+import 'package:flutter_job/store/favorite_store_base.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/screens/sight_details_screen/bottom_sheet_details.dart';
@@ -13,16 +13,13 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-
-AppTypography appTypography = AppTypography();
-
 class SightCard extends StatefulWidget {
   final Place place;
 
   const SightCard(
-      Key? key,
-      this.place,
-      ) : super(key: key);
+    Key? key,
+    this.place,
+  ) : super(key: key);
 
   @override
   State<SightCard> createState() => _SightCardState();
@@ -30,7 +27,7 @@ class SightCard extends StatefulWidget {
 
 class _SightCardState extends State<SightCard> {
   final StreamController<List<int>> _favoritePlacesController =
-  StreamController<List<int>>();
+      StreamController<List<int>>();
   Stream<List<int>> get favoritePlacesStream =>
       _favoritePlacesController.stream;
 
@@ -42,6 +39,8 @@ class _SightCardState extends State<SightCard> {
 
   @override
   Widget build(BuildContext context) {
+    final id = widget.place.id;
+    final urls = widget.place.urls;
     final favoriteStore = Provider.of<FavoriteStore>(context, listen: false);
 
     return Padding(
@@ -81,8 +80,8 @@ class _SightCardState extends State<SightCard> {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: NetworkImage(
-                            widget.place.urls.isNotEmpty
-                                ? widget.place.urls[0]
+                            urls.isNotEmpty
+                                ? urls[0]
                                 : 'https://www.sirvisual.com/Attachment/100/5055_31356_420%20Principale.jpg',
                           ),
                           fit: BoxFit.fitWidth,
@@ -98,34 +97,37 @@ class _SightCardState extends State<SightCard> {
                   builder: (_) {
                     return StreamBuilder<List<int>>(
                       stream: favoritePlacesStream,
-                      initialData: favoriteStore.favoriteIdPlaces,
+                      initialData: favoriteStore.likeIdPlaces,
                       builder: (_, snapshot) {
-                        final favoritePlaces = snapshot.data!;
-                        final isFavorite = favoritePlaces.contains(widget.place.id);
+                        final favoriteIdPlaces = snapshot.data!;
+                        final isFavorite =
+                            favoriteIdPlaces.contains(widget.place.id);
 
                         return snapshot.hasData
                             ? Positioned(
-                          right: 0,
-                          child: CupertinoButton(
-                            child: SvgPicture.asset(
-                              isFavorite
-                                  ? AppAssets.heartFull
-                                  : AppAssets.heart,
-                              color: themeProvider.appTheme.whiteColor,
-                              height: 25,
-                              width: 25,
-                            ),
-                            onPressed: () {
-                              if (isFavorite) {
-                                favoritePlaces.remove(widget.place.id);
-                              } else {
-                                favoritePlaces.add(widget.place.id);
-                              }
-                              _updateFavoritePlaces(favoritePlaces);
-                              favoriteStore.getFavoritePlace();
-                            },
-                          ),
-                        )
+                                right: 0,
+                                child: CupertinoButton(
+                                  child: SvgPicture.asset(
+                                    isFavorite
+                                        ? AppAssets.heartFull
+                                        : AppAssets.heart,
+                                    color: themeProvider.appTheme.whiteColor,
+                                    height: 25,
+                                    width: 25,
+                                  ),
+                                  onPressed: () {
+                                    if (isFavorite) {
+                                      favoriteIdPlaces.remove(id);
+                                      favoriteStore.dataVisited
+                                          .remove(id);
+                                    } else {
+                                      favoriteIdPlaces.add(id);
+                                    }
+                                    favoriteStore.getFavoritePlace();
+                                    _updateFavoritePlaces(favoriteIdPlaces);
+                                  },
+                                ),
+                              )
                             : const SizedBox.shrink();
                       },
                     );

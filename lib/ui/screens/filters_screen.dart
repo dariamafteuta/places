@@ -1,19 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_job/data/iterator/place_store.dart';
 import 'package:flutter_job/data/model/place.dart';
-import 'package:flutter_job/main.dart';
-import 'package:flutter_job/translate_type.dart';
+import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
+import 'package:flutter_job/store/place_store_base.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/res/constants.dart';
+import 'package:flutter_job/ui/res/translate_type.dart';
 import 'package:flutter_job/ui/screens/content.dart';
 import 'package:flutter_job/ui/screens/sight_list_screen/sight_list_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-AppTypography appTypography = AppTypography();
 double start = 0.1;
 double end = 10000;
 
@@ -44,9 +43,10 @@ class _FiltersScreenState extends State<FiltersScreen> {
     AppAssets.cafeWhite,
   ];
 
-  List<String> selectedType = [];
   Future<List<Place>> selectedPlaces = Future.value([]);
+  List<String> selectedType = [];
   int length = 0;
+  final greenColor = themeProvider.appTheme.greenColor;
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +68,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
             child: Text(
               AppStrings.clear,
               style: appTypography.textGreen18Bold.copyWith(
-                color: themeProvider.appTheme.greenColor,
+                color: greenColor,
               ),
             ),
             onPressed: () {
@@ -96,7 +96,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                 crossAxisCount: largeScreenSize ? 3 : 1,
                 shrinkWrap: true,
                 scrollDirection:
-                largeScreenSize ? Axis.vertical : Axis.horizontal,
+                    largeScreenSize ? Axis.vertical : Axis.horizontal,
                 children: List.generate(listType.length, (index) {
                   return Padding(
                     padding: const EdgeInsets.only(top: 24, bottom: 16),
@@ -155,37 +155,37 @@ class _FiltersScreenState extends State<FiltersScreen> {
               ],
             ),
             sizedBox24H,
-             SizedBox(
-                  width: double.infinity,
-                  height: 48,
-                  child: TextButton(
-                    child: Text(
-                      '${AppStrings.show.toUpperCase()} ($length)',
-                      style: appTypography.text14Regular
-                          .copyWith(color: themeProvider.appTheme.whiteColor),
-                    ),
-                    style: TextButton.styleFrom(
-                      elevation: 0.0,
-                      backgroundColor: themeProvider.appTheme.greenColor,
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+            SizedBox(
+              width: double.infinity,
+              height: 48,
+              child: TextButton(
+                child: Text(
+                  '${AppStrings.show.toUpperCase()} ($length)',
+                  style: appTypography.text14Regular
+                      .copyWith(color: themeProvider.appTheme.whiteColor),
+                ),
+                style: TextButton.styleFrom(
+                  elevation: 0.0,
+                  backgroundColor: greenColor,
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.push<FiltersScreen>(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SightListScreen(
+                        places: placeStore.getPlaces(
+                          RangeValues(start, end),
+                          selectedType,
+                        ),
                       ),
                     ),
-                    onPressed: () {
-                      Navigator.push<FiltersScreen>(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SightListScreen(
-                            places: placeStore.getPlaces(
-                              RangeValues(start, end),
-                              selectedType,
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+                  );
+                },
+              ),
             ),
           ],
         ),
@@ -204,7 +204,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
   Future<void> filter() async {
     final placeStore = Provider.of<PlaceStore>(context, listen: false);
     final selectedPlaces =
-    await placeStore.getPlaces(RangeValues(start, end), selectedType);
+        await placeStore.getPlaces(RangeValues(start, end), selectedType);
 
     setState(() {
       length = selectedPlaces.length;
@@ -241,11 +241,13 @@ class CategoryPlace extends StatefulWidget {
 }
 
 class _CategoryPlaceState extends State<CategoryPlace> {
+  final transparentColor = themeProvider.appTheme.transparentColor;
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      highlightColor: themeProvider.appTheme.transparentColor,
-      splashColor: themeProvider.appTheme.transparentColor,
+      highlightColor: transparentColor,
+      splashColor: transparentColor,
       onTap: () {
         setState(() {
           final isSelected = !widget.isSelected;

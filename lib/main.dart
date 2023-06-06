@@ -1,34 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_job/data/iterator/add_place_store.dart';
-import 'package:flutter_job/data/iterator/favorite_store.dart';
-import 'package:flutter_job/data/iterator/place_store.dart';
-import 'package:flutter_job/data/iterator/visited_store.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
+import 'package:flutter_job/store/add_place_store_base.dart';
+import 'package:flutter_job/store/favorite_store_base.dart';
+import 'package:flutter_job/store/place_store_base.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
-import 'package:flutter_job/ui/screens/res/themes.dart';
+import 'package:flutter_job/ui/res/themes.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const App());
+  runApp(const Main());
 }
-
-final themeProvider = ThemeProvider();
 
 double userLatitude = 0;
 double userLongitude = 0;
 
-class App extends StatefulWidget {
-  const App({
+class Main extends StatefulWidget {
+  const Main({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<App> createState() => _AppState();
+  State<Main> createState() => _MainState();
 }
 
-class _AppState extends State<App> {
+class _MainState extends State<Main> {
+  @override
+  void initState() {
+    super.initState();
+    _getUserLocation();
+    themeProvider.addListener(_onThemeChange);
+  }
+
+  @override
+  void dispose() {
+    themeProvider.removeListener(_onThemeChange);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -42,9 +52,6 @@ class _AppState extends State<App> {
         Provider<FavoriteStore>(
           create: (_) => FavoriteStore(),
         ),
-        Provider<VisitedStore>(
-          create: (_) => VisitedStore(),
-        ),
         Provider<AddPlaceStore>(
           create: (_) => AddPlaceStore(),
         ),
@@ -53,23 +60,10 @@ class _AppState extends State<App> {
         theme: themeProvider.isLightTheme ? lightThemes : darkThemes,
         title: AppStrings.appTitle,
         debugShowCheckedModeBanner: false,
-        initialRoute: AppNavigation.onBoardingScreen,
+        initialRoute: AppNavigation.sightListScreen,
         onGenerateRoute: AppNavigation.generateRoute,
       ),
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _getUserLocation();
-    themeProvider.addListener(_onThemeChange);
-  }
-
-  @override
-  void dispose() {
-    themeProvider.removeListener(_onThemeChange);
-    super.dispose();
   }
 
   void _onThemeChange() {

@@ -1,32 +1,26 @@
 import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_job/data/iterator/favorite_store.dart';
 import 'package:flutter_job/data/model/place.dart';
-import 'package:flutter_job/main.dart';
+import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
+import 'package:flutter_job/store/favorite_store_base.dart';
 import 'package:flutter_job/ui/components/card_delete_background.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/screens/sight_details_screen/bottom_sheet_details.dart';
-import 'package:flutter_job/ui/screens/visiting_screen/visiting_screen.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_job/ui/screens/visiting_screen/favorite_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-AppTypography appTypography = AppTypography();
-
 class SightCardPlan extends StatefulWidget {
   final Place favoritePlace;
-  final Function(Place) remove;
-  final Function(Place) validateData;
 
   const SightCardPlan(
-      Key? key,
-      this.favoritePlace,
-      this.remove,
-      this.validateData,
-      ) : super(key: key);
+    Key? key,
+    this.favoritePlace,
+  ) : super(key: key);
 
   @override
   State<SightCardPlan> createState() => _SightCardPlanState();
@@ -35,8 +29,13 @@ class SightCardPlan extends StatefulWidget {
 class _SightCardPlanState extends State<SightCardPlan> {
   DateTime? date;
 
+  final whiteColor = themeProvider.appTheme.whiteColor;
+  final mainWhiteColor = themeProvider.appTheme.mainWhiteColor;
+
   @override
   Widget build(BuildContext context) {
+    final urls = widget.favoritePlace.urls;
+
     final favoriteStore = Provider.of<FavoriteStore>(context, listen: false);
 
     return Padding(
@@ -47,7 +46,7 @@ class _SightCardPlanState extends State<SightCardPlan> {
       ),
       child: InkWell(
         onTap: () {
-          showModalBottomSheet<VisitingScreen>(
+          showModalBottomSheet<FavoriteScreen>(
             isScrollControlled: true,
             isDismissible: false,
             context: context,
@@ -64,9 +63,11 @@ class _SightCardPlanState extends State<SightCardPlan> {
         child: Dismissible(
           key: UniqueKey(),
           onDismissed: (_) {
-            widget.remove(widget.favoritePlace);
+            favoriteStore
+              ..removePlace(widget.favoritePlace)
+              ..getFavoritePlace();
           },
-          background: const CardDeleteBackground(),
+          background: CardDeleteBackground(),
           child: Column(
             children: [
               Stack(
@@ -82,8 +83,8 @@ class _SightCardPlanState extends State<SightCardPlan> {
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             image: NetworkImage(
-                              widget.favoritePlace.urls.isNotEmpty
-                                  ? widget.favoritePlace.urls[0]
+                              urls.isNotEmpty
+                                  ? urls[0]
                                   : 'https://www.sirvisual.com/Attachment/100/5055_31356_420%20Principale.jpg',
                             ),
                             fit: BoxFit.fitWidth,
@@ -100,49 +101,46 @@ class _SightCardPlanState extends State<SightCardPlan> {
                       top: 5,
                       right: 5,
                     ),
-                    child: Observer(
-                      builder: (_) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            CupertinoButton(
-                              padding: const EdgeInsets.all(10),
-                              child: SvgPicture.asset(
-                                AppAssets.calendar,
-                                color: themeProvider.appTheme.whiteColor,
-                              ),
-                              onPressed: () async {
-                                DateTime? selectedDate;
-                                if (Platform.isAndroid) {
-                                  await iosPicker();
-                                } else {
-                                  selectedDate = await androidPicker();
-                                  setState(() {
-                                    date = selectedDate;
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        CupertinoButton(
+                          padding: const EdgeInsets.all(10),
+                          child: SvgPicture.asset(
+                            AppAssets.calendar,
+                            color: whiteColor,
+                          ),
+                          onPressed: () async {
+                            DateTime? selectedDate;
+                            if (Platform.isAndroid) {
+                              await iosPicker();
+                            } else {
+                              selectedDate = await androidPicker();
+                              setState(() {
+                                date = selectedDate;
 
-                                    favoriteStore.getFavoritePlace();
-                                    favoriteStore
+                                favoriteStore
                                         .dataVisited[widget.favoritePlace.id] =
-                                        date;
-                                    widget.validateData(widget.favoritePlace);
-                                    dataString();
-                                  });
-                                }
-                              },
-                            ),
-                            CupertinoButton(
-                              padding: const EdgeInsets.all(10),
-                              child: SvgPicture.asset(
-                                AppAssets.close,
-                                color: themeProvider.appTheme.whiteColor,
-                              ),
-                              onPressed: () {
-                                widget.remove(widget.favoritePlace);
-                              },
-                            ),
-                          ],
-                        );
-                      },
+                                    date;
+                                favoriteStore.getFavoritePlace();
+                                _dataString();
+                              });
+                            }
+                          },
+                        ),
+                        CupertinoButton(
+                          padding: const EdgeInsets.all(10),
+                          child: SvgPicture.asset(
+                            AppAssets.close,
+                            color: whiteColor,
+                          ),
+                          onPressed: () {
+                            favoriteStore
+                              ..removePlace(widget.favoritePlace)
+                              ..getFavoritePlace();
+                          },
+                        ),
+                      ],
                     ),
                   ),
                   Positioned(
@@ -151,7 +149,7 @@ class _SightCardPlanState extends State<SightCardPlan> {
                     child: Text(
                       widget.favoritePlace.placeType,
                       style: appTypography.text14w700.copyWith(
-                        color: themeProvider.appTheme.whiteColor,
+                        color: whiteColor,
                       ),
                     ),
                   ),
@@ -189,7 +187,7 @@ class _SightCardPlanState extends State<SightCardPlan> {
                       ),
                       alignment: Alignment.topLeft,
                       child: Text(
-                        dataString(),
+                        _dataString(),
                         style: appTypography.text14Regular
                             .copyWith(color: themeProvider.appTheme.greenColor),
                       ),
@@ -204,43 +202,32 @@ class _SightCardPlanState extends State<SightCardPlan> {
     );
   }
 
-  String dataString() {
-    final favoriteStore = Provider.of<FavoriteStore>(context, listen: false);
-
-    if (favoriteStore.dataVisited.containsKey(widget.favoritePlace.id)) {
-      date = favoriteStore.dataVisited[widget.favoritePlace.id];
-
-      return 'Запланировано на ${date?.day} ${date?.month} ${date?.year}';
-    } else {
-      return AppStrings.scheduledFor;
-    }
-  }
-
   Future<DateTime?> androidPicker() async {
     return date = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
-              primary: themeProvider.appTheme.greenColor, // <-- SEE HERE
-              onPrimary: themeProvider.appTheme.whiteColor, // <-- SEE HERE
-              onSurface: themeProvider.appTheme.mainWhiteColor,
-            ),
-            dialogBackgroundColor: themeProvider.appTheme.whiteMainColor,
-            textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(
-                foregroundColor: themeProvider.appTheme.mainWhiteColor, // button text color
+          context: context,
+          initialDate: DateTime.now(),
+          firstDate: DateTime(2000),
+          lastDate: DateTime(2100),
+          builder: (context, child) {
+            return Theme(
+              data: Theme.of(context).copyWith(
+                colorScheme: ColorScheme.light(
+                  primary: themeProvider.appTheme.greenColor,
+                  onPrimary: themeProvider.appTheme.whiteColor,
+                  onSurface: mainWhiteColor,
+                ),
+                dialogBackgroundColor: themeProvider.appTheme.whiteMainColor,
+                textButtonTheme: TextButtonThemeData(
+                  style: TextButton.styleFrom(
+                    foregroundColor: mainWhiteColor,
+                  ),
+                ),
               ),
-            ),
-          ),
-          child: child!,
-        );
-      },
-    );
+              child: child!,
+            );
+          },
+        ) ??
+        DateTime.now();
   }
 
   Future<void> iosPicker() async {
@@ -276,10 +263,7 @@ class _SightCardPlanState extends State<SightCardPlan> {
                 ),
               ),
               onPressed: () {
-                setState(() {
-                  favoriteStore.getFavoritePlace();
-                  widget.validateData(widget.favoritePlace);
-                });
+                setState(favoriteStore.getFavoritePlace);
                 Navigator.pop(context);
               },
             ),
@@ -287,5 +271,17 @@ class _SightCardPlanState extends State<SightCardPlan> {
         ),
       ),
     );
+  }
+
+  String _dataString() {
+    final favoriteStore = Provider.of<FavoriteStore>(context, listen: false);
+
+    if (favoriteStore.dataVisited.containsKey(widget.favoritePlace.id)) {
+      date = favoriteStore.dataVisited[widget.favoritePlace.id];
+
+      return 'Запланировано на ${date?.day} ${date?.month} ${date?.year}';
+    } else {
+      return AppStrings.scheduledFor;
+    }
   }
 }
