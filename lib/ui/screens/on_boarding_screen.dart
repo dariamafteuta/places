@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_job/data/iterator/place_store.dart';
-import 'package:flutter_job/main.dart';
+import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
+import 'package:flutter_job/store/place_store_base.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
@@ -11,8 +11,6 @@ import 'package:flutter_job/ui/screens/filters_screen.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
-AppTypography appTypography = AppTypography();
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
@@ -24,6 +22,7 @@ class OnBoardingScreen extends StatefulWidget {
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
   final PageController _controller = PageController();
   int _currentIndex = 0;
+  final greenColor = themeProvider.appTheme.greenColor;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +39,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               child: Text(
                 AppStrings.skip,
                 style: appTypography.textGreen18Bold.copyWith(
-                  color: themeProvider.appTheme.greenColor,
+                  color: greenColor,
                 ),
               ),
               onPressed: () {
@@ -93,7 +92,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   effect: ExpandingDotsEffect(
                     radius: 8,
                     dotColor: themeProvider.appTheme.inactiveColor,
-                    activeDotColor: themeProvider.appTheme.greenColor,
+                    activeDotColor: greenColor,
                   ),
                 ),
                 if (orientationPortrait) sizedBox32H else sizedBox12H,
@@ -109,7 +108,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       ),
                       style: TextButton.styleFrom(
                         elevation: 0.0,
-                        backgroundColor: themeProvider.appTheme.greenColor,
+                        backgroundColor: greenColor,
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -144,7 +143,9 @@ class Tutorial extends StatelessWidget {
   final String tutorial;
   final String tutorial1;
 
-  const Tutorial({
+  final mainWhiteColor = themeProvider.appTheme.mainWhiteColor;
+
+  Tutorial({
     Key? key,
     required this.icon,
     required this.tutorial,
@@ -159,7 +160,7 @@ class Tutorial extends StatelessWidget {
         children: [
           SvgPicture.asset(
             icon,
-            color: themeProvider.appTheme.mainWhiteColor,
+            color: mainWhiteColor,
           ),
           sizedBox42H,
           SizedBox(
@@ -168,7 +169,7 @@ class Tutorial extends StatelessWidget {
             child: Text(
               tutorial,
               style: appTypography.text24Bold
-                  .copyWith(color: themeProvider.appTheme.mainWhiteColor),
+                  .copyWith(color: mainWhiteColor),
               textAlign: TextAlign.center,
             ),
           ),

@@ -1,4 +1,4 @@
-import 'package:flutter_job/translate_type.dart';
+import 'package:flutter_job/ui/res/translate_type.dart';
 
 class Place {
   final int id;

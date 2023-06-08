@@ -6,9 +6,7 @@ import 'package:flutter_job/domain/coordinate.dart';
 import 'package:flutter_job/main.dart';
 import 'package:mobx/mobx.dart';
 
-part 'place_store.g.dart';
-
-PlaceRepository placeRepository = PlaceRepository();
+part 'place_store_base.g.dart';
 
 class PlaceStore = PlaceStoreBase with _$PlaceStore;
 
@@ -21,7 +19,7 @@ abstract class PlaceStoreBase with Store {
     RangeValues? radius,
     List<String>? category,
   ) async {
-    placeFromNet = await placeRepository.getPlace();
+    placeFromNet = await PlaceRepository().getPlace();
 
     placeFromNet = await getPlacesFiltered(
       placeFromNet,

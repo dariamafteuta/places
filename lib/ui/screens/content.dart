@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_job/ui/screens/filters_screen.dart';
+import 'package:flutter_job/ui/res/app_typography.dart';
 
 class Content extends StatelessWidget {
   final String content;

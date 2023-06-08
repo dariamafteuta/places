@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_job/data/iterator/place_store.dart';
 import 'package:flutter_job/data/model/place.dart';
-import 'package:flutter_job/main.dart';
+import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
+import 'package:flutter_job/store/place_store_base.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
@@ -12,7 +12,6 @@ import 'package:flutter_job/ui/screens/content.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-AppTypography appTypography = AppTypography();
 Set<Place> listSearch = {};
 
 class SightSearchScreen extends StatefulWidget {
@@ -26,6 +25,10 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
   final _searchController = TextEditingController();
 
   List<Place> searchResult = [];
+
+  final mainWhiteColor = themeProvider.appTheme.mainWhiteColor;
+  final inactiveColor = themeProvider.appTheme.inactiveColor;
+
 
   @override
   void dispose() {
@@ -45,14 +48,14 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
         leading: CupertinoButton(
           child: SvgPicture.asset(
             AppAssets.arrow,
-            color: themeProvider.appTheme.mainWhiteColor,
+            color: mainWhiteColor,
           ),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
           AppStrings.listOfInterestingPlaces,
           style: appTypography.text24Bold.copyWith(
-            color: themeProvider.appTheme.mainWhiteColor,
+            color: mainWhiteColor,
           ),
         ),
       ),
@@ -76,9 +79,9 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                 });
               },
               cursorWidth: 1,
-              cursorColor: themeProvider.appTheme.mainWhiteColor,
+              cursorColor: mainWhiteColor,
               style: appTypography.text14Regular.copyWith(
-                color: themeProvider.appTheme.mainWhiteColor,
+                color: mainWhiteColor,
               ),
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.zero,
@@ -90,12 +93,12 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                 filled: true,
                 hintText: AppStrings.search,
                 hintStyle:
-                    TextStyle(color: themeProvider.appTheme.inactiveColor),
+                    TextStyle(color: inactiveColor),
                 prefixIcon: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: SvgPicture.asset(
                     AppAssets.search,
-                    color: themeProvider.appTheme.inactiveColor,
+                    color: inactiveColor,
                   ),
                 ),
                 suffixIcon: _searchController.text.isEmpty
@@ -116,7 +119,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                         },
                         child: SvgPicture.asset(
                           AppAssets.clear,
-                          color: themeProvider.appTheme.mainWhiteColor,
+                          color: mainWhiteColor,
                         ),
                       ),
               ),
@@ -180,15 +183,17 @@ class SearchError extends StatelessWidget {
 class SearchResult extends StatelessWidget {
   final Place searchResult;
 
-  const SearchResult({Key? key, required this.searchResult}) : super(key: key);
+  final transparentColor = themeProvider.appTheme.transparentColor;
+
+  SearchResult({Key? key, required this.searchResult}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: InkWell(
-        highlightColor: themeProvider.appTheme.transparentColor,
-        splashColor: themeProvider.appTheme.transparentColor,
+        highlightColor: transparentColor,
+        splashColor: transparentColor,
         onTap: () {
           AppNavigation.goToSightDetails(context, searchResult);
           listSearch.add(searchResult);
@@ -253,6 +258,8 @@ class YourSearch extends StatefulWidget {
 }
 
 class _YourSearchState extends State<YourSearch> {
+  final inactiveColor = themeProvider.appTheme.inactiveColor;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -271,13 +278,13 @@ class _YourSearchState extends State<YourSearch> {
                     Text(
                       e.name,
                       style: appTypography.text16Bold.copyWith(
-                        color: themeProvider.appTheme.inactiveColor,
+                        color: inactiveColor,
                       ),
                     ),
                     CupertinoButton(
                       child: SvgPicture.asset(
                         AppAssets.close,
-                        color: themeProvider.appTheme.inactiveColor,
+                        color: inactiveColor,
                       ),
                       onPressed: () {
                         setState(() {

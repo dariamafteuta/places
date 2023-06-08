@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter_job/data/api_urls.dart';
 import 'package:flutter_job/data/connection_server.dart';
 import 'package:flutter_job/data/model/place.dart';
-import 'package:flutter_job/translate_type.dart';
+import 'package:flutter_job/ui/res/translate_type.dart';
 import 'package:http/http.dart' as http;
 
 class PlaceRepository {

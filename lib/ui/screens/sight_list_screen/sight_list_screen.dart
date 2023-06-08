@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job/data/model/place.dart';
-import 'package:flutter_job/data/repository/place_repository.dart';
-import 'package:flutter_job/main.dart';
-import 'package:flutter_job/ui/components/bottom_navigation_bar.dart';
+import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
+import 'package:flutter_job/ui/components/bottom_navigation.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
@@ -11,9 +10,6 @@ import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/ui/screens/sight_list_screen/sight_card.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-AppTypography appTypography = AppTypography();
-PlaceRepository placeRepository = PlaceRepository();
 
 class SightListScreen extends StatefulWidget {
   final Future<List<Place>> places;
@@ -28,18 +24,20 @@ class SightListScreen extends StatefulWidget {
 }
 
 class _SightListScreenState extends State<SightListScreen> {
+  final inactiveColor = themeProvider.appTheme.inactiveColor;
+  final whiteColor = themeProvider.appTheme.whiteColor;
+
   @override
   Widget build(BuildContext context) {
     final orientationPortrait =
         MediaQuery.of(context).orientation == Orientation.portrait;
 
     return Scaffold(
-      bottomNavigationBar: BottomNavigation(
+      bottomNavigationBar: const BottomNavigation(
         index: 0,
-        themeProvider: themeProvider,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Container(
+      floatingActionButton: DecoratedBox(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: themeProvider.appTheme.yellowAndGreenColor,
@@ -57,12 +55,12 @@ class _SightListScreenState extends State<SightListScreen> {
           },
           icon: SvgPicture.asset(
             AppAssets.plus,
-            color: themeProvider.appTheme.whiteColor,
+            color: whiteColor,
           ),
           label: Text(
             AppStrings.newPlace.toUpperCase(),
             style: appTypography.text14Regular
-                .copyWith(color: themeProvider.appTheme.whiteColor),
+                .copyWith(color: whiteColor),
           ),
         ),
       ),
@@ -100,13 +98,13 @@ class _SightListScreenState extends State<SightListScreen> {
                       filled: true,
                       hintText: AppStrings.search,
                       hintStyle: TextStyle(
-                        color: themeProvider.appTheme.inactiveColor,
+                        color: inactiveColor,
                       ),
                       prefixIcon: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: SvgPicture.asset(
                           AppAssets.search,
-                          color: themeProvider.appTheme.inactiveColor,
+                          color: inactiveColor,
                         ),
                       ),
                       suffixIcon: CupertinoButton(

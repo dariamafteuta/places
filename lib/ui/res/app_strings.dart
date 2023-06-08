@@ -1,23 +1,23 @@
 class AppStrings {
-  // main
+  // Main.
   static const appTitle = 'Places';
 
-  // sight_list_screen
+  // Sight_list_screen.
   static const listOfInterestingPlaces = 'Список интересных мест';
   static const search = 'Поиск';
 
-  //sight_search_screen
+  // Sight_search_screen.
   static const notFound = 'Ничего не найдено';
   static const changeParameters = 'Попробуйте изменить параметры поиска';
   static const yourSearch = 'Вы искали';
   static const clearHistory = 'Очистить историю';
 
-  // sight_details
+  // Sight_details.
   static const buildARoute = ' Построить маршрут';
   static const plan = ' Запланировать';
   static const toFavorites = ' В Избранное';
 
-  // visited_screen
+  // Visited_screen.
   static const iWantToVisit = 'Хочу посетить';
   static const visited = 'Посетил';
   static const favorites = 'Избранное';
@@ -28,7 +28,7 @@ class AppStrings {
   static const delete = 'Удалить';
   static const scheduledFor = 'Запланировано на ...';
 
-  //filter_screen
+  // Filter_screen.
   static const cafe = 'Кафе';
   static const hotel = 'Отель';
   static const museum = 'Музей';
@@ -40,12 +40,12 @@ class AppStrings {
   static const distance = 'Расстояние';
   static const show = 'Показать';
 
-  //settings_screen
+  // Settings_screen.
   static const settings = 'Настройки';
   static const darkTheme = 'Тёмная тема';
   static const watchTutorial = 'Смотреть туториал';
 
-  //add_sight_screen
+  // Add_sight_screen.
   static const newPlace = 'Новое место';
   static const cancel = 'Отмена';
   static const name = 'Название';
@@ -58,10 +58,10 @@ class AppStrings {
   static const create = 'Создать';
   static const category = 'Категория';
 
-  //categories
+  // Categories.
   static const save = 'Сохранить';
 
-  //on_boarding_screen
+  // On_boarding_screen.
   static const tutorial1 = 'Добро пожаловать\nв Путеводитель';
   static const tutorial1_1 = 'Ищи новые локации и сохраняй самые любимые.';
   static const tutorial2 = 'Построй маршрут\nи отправляйся в путь';
@@ -72,12 +72,12 @@ class AppStrings {
   static const start = 'На старт';
   static const skip = 'Пропустить';
 
-  //new_place_image
+  // New_place_image.
   static const camera = 'Камера';
   static const photo = 'Фотография';
   static const fail = 'Файл';
 
-  //error_dialog
+  // Error_dialog.
   static const error = 'Ошибка';
   static const errorTut = 'Что то пошло не так\nПопробуйте позже.';
 }

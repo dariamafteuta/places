@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_job/data/iterator/add_place_store.dart';
-import 'package:flutter_job/data/iterator/place_store.dart';
 import 'package:flutter_job/data/model/place.dart';
-import 'package:flutter_job/main.dart';
+import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
+import 'package:flutter_job/store/add_place_store_base.dart';
+import 'package:flutter_job/store/place_store_base.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
@@ -14,8 +14,6 @@ import 'package:flutter_job/ui/screens/content.dart';
 import 'package:flutter_job/ui/screens/new_place_screen/new_place_image.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-
-AppTypography appTypography = AppTypography();
 
 class AddSightScreen extends StatefulWidget {
   const AddSightScreen({Key? key}) : super(key: key);
@@ -39,8 +37,65 @@ class _AddSightScreenState extends State<AddSightScreen> {
   final _formKey = GlobalKey<FormState>();
 
   String selectedCategory = '';
-
   List<String> list = [];
+  final greenColor = themeProvider.appTheme.greenColor;
+
+  void _submitForm() {
+    final addPlaceStore = Provider.of<AddPlaceStore>(context, listen: false);
+    final placeStore = Provider.of<PlaceStore>(context, listen: false);
+
+    if (_formKey.currentState!.validate()) {
+      final place = Place(
+        id: placeStore.placeFromNet.length + 1,
+        lat: double.parse(_latController.text),
+        lon: double.parse(_lonController.text),
+        name: _nameController.text,
+        urls: list,
+        placeType: selectedCategory,
+        description: _descriptionController.text,
+      );
+
+      try {
+        Navigator.pop(context);
+
+        addPlaceStore.addNewPlace(place);
+      } catch (e) {
+        debugPrint('Error: $e');
+      }
+    }
+  }
+
+  String? _validateCategory(String value) {
+    return value.isEmpty ? 'Выберите категорию' : null;
+  }
+
+  String? _validateName(String value) {
+    return value.isEmpty ? 'Введите название' : null;
+  }
+
+  String? _validateDescription(String value) {
+    return value.isEmpty ? 'Введите описание' : null;
+  }
+
+  String? _validateLatitude(String value) {
+    if (value.isEmpty) {
+      return 'Введите координаты';
+    } else if (double.parse(value) > 90) {
+      return 'Неправельные координаты';
+    } else {
+      return null;
+    }
+  }
+
+  String? _validateLongitude(String value) {
+    if (value.isEmpty) {
+      return 'Введите координаты';
+    } else if (double.parse(value) > 180) {
+      return 'Неправельные координаты';
+    } else {
+      return null;
+    }
+  }
 
   @override
   void dispose() {
@@ -163,7 +218,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
                   child: Text(
                     AppStrings.specifyOnTheMap,
                     style: appTypography.text16Bold
-                        .copyWith(color: themeProvider.appTheme.greenColor),
+                        .copyWith(color: greenColor),
                   ),
                   onPressed: () {},
                 ),
@@ -190,7 +245,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
                   ),
                   style: TextButton.styleFrom(
                     elevation: 0.0,
-                    backgroundColor: themeProvider.appTheme.greenColor,
+                    backgroundColor: greenColor,
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -217,64 +272,6 @@ class _AddSightScreenState extends State<AddSightScreen> {
       list = image;
     });
   }
-
-  Future<void> _submitForm() async {
-    final addPlaceStore = Provider.of<AddPlaceStore>(context, listen: false);
-    final placeStore = Provider.of<PlaceStore>(context, listen: false);
-
-    if (_formKey.currentState!.validate()) {
-      final place = Place(
-        id: placeStore.placeFromNet.length + 1,
-        lat: double.parse(_latController.text),
-        lon: double.parse(_lonController.text),
-        name: _nameController.text,
-        urls: list,
-        placeType: selectedCategory,
-        description: _descriptionController.text,
-      );
-
-      try {
-        Navigator.pop(context);
-
-        await addPlaceStore.addNewPlace(place);
-        // ignore: avoid_catches_without_on_clauses
-      } catch (e) {
-        debugPrint('Error: $e');
-      }
-    }
-  }
-
-  String? _validateCategory(String value) {
-    return value.isEmpty ? 'Выберите категорию' : null;
-  }
-
-  String? _validateName(String value) {
-    return value.isEmpty ? 'Введите название' : null;
-  }
-
-  String? _validateDescription(String value) {
-    return value.isEmpty ? 'Введите описание' : null;
-  }
-
-  String? _validateLatitude(String value) {
-    if (value.isEmpty) {
-      return 'Введите координаты';
-    } else if (double.parse(value) > 90) {
-      return 'Неправельные координаты';
-    } else {
-      return null;
-    }
-  }
-
-  String? _validateLongitude(String value) {
-    if (value.isEmpty) {
-      return 'Введите координаты';
-    } else if (double.parse(value) > 180) {
-      return 'Неправельные координаты';
-    } else {
-      return null;
-    }
-  }
 }
 
 class TextFields extends StatefulWidget {
@@ -298,6 +295,8 @@ class TextFields extends StatefulWidget {
 }
 
 class _TextFieldsState extends State<TextFields> {
+  final mainWhiteColor = themeProvider.appTheme.mainWhiteColor;
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -305,9 +304,9 @@ class _TextFieldsState extends State<TextFields> {
       onEditingComplete: () =>
           FocusScope.of(context).requestFocus(widget.onEditingComplete),
       cursorWidth: 1,
-      cursorColor: themeProvider.appTheme.mainWhiteColor,
+      cursorColor: mainWhiteColor,
       style: appTypography.text14Regular
-          .copyWith(color: themeProvider.appTheme.mainWhiteColor),
+          .copyWith(color: mainWhiteColor),
       controller: widget.controller,
       onChanged: (value) => setState(() {}),
       keyboardType: widget.keyboardType,
@@ -317,15 +316,15 @@ class _TextFieldsState extends State<TextFields> {
         focusedBorder: focusBorder,
         suffixIcon: widget.controller.text.isNotEmpty
             ? CupertinoButton(
-          padding: EdgeInsets.zero,
-          onPressed: () {
-            setState(widget.controller.clear);
-          },
-          child: SvgPicture.asset(
-            AppAssets.clear,
-            color: themeProvider.appTheme.mainWhiteColor,
-          ),
-        )
+                padding: EdgeInsets.zero,
+                onPressed: () {
+                  setState(widget.controller.clear);
+                },
+                child: SvgPicture.asset(
+                  AppAssets.clear,
+                  color: mainWhiteColor,
+                ),
+              )
             : null,
       ),
       inputFormatters: [

@@ -1,8 +1,6 @@
-// ignore_for_file: overridden_fields
-
 import 'package:flutter/material.dart';
 
-abstract class BaseTheme {
+abstract class AppColors {
   Color get mainColor ;
   Color get backgroundColor;
   Color get greenColor;
@@ -27,7 +25,7 @@ abstract class BaseTheme {
 }
 
 
-class LightTheme implements BaseTheme {
+class LightTheme implements AppColors {
   @override
   Color mainColor = const Color.fromRGBO(42, 44, 76, 1.0);
   @override
@@ -69,7 +67,7 @@ class LightTheme implements BaseTheme {
   List<Color> yellowAndGreenColor = const [Color.fromRGBO(248, 220, 21, 1.0), Color.fromRGBO(98, 177, 76, 1.0),];
 }
 
-class DarkTheme extends BaseTheme{
+class DarkTheme extends AppColors{
   @override
   Color mainColor = const Color.fromRGBO(38, 39, 48, 1.0);
   @override

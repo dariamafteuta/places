@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_job/data/model/place.dart';
-import 'package:flutter_job/main.dart';
+import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/screens/sight_details_screen/images_slider.dart';
 import 'package:flutter_job/ui/screens/sight_details_screen/sight_details.dart';
@@ -20,7 +20,7 @@ class BottomSheetDetails extends StatelessWidget {
       initialChildSize: 0.7,
       minChildSize: 0.5,
       builder: (context, controller) {
-        return Container(
+        return DecoratedBox(
           decoration: BoxDecoration(
             color: themeProvider.appTheme.whiteMainColor,
             borderRadius: const BorderRadius.vertical(

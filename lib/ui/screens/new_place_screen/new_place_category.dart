@@ -1,28 +1,27 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_job/main.dart';
+import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_svg/svg.dart';
 
-AppTypography appTypography = AppTypography();
-
-class Categories extends StatefulWidget {
+class NewPlaceCategory extends StatefulWidget {
   final Function(String) updateSelectedCategory;
 
-  const Categories({
+  const NewPlaceCategory({
     Key? key,
     required this.updateSelectedCategory,
   }) : super(key: key);
 
   @override
-  State<Categories> createState() => _CategoriesState();
+  State<NewPlaceCategory> createState() => _NewPlaceCategoryState();
 }
 
-class _CategoriesState extends State<Categories> {
+class _NewPlaceCategoryState extends State<NewPlaceCategory> {
   String sCategory = '';
+  final mainWhiteColor = themeProvider.appTheme.mainWhiteColor;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +31,7 @@ class _CategoriesState extends State<Categories> {
         leading: CupertinoButton(
           child: SvgPicture.asset(
             AppAssets.arrow,
-            color: themeProvider.appTheme.mainWhiteColor,
+            color: mainWhiteColor,
           ),
           onPressed: () {
             Navigator.pop(context);
@@ -41,7 +40,7 @@ class _CategoriesState extends State<Categories> {
         title: Text(
           AppStrings.category,
           style: appTypography.text24Bold
-              .copyWith(color: themeProvider.appTheme.mainWhiteColor),
+              .copyWith(color: mainWhiteColor),
         ),
         centerTitle: true,
       ),

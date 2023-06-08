@@ -1,16 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
-import 'package:flutter_job/main.dart';
-import 'package:flutter_job/ui/components/bottom_navigation_bar.dart';
+import 'package:flutter_job/ui/components/bottom_navigation.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-AppTypography appTypography = AppTypography();
 
 class SettingsScreen extends StatefulWidget {
   final ThemeProvider themeProvider;
@@ -25,6 +22,11 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  final text14RegularSecondaryColor = appTypography.text14Regular.copyWith(
+    fontSize: 18,
+    color: themeProvider.appTheme.secondaryWhiteColor,
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,9 +41,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigation(
+      bottomNavigationBar: const BottomNavigation(
         index: 3,
-        themeProvider: themeProvider,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
@@ -52,10 +53,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               children: [
                 Text(
                   AppStrings.darkTheme,
-                  style: appTypography.text14Regular.copyWith(
-                    fontSize: 18,
-                    color: themeProvider.appTheme.secondaryWhiteColor,
-                  ),
+                  style: text14RegularSecondaryColor,
                 ),
                 CupertinoSwitch(
                   value: !widget.themeProvider.isLightTheme,
@@ -76,10 +74,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   },
                   child: Text(
                     AppStrings.watchTutorial,
-                    style: appTypography.text14Regular.copyWith(
-                      fontSize: 18,
-                      color: themeProvider.appTheme.secondaryWhiteColor,
-                    ),
+                    style: text14RegularSecondaryColor,
                   ),
                 ),
                 SvgPicture.asset(
