@@ -26,11 +26,39 @@ class Main extends StatefulWidget {
 }
 
 class _MainState extends State<Main> {
+
   @override
   void initState() {
     super.initState();
     _getUserLocation();
     themeProvider.addListener(_onThemeChange);
+  }
+
+  void _onThemeChange() {
+    setState(() {});
+  }
+
+  Future<void> _getUserLocation() async {
+    final position = await _locationPermission();
+    setState(() {
+      userLongitude = position.longitude;
+      userLatitude = position.latitude;
+    });
+  }
+
+  Future<Position> _locationPermission() async {
+    LocationPermission permission;
+
+    permission = await Geolocator.checkPermission();
+
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Error');
+      }
+    }
+
+    return Geolocator.getCurrentPosition();
   }
 
   @override
@@ -60,36 +88,9 @@ class _MainState extends State<Main> {
         theme: themeProvider.isLightTheme ? lightThemes : darkThemes,
         title: AppStrings.appTitle,
         debugShowCheckedModeBanner: false,
-        initialRoute: AppNavigation.sightListScreen,
+        initialRoute: AppNavigation.splashScreen,
         onGenerateRoute: AppNavigation.generateRoute,
       ),
     );
-  }
-
-  void _onThemeChange() {
-    setState(() {});
-  }
-
-  Future<void> _getUserLocation() async {
-    final position = await _locationPermission();
-    setState(() {
-      userLongitude = position.longitude;
-      userLatitude = position.latitude;
-    });
-  }
-
-  Future<Position> _locationPermission() async {
-    LocationPermission permission;
-
-    permission = await Geolocator.checkPermission();
-
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Error');
-      }
-    }
-
-    return Geolocator.getCurrentPosition();
   }
 }

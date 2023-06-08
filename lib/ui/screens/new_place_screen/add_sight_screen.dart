@@ -40,6 +40,63 @@ class _AddSightScreenState extends State<AddSightScreen> {
   List<String> list = [];
   final greenColor = themeProvider.appTheme.greenColor;
 
+  void _submitForm() {
+    final addPlaceStore = Provider.of<AddPlaceStore>(context, listen: false);
+    final placeStore = Provider.of<PlaceStore>(context, listen: false);
+
+    if (_formKey.currentState!.validate()) {
+      final place = Place(
+        id: placeStore.placeFromNet.length + 1,
+        lat: double.parse(_latController.text),
+        lon: double.parse(_lonController.text),
+        name: _nameController.text,
+        urls: list,
+        placeType: selectedCategory,
+        description: _descriptionController.text,
+      );
+
+      try {
+        Navigator.pop(context);
+
+        addPlaceStore.addNewPlace(place);
+      } catch (e) {
+        debugPrint('Error: $e');
+      }
+    }
+  }
+
+  String? _validateCategory(String value) {
+    return value.isEmpty ? 'Выберите категорию' : null;
+  }
+
+  String? _validateName(String value) {
+    return value.isEmpty ? 'Введите название' : null;
+  }
+
+  String? _validateDescription(String value) {
+    return value.isEmpty ? 'Введите описание' : null;
+  }
+
+  String? _validateLatitude(String value) {
+    if (value.isEmpty) {
+      return 'Введите координаты';
+    } else if (double.parse(value) > 90) {
+      return 'Неправельные координаты';
+    } else {
+      return null;
+    }
+  }
+
+  String? _validateLongitude(String value) {
+    if (value.isEmpty) {
+      return 'Введите координаты';
+    } else if (double.parse(value) > 180) {
+      return 'Неправельные координаты';
+    } else {
+      return null;
+    }
+  }
+
   @override
   void dispose() {
     _nameController.dispose();
@@ -214,63 +271,6 @@ class _AddSightScreenState extends State<AddSightScreen> {
     setState(() {
       list = image;
     });
-  }
-
-  void _submitForm() {
-    final addPlaceStore = Provider.of<AddPlaceStore>(context, listen: false);
-    final placeStore = Provider.of<PlaceStore>(context, listen: false);
-
-    if (_formKey.currentState!.validate()) {
-      final place = Place(
-        id: placeStore.placeFromNet.length + 1,
-        lat: double.parse(_latController.text),
-        lon: double.parse(_lonController.text),
-        name: _nameController.text,
-        urls: list,
-        placeType: selectedCategory,
-        description: _descriptionController.text,
-      );
-
-      try {
-        Navigator.pop(context);
-
-        addPlaceStore.addNewPlace(place);
-      } catch (e) {
-        debugPrint('Error: $e');
-      }
-    }
-  }
-
-  String? _validateCategory(String value) {
-    return value.isEmpty ? 'Выберите категорию' : null;
-  }
-
-  String? _validateName(String value) {
-    return value.isEmpty ? 'Введите название' : null;
-  }
-
-  String? _validateDescription(String value) {
-    return value.isEmpty ? 'Введите описание' : null;
-  }
-
-  String? _validateLatitude(String value) {
-    if (value.isEmpty) {
-      return 'Введите координаты';
-    } else if (double.parse(value) > 90) {
-      return 'Неправельные координаты';
-    } else {
-      return null;
-    }
-  }
-
-  String? _validateLongitude(String value) {
-    if (value.isEmpty) {
-      return 'Введите координаты';
-    } else if (double.parse(value) > 180) {
-      return 'Неправельные координаты';
-    } else {
-      return null;
-    }
   }
 }
 

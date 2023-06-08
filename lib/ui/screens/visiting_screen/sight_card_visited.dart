@@ -26,6 +26,14 @@ class SightCardVisited extends StatefulWidget {
 class _SightCardVisitedState extends State<SightCardVisited> {
   final whiteColor = themeProvider.appTheme.whiteColor;
 
+  String _dataString() {
+    final favoriteStore = Provider.of<FavoriteStore>(context, listen: false);
+
+    final data = favoriteStore.dataVisited[widget.visitedPlace.id];
+
+    return 'Цель достигнута ${data?.day} ${data?.month} ${data?.year}';
+  }
+
   @override
   Widget build(BuildContext context) {
     final urls = widget.visitedPlace.urls;
@@ -175,13 +183,5 @@ class _SightCardVisitedState extends State<SightCardVisited> {
         ),
       ),
     );
-  }
-
-  String _dataString() {
-    final favoriteStore = Provider.of<FavoriteStore>(context, listen: false);
-
-    final data = favoriteStore.dataVisited[widget.visitedPlace.id];
-
-    return 'Цель достигнута ${data?.day} ${data?.month} ${data?.year}';
   }
 }

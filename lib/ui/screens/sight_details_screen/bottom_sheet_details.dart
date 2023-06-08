@@ -20,7 +20,7 @@ class BottomSheetDetails extends StatelessWidget {
       initialChildSize: 0.7,
       minChildSize: 0.5,
       builder: (context, controller) {
-        return Container(
+        return DecoratedBox(
           decoration: BoxDecoration(
             color: themeProvider.appTheme.whiteMainColor,
             borderRadius: const BorderRadius.vertical(

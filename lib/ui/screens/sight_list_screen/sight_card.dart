@@ -31,6 +31,10 @@ class _SightCardState extends State<SightCard> {
   Stream<List<int>> get favoritePlacesStream =>
       _favoritePlacesController.stream;
 
+  void _updateFavoritePlaces(List<int> places) {
+    _favoritePlacesController.add(places);
+  }
+
   @override
   void dispose() {
     _favoritePlacesController.close();
@@ -189,9 +193,5 @@ class _SightCardState extends State<SightCard> {
         ),
       ),
     );
-  }
-
-  void _updateFavoritePlaces(List<int> places) {
-    _favoritePlacesController.add(places);
   }
 }

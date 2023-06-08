@@ -32,6 +32,18 @@ class _SightCardPlanState extends State<SightCardPlan> {
   final whiteColor = themeProvider.appTheme.whiteColor;
   final mainWhiteColor = themeProvider.appTheme.mainWhiteColor;
 
+  String _dataString() {
+    final favoriteStore = Provider.of<FavoriteStore>(context, listen: false);
+
+    if (favoriteStore.dataVisited.containsKey(widget.favoritePlace.id)) {
+      date = favoriteStore.dataVisited[widget.favoritePlace.id];
+
+      return 'Запланировано на ${date?.day} ${date?.month} ${date?.year}';
+    } else {
+      return AppStrings.scheduledFor;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final urls = widget.favoritePlace.urls;
@@ -114,11 +126,17 @@ class _SightCardPlanState extends State<SightCardPlan> {
                             DateTime? selectedDate;
                             if (Platform.isAndroid) {
                               await iosPicker();
+                              setState(() {
+                                favoriteStore
+                                        .dataVisited[widget.favoritePlace.id] =
+                                    date;
+                                favoriteStore.getFavoritePlace();
+                                _dataString();
+                              });
                             } else {
                               selectedDate = await androidPicker();
                               setState(() {
                                 date = selectedDate;
-
                                 favoriteStore
                                         .dataVisited[widget.favoritePlace.id] =
                                     date;
@@ -271,17 +289,5 @@ class _SightCardPlanState extends State<SightCardPlan> {
         ),
       ),
     );
-  }
-
-  String _dataString() {
-    final favoriteStore = Provider.of<FavoriteStore>(context, listen: false);
-
-    if (favoriteStore.dataVisited.containsKey(widget.favoritePlace.id)) {
-      date = favoriteStore.dataVisited[widget.favoritePlace.id];
-
-      return 'Запланировано на ${date?.day} ${date?.month} ${date?.year}';
-    } else {
-      return AppStrings.scheduledFor;
-    }
   }
 }

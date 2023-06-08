@@ -28,57 +28,16 @@ class FavoriteScreen extends StatefulWidget {
 class _FavoriteScreenState extends State<FavoriteScreen> {
   late FavoriteStore favoriteStore;
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    favoriteStore = Provider.of<FavoriteStore>(context, listen: false);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider<FavoriteBloc>(
-      create: (_) => FavoriteBloc(favoriteStore)..add(FetchFavorite()),
-      child: BlocProvider<VisitedBloc>(
-        create: (_) => VisitedBloc(favoriteStore)..add(FetchVisited()),
-        child: Builder(builder: (_) => _buildPage()),
-      ),
-    );
-  }
-
   Widget _buildPage() {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
         appBar: _buildAppBar(),
-        bottomNavigationBar: const BottomNavigation(
-          index: 2,
-        ),
+        bottomNavigationBar: const BottomNavigation(index: 2),
         body: TabBarView(
           children: [
-            BlocBuilder<FavoriteBloc, FavoriteState>(
-              builder: (_, state) {
-                if (state is FavoritePlaceLoaded) {
-                  if (favoriteStore.favoritePlaces.isNotEmpty) {
-                    return _buildFavoritePlacesListView();
-                  } else if (favoriteStore.favoritePlaces.isEmpty) {
-                    return _buildEmptyFavoritePlaces();
-                  }
-                }
-                return Center(child: CircularProgressIndicator(color: themeProvider.appTheme.inactiveColor,));
-              },
-            ),
-            BlocBuilder<VisitedBloc, VisitedState>(
-              builder: (_, state) {
-                if (state is VisitedPlaceLoaded) {
-                  if (favoriteStore.visitedPlaces.isNotEmpty) {
-                    return _buildVisitedPlacesListView();
-                  } else if (favoriteStore.visitedPlaces.isEmpty) {
-                    return _buildEmptyVisitedPlaces();
-                  }
-                }
-                return Center(child: CircularProgressIndicator(color: themeProvider.appTheme.inactiveColor));
-              },
-            ),
+            Builder(builder: (_) => _buildFavoritePlacesTab()),
+            Builder(builder: (_) => _buildVisitedPlacesTab()),
           ],
         ),
       ),
@@ -119,6 +78,38 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildFavoritePlacesTab() {
+    return BlocBuilder<FavoriteBloc, FavoriteState>(
+      builder: (_, state) {
+        if (state is FavoritePlaceLoaded) {
+          return favoriteStore.favoritePlaces.isNotEmpty ? _buildFavoritePlacesListView() : _buildEmptyFavoritePlaces();
+        }
+
+        return Center(
+          child: CircularProgressIndicator(
+            color: themeProvider.appTheme.inactiveColor,
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildVisitedPlacesTab() {
+    return BlocBuilder<VisitedBloc, VisitedState>(
+      builder: (_, state) {
+        if (state is VisitedPlaceLoaded) {
+          return favoriteStore.visitedPlaces.isNotEmpty ? _buildVisitedPlacesListView() : _buildEmptyVisitedPlaces();
+        }
+
+        return Center(
+          child: CircularProgressIndicator(
+            color: themeProvider.appTheme.inactiveColor,
+          ),
+        );
+      },
     );
   }
 
@@ -192,21 +183,44 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
   void _onReorderVisited(int oldIndex, int newIndex) {
     setState(() {
+      var adjustedIndex = newIndex;
       if (newIndex > oldIndex) {
-        newIndex -= 1;
+        adjustedIndex -= 1;
       }
       final place = favoriteStore.visitedPlaces.removeAt(oldIndex);
-      favoriteStore.visitedPlaces.insert(newIndex, place);
+      favoriteStore.visitedPlaces.insert(adjustedIndex, place);
     });
   }
 
   void _onReorderPlan(int oldIndex, int newIndex) {
     setState(() {
+      var adjustedIndex = newIndex;
       if (newIndex > oldIndex) {
-        newIndex -= 1;
+        adjustedIndex -= 1;
       }
       final place = favoriteStore.favoritePlaces.removeAt(oldIndex);
-      favoriteStore.favoritePlaces.insert(newIndex, place);
+      favoriteStore.favoritePlaces.insert(adjustedIndex, place);
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    favoriteStore = Provider.of<FavoriteStore>(context, listen: false);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<FavoriteBloc>(
+          create: (_) => FavoriteBloc(favoriteStore)..add(FetchFavorite()),
+        ),
+        BlocProvider<VisitedBloc>(
+          create: (_) => VisitedBloc(favoriteStore)..add(FetchVisited()),
+        ),
+      ],
+      child: Builder(builder: (_) => _buildPage()),
+    );
   }
 }
