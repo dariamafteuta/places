@@ -10,10 +10,9 @@ part 'place_store_base.g.dart';
 
 class PlaceStore = PlaceStoreBase with _$PlaceStore;
 
-abstract class PlaceStoreBase with Store {
-  @observable
-  List<Place> placeFromNet = [];
+List<Place> placeFromNet = [];
 
+abstract class PlaceStoreBase with Store {
   @action
   Future<List<Place>> getPlaces(
     RangeValues? radius,
@@ -105,19 +104,5 @@ abstract class PlaceStoreBase with Store {
     final calculatedDistance = sqrt(dx * dx + dy * dy);
 
     return calculatedDistance;
-  }
-
-  @action
-  List<Place> searchPlaces(String name) {
-    final searchResult = <Place>[];
-
-    for (final place in placeFromNet) {
-      if (place.name.toLowerCase().contains(name.toLowerCase())) {
-        searchResult.add(place);
-      }
-    }
-
-    return searchResult
-      ..sort((a, b) => distanceCalculate(a).compareTo(distanceCalculate(b)));
   }
 }

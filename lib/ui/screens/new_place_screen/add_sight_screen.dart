@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
-import 'package:flutter_job/store/add_place_store_base.dart';
-import 'package:flutter_job/store/place_store_base.dart';
+import 'package:flutter_job/data/store/add_place_store_base.dart';
+import 'package:flutter_job/data/store/place_store_base.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
@@ -42,11 +42,10 @@ class _AddSightScreenState extends State<AddSightScreen> {
 
   void _submitForm() {
     final addPlaceStore = Provider.of<AddPlaceStore>(context, listen: false);
-    final placeStore = Provider.of<PlaceStore>(context, listen: false);
 
     if (_formKey.currentState!.validate()) {
       final place = Place(
-        id: placeStore.placeFromNet.length + 1,
+        id: placeFromNet.length + 1,
         lat: double.parse(_latController.text),
         lon: double.parse(_lonController.text),
         name: _nameController.text,
@@ -217,8 +216,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
                   padding: EdgeInsets.zero,
                   child: Text(
                     AppStrings.specifyOnTheMap,
-                    style: appTypography.text16Bold
-                        .copyWith(color: greenColor),
+                    style: appTypography.text16Bold.copyWith(color: greenColor),
                   ),
                   onPressed: () {},
                 ),
@@ -305,8 +303,7 @@ class _TextFieldsState extends State<TextFields> {
           FocusScope.of(context).requestFocus(widget.onEditingComplete),
       cursorWidth: 1,
       cursorColor: mainWhiteColor,
-      style: appTypography.text14Regular
-          .copyWith(color: mainWhiteColor),
+      style: appTypography.text14Regular.copyWith(color: mainWhiteColor),
       controller: widget.controller,
       onChanged: (value) => setState(() {}),
       keyboardType: widget.keyboardType,

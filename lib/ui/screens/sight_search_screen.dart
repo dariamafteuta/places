@@ -1,14 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job/data/model/place.dart';
+import 'package:flutter_job/data/redux/search_action.dart';
+import 'package:flutter_job/data/redux/search_state.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
-import 'package:flutter_job/store/place_store_base.dart';
+import 'package:flutter_job/data/store/place_store_base.dart';
+import 'package:flutter_job/data/store/search_place_store_base.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/ui/screens/content.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
@@ -24,11 +28,8 @@ class SightSearchScreen extends StatefulWidget {
 class _SightSearchScreenState extends State<SightSearchScreen> {
   final _searchController = TextEditingController();
 
-  List<Place> searchResult = [];
-
   final mainWhiteColor = themeProvider.appTheme.mainWhiteColor;
   final inactiveColor = themeProvider.appTheme.inactiveColor;
-
 
   @override
   void dispose() {
@@ -40,6 +41,8 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
   @override
   Widget build(BuildContext context) {
     final placeStore = Provider.of<PlaceStore>(context, listen: false);
+    final searchPlaceStore =
+        Provider.of<SearchPlaceStore>(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(
@@ -71,11 +74,12 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
               controller: _searchController,
               onChanged: (value) {
                 placeStore.getPlaces(null, null);
-
                 setState(() {
-                  searchResult.clear();
-
-                  searchResult = placeStore.searchPlaces(value);
+                  StoreProvider.of<SearchState>(context).dispatch(
+                    SetSearchResultAction(
+                      searchPlaceStore.searchPlaces(value),
+                    ),
+                  );
                 });
               },
               cursorWidth: 1,
@@ -92,8 +96,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                 fillColor: themeProvider.appTheme.backgroundColor,
                 filled: true,
                 hintText: AppStrings.search,
-                hintStyle:
-                    TextStyle(color: inactiveColor),
+                hintStyle: TextStyle(color: inactiveColor),
                 prefixIcon: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: SvgPicture.asset(
@@ -124,25 +127,27 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                       ),
               ),
             ),
-            if (_searchController.text == '')
-              const YourSearch()
-            else if (searchResult.isEmpty)
-              const SearchError()
-            else
-              Expanded(
-                child: ListView.builder(
-                  itemCount: 1,
-                  itemBuilder: (_, index) {
-                    return Column(
-                      children: List.generate(searchResult.length, (index) {
+            StoreConnector<SearchState, List<Place>>(
+              converter: (store) => store.state.searchResult,
+              builder: (context, searchResult) {
+                if (_searchController.text == '') {
+                  return const YourSearch();
+                } else if (searchResult.isEmpty) {
+                  return const SearchError();
+                } else {
+                  return Expanded(
+                    child: ListView.builder(
+                      itemCount: searchResult.length,
+                      itemBuilder: (_, index) {
                         return SearchResult(
                           searchResult: searchResult[index],
                         );
-                      }),
-                    );
-                  },
-                ),
-              ),
+                      },
+                    ),
+                  );
+                }
+              },
+            ),
           ],
         ),
       ),

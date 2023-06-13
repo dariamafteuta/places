@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
-import 'package:flutter_job/store/place_store_base.dart';
+import 'package:flutter_job/data/store/place_store_base.dart';
 import 'package:flutter_job/ui/screens/filters_screen.dart';
 import 'package:flutter_job/ui/screens/new_place_screen/add_sight_screen.dart';
 import 'package:flutter_job/ui/screens/new_place_screen/new_place_category.dart';
@@ -13,6 +13,7 @@ import 'package:flutter_job/ui/screens/sight_search_screen.dart';
 import 'package:flutter_job/ui/screens/splash_screen.dart';
 import 'package:flutter_job/ui/screens/visiting_screen/favorite_screen.dart';
 import 'package:provider/provider.dart';
+
 
 class AppNavigation {
   static const String splashScreen = '/splash_screen';

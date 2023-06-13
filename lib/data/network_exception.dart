@@ -5,5 +5,6 @@ class NetworkException implements Exception {
   NetworkException(this.message, this.url);
 
   @override
-  String toString() => "В запросе '$url' возникла ошибка: ${message.runtimeType}";
+  String toString() =>
+      "В запросе '$url' возникла ошибка: ${message.runtimeType}";
 }

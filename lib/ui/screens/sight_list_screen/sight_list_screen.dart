@@ -33,9 +33,7 @@ class _SightListScreenState extends State<SightListScreen> {
         MediaQuery.of(context).orientation == Orientation.portrait;
 
     return Scaffold(
-      bottomNavigationBar: const BottomNavigation(
-        index: 0,
-      ),
+      bottomNavigationBar: const BottomNavigation(index: 0),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: DecoratedBox(
         decoration: BoxDecoration(
@@ -59,8 +57,7 @@ class _SightListScreenState extends State<SightListScreen> {
           ),
           label: Text(
             AppStrings.newPlace.toUpperCase(),
-            style: appTypography.text14Regular
-                .copyWith(color: whiteColor),
+            style: appTypography.text14Regular.copyWith(color: whiteColor),
           ),
         ),
       ),

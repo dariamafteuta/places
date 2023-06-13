@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
-import 'package:flutter_job/store/favorite_store_base.dart';
+import 'package:flutter_job/data/store/favorite_store_base.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
@@ -24,7 +24,7 @@ class _SightDetailsState extends State<SightDetails> {
   final inactiveColor = themeProvider.appTheme.inactiveColor;
   final secondaryWhiteColor = themeProvider.appTheme.secondaryWhiteColor;
   final text14RegularSecondaryColor = appTypography.text14Regular.copyWith(
-  color: themeProvider.appTheme.secondaryWhiteColor,
+    color: themeProvider.appTheme.secondaryWhiteColor,
   );
 
   @override
@@ -65,9 +65,7 @@ class _SightDetailsState extends State<SightDetails> {
                   favoriteStore.dataVisited[widget.place.id] != null
                       ? AppAssets.calendarFull
                       : AppAssets.calendar,
-                  color: isFavorite
-                      ? secondaryWhiteColor
-                      : inactiveColor,
+                  color: isFavorite ? secondaryWhiteColor : inactiveColor,
                 ),
                 label: Text(
                   AppStrings.plan,
@@ -178,8 +176,7 @@ class _BuildRouteButton extends StatelessWidget {
         ),
         label: Text(
           AppStrings.buildARoute,
-          style: appTypography.text14Regular
-              .copyWith(color: whiteColor),
+          style: appTypography.text14Regular.copyWith(color: whiteColor),
         ),
         style: TextButton.styleFrom(
           elevation: 0.0,
