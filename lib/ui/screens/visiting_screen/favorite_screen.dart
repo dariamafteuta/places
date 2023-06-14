@@ -7,7 +7,7 @@ import 'package:flutter_job/data/bloc/visited_bloc/visited_bloc.dart';
 import 'package:flutter_job/data/bloc/visited_bloc/visited_event.dart';
 import 'package:flutter_job/data/bloc/visited_bloc/visited_state.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
-import 'package:flutter_job/store/favorite_store_base.dart';
+import 'package:flutter_job/data/store/favorite_store_base.dart';
 import 'package:flutter_job/ui/components/bottom_navigation.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
@@ -85,7 +85,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     return BlocBuilder<FavoriteBloc, FavoriteState>(
       builder: (_, state) {
         if (state is FavoritePlaceLoaded) {
-          return favoriteStore.favoritePlaces.isNotEmpty ? _buildFavoritePlacesListView() : _buildEmptyFavoritePlaces();
+          return favoriteStore.favoritePlaces.isNotEmpty
+              ? _buildFavoritePlacesListView()
+              : _buildEmptyFavoritePlaces();
         }
 
         return Center(
@@ -101,7 +103,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     return BlocBuilder<VisitedBloc, VisitedState>(
       builder: (_, state) {
         if (state is VisitedPlaceLoaded) {
-          return favoriteStore.visitedPlaces.isNotEmpty ? _buildVisitedPlacesListView() : _buildEmptyVisitedPlaces();
+          return favoriteStore.visitedPlaces.isNotEmpty
+              ? _buildVisitedPlacesListView()
+              : _buildEmptyVisitedPlaces();
         }
 
         return Center(

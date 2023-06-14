@@ -21,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _navigateToNext() async {
     final isInitialized =
-    await Future<bool>.delayed(const Duration(seconds: 2), () => true);
+        await Future<bool>.delayed(const Duration(seconds: 2), () => true);
     if (isInitialized) {
       _navigation();
     } else {

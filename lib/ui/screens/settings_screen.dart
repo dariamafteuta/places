@@ -41,9 +41,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: const BottomNavigation(
-        index: 3,
-      ),
+      bottomNavigationBar: const BottomNavigation(index: 3),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
         child: Column(

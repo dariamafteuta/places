@@ -39,8 +39,7 @@ class _NewPlaceCategoryState extends State<NewPlaceCategory> {
         ),
         title: Text(
           AppStrings.category,
-          style: appTypography.text24Bold
-              .copyWith(color: mainWhiteColor),
+          style: appTypography.text24Bold.copyWith(color: mainWhiteColor),
         ),
         centerTitle: true,
       ),

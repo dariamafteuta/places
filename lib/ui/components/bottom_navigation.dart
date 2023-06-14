@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
-import 'package:flutter_job/store/place_store_base.dart';
+import 'package:flutter_job/data/store/place_store_base.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/screens/filters_screen.dart';
