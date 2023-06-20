@@ -1,3 +1,4 @@
+
 import 'package:flutter_job/ui/res/translate_type.dart';
 
 class Place {

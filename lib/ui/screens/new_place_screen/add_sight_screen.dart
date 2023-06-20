@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
-import 'package:flutter_job/data/store/add_place_store_base.dart';
-import 'package:flutter_job/data/store/place_store_base.dart';
+import 'package:flutter_job/mwwm/add_place_widget_model.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
@@ -13,104 +11,38 @@ import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/ui/screens/content.dart';
 import 'package:flutter_job/ui/screens/new_place_screen/new_place_image.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
+import 'package:mwwm/mwwm.dart';
+import 'package:relation/relation.dart';
 
-class AddSightScreen extends StatefulWidget {
-  const AddSightScreen({Key? key}) : super(key: key);
+class AddSightScreen extends CoreMwwmWidget {
+
+  AddSightScreen({Key? key})
+      : super(
+    key: key,
+    widgetModelBuilder: (context) => AddPlaceWidgetModel(
+      const WidgetModelDependencies(),
+    ),
+  );
 
   @override
-  State<AddSightScreen> createState() => _AddSightScreenState();
+  State<StatefulWidget> createState() => _AddSightScreenState();
 }
 
-class _AddSightScreenState extends State<AddSightScreen> {
+List<String> list = [];
+
+class _AddSightScreenState extends WidgetState<AddPlaceWidgetModel> {
   final category = FocusNode();
   final name = FocusNode();
   final latitude = FocusNode();
   final longitude = FocusNode();
   final description = FocusNode();
 
-  final _nameController = TextEditingController();
-  final _lonController = TextEditingController();
-  final _latController = TextEditingController();
-  final _descriptionController = TextEditingController();
+
 
   final _formKey = GlobalKey<FormState>();
 
   String selectedCategory = '';
-  List<String> list = [];
   final greenColor = themeProvider.appTheme.greenColor;
-
-  void _submitForm() {
-    final addPlaceStore = Provider.of<AddPlaceStore>(context, listen: false);
-
-    if (_formKey.currentState!.validate()) {
-      final place = Place(
-        id: placeFromNet.length + 1,
-        lat: double.parse(_latController.text),
-        lon: double.parse(_lonController.text),
-        name: _nameController.text,
-        urls: list,
-        placeType: selectedCategory,
-        description: _descriptionController.text,
-      );
-
-      try {
-        Navigator.pop(context);
-
-        addPlaceStore.addNewPlace(place);
-      } catch (e) {
-        debugPrint('Error: $e');
-      }
-    }
-  }
-
-  String? _validateCategory(String value) {
-    return value.isEmpty ? 'Выберите категорию' : null;
-  }
-
-  String? _validateName(String value) {
-    return value.isEmpty ? 'Введите название' : null;
-  }
-
-  String? _validateDescription(String value) {
-    return value.isEmpty ? 'Введите описание' : null;
-  }
-
-  String? _validateLatitude(String value) {
-    if (value.isEmpty) {
-      return 'Введите координаты';
-    } else if (double.parse(value) > 90) {
-      return 'Неправельные координаты';
-    } else {
-      return null;
-    }
-  }
-
-  String? _validateLongitude(String value) {
-    if (value.isEmpty) {
-      return 'Введите координаты';
-    } else if (double.parse(value) > 180) {
-      return 'Неправельные координаты';
-    } else {
-      return null;
-    }
-  }
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _lonController.dispose();
-    _latController.dispose();
-    _descriptionController.dispose();
-
-    category.dispose();
-    name.dispose();
-    latitude.dispose();
-    longitude.dispose();
-    description.dispose();
-
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -153,8 +85,8 @@ class _AddSightScreenState extends State<AddSightScreen> {
               sizedBox12H,
               TextFieldOnlyReade(
                 focusNode: category,
-                controller: selectedCategory,
-                validate: _validateCategory,
+                controller: wm.categoryState,
+                validate: wm.validateCategory,
                 updateSelectedCategory: updateSelectedCategory,
               ),
               sizedBox24H,
@@ -162,9 +94,9 @@ class _AddSightScreenState extends State<AddSightScreen> {
               sizedBox12H,
               TextFields(
                 focusNode: name,
-                controller: _nameController,
+                controller: wm.nameState,
                 onEditingComplete: latitude,
-                validate: _validateName,
+                validate: wm.validateName,
                 keyboardType: TextInputType.multiline,
               ),
               sizedBox24H,
@@ -182,9 +114,9 @@ class _AddSightScreenState extends State<AddSightScreen> {
                         width: 162,
                         child: TextFields(
                           focusNode: latitude,
-                          controller: _latController,
+                          controller: wm.latitudeState,
                           onEditingComplete: longitude,
-                          validate: _validateLatitude,
+                          validate: wm.validateLatitude,
                           keyboardType: TextInputType.datetime,
                         ),
                       ),
@@ -200,9 +132,9 @@ class _AddSightScreenState extends State<AddSightScreen> {
                         width: 162,
                         child: TextFields(
                           focusNode: longitude,
-                          controller: _lonController,
+                          controller: wm.longitudeState,
                           onEditingComplete: description,
-                          validate: _validateLongitude,
+                          validate: wm.validateLongitude,
                           keyboardType: TextInputType.datetime,
                         ),
                       ),
@@ -226,9 +158,9 @@ class _AddSightScreenState extends State<AddSightScreen> {
               sizedBox12H,
               TextFields(
                 focusNode: description,
-                controller: _descriptionController,
+                controller: wm.descriptionState,
                 onEditingComplete: description,
-                validate: _validateDescription,
+                validate: wm.validateDescription,
                 keyboardType: TextInputType.multiline,
               ),
               sizedBox24H,
@@ -249,7 +181,10 @@ class _AddSightScreenState extends State<AddSightScreen> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  onPressed: _submitForm,
+                  onPressed: () {
+                    wm.submitForm();
+                    Navigator.pop(context);
+                  },
                 ),
               ),
             ],
@@ -261,7 +196,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
 
   void updateSelectedCategory(String category) {
     setState(() {
-      selectedCategory = category;
+      wm.categoryState.accept(category);
     });
   }
 
@@ -275,7 +210,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
 class TextFields extends StatefulWidget {
   final FocusNode focusNode;
   final FocusNode onEditingComplete;
-  final TextEditingController controller;
+  final StreamedState<String> controller;
   final String? Function(String) validate;
   final TextInputType keyboardType;
 
@@ -304,18 +239,19 @@ class _TextFieldsState extends State<TextFields> {
       cursorWidth: 1,
       cursorColor: mainWhiteColor,
       style: appTypography.text14Regular.copyWith(color: mainWhiteColor),
-      controller: widget.controller,
-      onChanged: (value) => setState(() {}),
+      onChanged: widget.controller.accept,
       keyboardType: widget.keyboardType,
       decoration: InputDecoration(
         errorBorder: errorBorder,
         enabledBorder: enableBorder,
         focusedBorder: focusBorder,
-        suffixIcon: widget.controller.text.isNotEmpty
+        suffixIcon: widget.controller.value.isNotEmpty
             ? CupertinoButton(
                 padding: EdgeInsets.zero,
                 onPressed: () {
-                  setState(widget.controller.clear);
+                  setState(() {
+                    widget.controller.value;
+                  });
                 },
                 child: SvgPicture.asset(
                   AppAssets.clear,
@@ -335,7 +271,7 @@ class _TextFieldsState extends State<TextFields> {
 
 class TextFieldOnlyReade extends StatefulWidget {
   final FocusNode focusNode;
-  final String controller;
+  final StreamedState<String> controller;
   final String? Function(String) validate;
   final Function(String) updateSelectedCategory;
 
@@ -357,7 +293,7 @@ class _TextFieldOnlyReadeState extends State<TextFieldOnlyReade> {
     return TextFormField(
       focusNode: widget.focusNode,
       readOnly: true,
-      controller: TextEditingController(text: widget.controller),
+      controller: TextEditingController(text: widget.controller.value),
       onTap: () {
         AppNavigation.goToCategories(context, widget.updateSelectedCategory);
       },

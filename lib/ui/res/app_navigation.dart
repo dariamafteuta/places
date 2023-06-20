@@ -143,7 +143,7 @@ class AppNavigation {
     Navigator.push<AddSightScreen>(
       context,
       MaterialPageRoute(
-        builder: (_) => const AddSightScreen(),
+        builder: (_) => AddSightScreen(),
       ),
     );
   }

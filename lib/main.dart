@@ -6,11 +6,13 @@ import 'package:flutter_job/data/store/add_place_store_base.dart';
 import 'package:flutter_job/data/store/favorite_store_base.dart';
 import 'package:flutter_job/data/store/place_store_base.dart';
 import 'package:flutter_job/data/store/search_place_store_base.dart';
+import 'package:flutter_job/mwwm/add_place_widget_model.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/themes.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:mwwm/mwwm.dart';
 import 'package:provider/provider.dart';
 import 'package:redux/redux.dart';
 
@@ -91,6 +93,11 @@ class _MainState extends State<Main> {
           Provider<FavoriteStore>(
             create: (_) => FavoriteStore(),
           ),
+          // Provider<AddPlaceWidgetModel>(
+          //   create: (_) => AddPlaceWidgetModel(
+          //      const WidgetModelDependencies(),
+          //   ),
+          // ),
           Provider<AddPlaceStore>(
             create: (_) => AddPlaceStore(),
           ),
