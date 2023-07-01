@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_job/bloc/search_bloc/search_bloc.dart';
+import 'package:flutter_job/bloc/search_bloc/search_event.dart';
+import 'package:flutter_job/bloc/search_bloc/search_state.dart';
 import 'package:flutter_job/data/model/place.dart';
-import 'package:flutter_job/data/redux/search_action.dart';
-import 'package:flutter_job/data/redux/search_state.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
-import 'package:flutter_job/data/store/place_store_base.dart';
 import 'package:flutter_job/data/store/search_place_store_base.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
@@ -12,7 +13,6 @@ import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/ui/screens/content.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
@@ -27,129 +27,154 @@ class SightSearchScreen extends StatefulWidget {
 
 class _SightSearchScreenState extends State<SightSearchScreen> {
   final _searchController = TextEditingController();
+  late SearchBloc searchBloc;
+
+  String searchText = '';
 
   final mainWhiteColor = themeProvider.appTheme.mainWhiteColor;
   final inactiveColor = themeProvider.appTheme.inactiveColor;
 
   @override
-  void dispose() {
-    _searchController.dispose();
+  void initState() {
+    super.initState();
+    searchBloc =
+        SearchBloc(Provider.of<SearchPlaceStore>(context, listen: false));
+  }
 
+  @override
+  void dispose() {
+    searchBloc.close();
+    _searchController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final placeStore = Provider.of<PlaceStore>(context, listen: false);
-    final searchPlaceStore =
-        Provider.of<SearchPlaceStore>(context, listen: false);
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<SearchBloc>.value(
+          value: searchBloc,
+        ),
+      ],
+      child: Builder(
+        builder: (_) {
+          return Scaffold(
+            appBar: AppBar(
+              elevation: 0.0,
+              centerTitle: true,
+              leading: CupertinoButton(
+                child: SvgPicture.asset(
+                  AppAssets.arrow,
+                  color: mainWhiteColor,
+                ),
+                onPressed: () => Navigator.pop(context),
+              ),
+              title: Text(
+                AppStrings.listOfInterestingPlaces,
+                style: appTypography.text24Bold.copyWith(
+                  color: mainWhiteColor,
+                ),
+              ),
+            ),
+            body: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+              ),
+              child: Column(
+                children: [
+                  Listener(
+                    onPointerDown: (_) {
+                      FocusScope.of(context).unfocus();
+                    },
+                    child: TextField(
+                      autofocus: true,
+                      controller: _searchController,
+                      onChanged: (value) {
+                        searchText = value;
 
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        centerTitle: true,
-        leading: CupertinoButton(
-          child: SvgPicture.asset(
-            AppAssets.arrow,
-            color: mainWhiteColor,
-          ),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Text(
-          AppStrings.listOfInterestingPlaces,
-          style: appTypography.text24Bold.copyWith(
-            color: mainWhiteColor,
-          ),
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16,
-        ),
-        child: Column(
-          children: [
-            TextField(
-              autofocus: true,
-              onEditingComplete: () => FocusScope.of(context).unfocus(),
-              controller: _searchController,
-              onChanged: (value) {
-                placeStore.getPlaces(null, null);
-                setState(() {
-                  StoreProvider.of<SearchState>(context).dispatch(
-                    SetSearchResultAction(
-                      searchPlaceStore.searchPlaces(value),
-                    ),
-                  );
-                });
-              },
-              cursorWidth: 1,
-              cursorColor: mainWhiteColor,
-              style: appTypography.text14Regular.copyWith(
-                color: mainWhiteColor,
-              ),
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.zero,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide.none,
-                ),
-                fillColor: themeProvider.appTheme.backgroundColor,
-                filled: true,
-                hintText: AppStrings.search,
-                hintStyle: TextStyle(color: inactiveColor),
-                prefixIcon: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SvgPicture.asset(
-                    AppAssets.search,
-                    color: inactiveColor,
-                  ),
-                ),
-                suffixIcon: _searchController.text.isEmpty
-                    ? CupertinoButton(
-                        onPressed: () {
-                          AppNavigation.goToFilter(context);
-                        },
-                        padding: EdgeInsets.zero,
-                        child: SvgPicture.asset(
-                          AppAssets.filter,
-                          color: themeProvider.appTheme.greenColor,
-                        ),
-                      )
-                    : CupertinoButton(
-                        padding: EdgeInsets.zero,
-                        onPressed: () {
-                          setState(_searchController.clear);
-                        },
-                        child: SvgPicture.asset(
-                          AppAssets.clear,
-                          color: mainWhiteColor,
-                        ),
-                      ),
-              ),
-            ),
-            StoreConnector<SearchState, List<Place>>(
-              converter: (store) => store.state.searchResult,
-              builder: (context, searchResult) {
-                if (_searchController.text == '') {
-                  return const YourSearch();
-                } else if (searchResult.isEmpty) {
-                  return const SearchError();
-                } else {
-                  return Expanded(
-                    child: ListView.builder(
-                      itemCount: searchResult.length,
-                      itemBuilder: (_, index) {
-                        return SearchResult(
-                          searchResult: searchResult[index],
-                        );
+                        searchBloc.add(PerformSearch(searchText));
                       },
+                      cursorWidth: 1,
+                      cursorColor: mainWhiteColor,
+                      style: appTypography.text14Regular.copyWith(
+                        color: mainWhiteColor,
+                      ),
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.zero,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
+                        fillColor: Provider.of<ThemeProvider>(context)
+                            .appTheme
+                            .backgroundColor,
+                        filled: true,
+                        hintText: AppStrings.search,
+                        hintStyle: TextStyle(color: inactiveColor),
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SvgPicture.asset(
+                            AppAssets.search,
+                            color: inactiveColor,
+                          ),
+                        ),
+                        suffixIcon: _searchController.text.isEmpty
+                            ? CupertinoButton(
+                                onPressed: () {
+                                  AppNavigation.goToFilter(context);
+                                },
+                                padding: EdgeInsets.zero,
+                                child: SvgPicture.asset(
+                                  AppAssets.filter,
+                                  color: themeProvider.appTheme.greenColor,
+                                ),
+                              )
+                            : CupertinoButton(
+                                padding: EdgeInsets.zero,
+                                onPressed: () {
+                                  _searchController.clear();
+                                  setState(() {
+                                    searchText = '';
+                                  });
+                                },
+                                child: SvgPicture.asset(
+                                  AppAssets.clear,
+                                  color: mainWhiteColor,
+                                ),
+                              ),
+                      ),
                     ),
-                  );
-                }
-              },
+                  ),
+                  BlocBuilder<SearchBloc, SearchState>(
+                    bloc: searchBloc,
+                    builder: (context, state) {
+                      if (state is SearchResultsState) {
+                        final searchResults = state.searchResults;
+
+                        return searchResults.isEmpty
+                            ? const SearchError()
+                            : Expanded(
+                                child: ListView.builder(
+                                  itemCount: searchResults.length,
+                                  itemBuilder: (_, index) {
+                                    return SearchResult(
+                                      searchResult: searchResults[index],
+                                    );
+                                  },
+                                ),
+                              );
+                      } else if (state is SearchErrorState) {
+                        return const SearchError();
+                      }
+
+                      return const YourSearch();
+                    },
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

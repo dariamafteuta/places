@@ -1,5 +1,5 @@
 import 'package:flutter_job/data/model/place.dart';
-import 'package:flutter_job/data/store/place_store_base.dart';
+import 'package:flutter_job/data/store/places_store_base.dart';
 import 'package:mobx/mobx.dart';
 
 part 'search_place_store_base.g.dart';
@@ -9,6 +9,8 @@ class SearchPlaceStore = SearchPlaceStoreBase with _$SearchPlaceStore;
 abstract class SearchPlaceStoreBase with Store {
   @action
   List<Place> searchPlaces(String name) {
+    PlacesStore().getPlaces(null, null);
+
     final searchResult = <Place>[];
 
     for (final place in placeFromNet) {
@@ -18,8 +20,8 @@ abstract class SearchPlaceStoreBase with Store {
     }
 
     return searchResult
-      ..sort((a, b) => PlaceStore()
+      ..sort((a, b) => PlacesStore()
           .distanceCalculate(a)
-          .compareTo(PlaceStore().distanceCalculate(b)));
+          .compareTo(PlacesStore().distanceCalculate(b)));
   }
 }

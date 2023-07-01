@@ -6,13 +6,13 @@ import 'package:flutter_job/domain/coordinate.dart';
 import 'package:flutter_job/main.dart';
 import 'package:mobx/mobx.dart';
 
-part 'place_store_base.g.dart';
+part 'places_store_base.g.dart';
 
-class PlaceStore = PlaceStoreBase with _$PlaceStore;
+class PlacesStore = PlacesStoreBase with _$PlaceStore;
 
 List<Place> placeFromNet = [];
 
-abstract class PlaceStoreBase with Store {
+abstract class PlacesStoreBase with Store {
   @action
   Future<List<Place>> getPlaces(
     RangeValues? radius,

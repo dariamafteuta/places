@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_job/data/bloc/favorite_bloc/favorite_event.dart';
-import 'package:flutter_job/data/bloc/favorite_bloc/favorite_state.dart';
+import 'package:flutter_job/bloc/favorite_bloc/favorite_event.dart';
+import 'package:flutter_job/bloc/favorite_bloc/favorite_state.dart';
 import 'package:flutter_job/data/store/favorite_store_base.dart';
 
 class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
