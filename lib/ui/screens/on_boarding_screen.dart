@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
-import 'package:flutter_job/data/store/place_store_base.dart';
+import 'package:flutter_job/data/store/places_store_base.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
@@ -26,7 +26,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final placeStore = Provider.of<PlaceStore>(context, listen: false);
+    final placeStore = Provider.of<PlacesStore>(context, listen: false);
     final orientationPortrait =
         MediaQuery.of(context).orientation == Orientation.portrait;
 
@@ -117,10 +117,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       onPressed: () {
                         AppNavigation.goToSightList(
                           context,
-                          placeStore.getPlaces(
-                            RangeValues(start, end),
-                            null,
-                          ),
                         );
                       },
                     ),

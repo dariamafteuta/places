@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
 import 'package:flutter_job/data/store/add_place_store_base.dart';
-import 'package:flutter_job/data/store/place_store_base.dart';
+import 'package:flutter_job/data/store/places_store_base.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';

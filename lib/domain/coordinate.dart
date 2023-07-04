@@ -1,4 +1,3 @@
-
 class Coordinate {
   final double lat;
   final double lon;

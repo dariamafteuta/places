@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_job/data/redux/search_reducer.dart';
-import 'package:flutter_job/data/redux/search_state.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
 import 'package:flutter_job/data/store/add_place_store_base.dart';
 import 'package:flutter_job/data/store/favorite_store_base.dart';
-import 'package:flutter_job/data/store/place_store_base.dart';
+import 'package:flutter_job/data/store/places_store_base.dart';
 import 'package:flutter_job/data/store/search_place_store_base.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/themes.dart';
-import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_job/ui/screens/sight_search_screen.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
-import 'package:redux/redux.dart';
+
+import 'package:flutter_job/bloc/search_bloc/search_bloc.dart';
 
 void main() {
   runApp(const Main());
@@ -73,36 +72,30 @@ class _MainState extends State<Main> {
 
   @override
   Widget build(BuildContext context) {
-    final store = Store<SearchState>(
-      rootReducer,
-      initialState: SearchState.initialState(),
-    );
-
-    return StoreProvider(
-      store: store,
-      child: MultiProvider(
-        providers: [
-          ChangeNotifierProvider<ThemeProvider>(
-            create: (_) => ThemeProvider(),
-          ),
-          Provider<PlaceStore>(
-            create: (_) => PlaceStore(),
-          ),
-          Provider<FavoriteStore>(
-            create: (_) => FavoriteStore(),
-          ),
-          Provider<AddPlaceStore>(
-            create: (_) => AddPlaceStore(),
-          ),
-          Provider<SearchPlaceStore>.value(value: SearchPlaceStore()),
-        ],
-        child: MaterialApp(
-          theme: themeProvider.isLightTheme ? lightThemes : darkThemes,
-          title: AppStrings.appTitle,
-          debugShowCheckedModeBanner: false,
-          initialRoute: AppNavigation.splashScreen,
-          onGenerateRoute: AppNavigation.generateRoute,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<ThemeProvider>(
+          create: (_) => ThemeProvider(),
         ),
+        Provider<PlacesStore>(
+          create: (_) => PlacesStore(),
+        ),
+        Provider<FavoriteStore>(
+          create: (_) => FavoriteStore(),
+        ),
+        Provider<AddPlaceStore>(
+          create: (_) => AddPlaceStore(),
+        ),
+        Provider<SearchPlaceStore>(
+          create: (_) => SearchPlaceStore(),
+        ),
+      ],
+      child: MaterialApp(
+        theme: themeProvider.isLightTheme ? lightThemes : darkThemes,
+        title: AppStrings.appTitle,
+        debugShowCheckedModeBanner: false,
+        initialRoute: AppNavigation.splashScreen,
+        onGenerateRoute: AppNavigation.generateRoute,
       ),
     );
   }

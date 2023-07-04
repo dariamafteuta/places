@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
-import 'package:flutter_job/data/store/place_store_base.dart';
+import 'package:flutter_job/data/store/places_store_base.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
@@ -50,7 +50,6 @@ class _FiltersScreenState extends State<FiltersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final placeStore = Provider.of<PlaceStore>(context, listen: false);
     final largeScreenSize = MediaQuery.of(context).size.width > 320;
 
     return Scaffold(
@@ -176,12 +175,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                   Navigator.push<FiltersScreen>(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SightListScreen(
-                        places: placeStore.getPlaces(
-                          RangeValues(start, end),
-                          selectedType,
-                        ),
-                      ),
+                      builder: (_) => SightListScreen(type: selectedType,),
                     ),
                   );
                 },
@@ -202,7 +196,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
   }
 
   Future<void> filter() async {
-    final placeStore = Provider.of<PlaceStore>(context, listen: false);
+    final placeStore = Provider.of<PlacesStore>(context, listen: false);
     final selectedPlaces =
         await placeStore.getPlaces(RangeValues(start, end), selectedType);
 
