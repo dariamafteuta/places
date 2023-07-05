@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
@@ -11,10 +13,25 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> animation;
+
   @override
   void initState() {
     _navigateToNext();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    );
+    animation = Tween<double>(begin: 0, end: -pi * 2).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.decelerate),
+    );
+
+    _animationController
+      ..forward()
+      ..repeat();
 
     super.initState();
   }
@@ -34,6 +51,13 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   @override
+  void dispose() {
+    _animationController.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -41,11 +65,18 @@ class _SplashScreenState extends State<SplashScreen> {
           colors: themeProvider.appTheme.yellowAndGreenColor,
         ),
       ),
-      child: Center(
-        child: SvgPicture.asset(
-          AppAssets.iconSplash,
-          height: 160,
-          width: 160,
+      child: AnimatedBuilder(
+        animation: animation,
+        child: Center(
+          child: SvgPicture.asset(
+            AppAssets.iconSplash,
+            height: 160,
+            width: 160,
+          ),
+        ),
+        builder: (_, child) => Transform.rotate(
+          angle: animation.value,
+          child: child,
         ),
       ),
     );
