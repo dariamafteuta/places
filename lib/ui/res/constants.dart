@@ -27,6 +27,15 @@ final divider = Divider(
   thickness: 0.8,
 );
 
+final circularProgress = SliverFillRemaining(
+  child: Center(
+    child: CircularProgressIndicator(
+      strokeWidth: 5,
+      color: themeProvider.appTheme.inactiveColor,
+    ),
+  ),
+);
+
 const sizedBox2H = SizedBox(height: 2);
 
 const sizedBox8H = SizedBox(height: 8);

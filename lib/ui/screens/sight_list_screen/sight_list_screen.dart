@@ -1,3 +1,4 @@
+import 'package:capped_progress_indicator/capped_progress_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -164,13 +165,7 @@ class SightPortrait extends StatelessWidget {
     return BlocBuilder<PlacesBloc, PlacesState>(
       builder: (_, state) {
         if (state is PlacesLoading) {
-          return SliverFillRemaining(
-            child: Center(
-              child: CircularProgressIndicator(
-                color: themeProvider.appTheme.inactiveColor,
-              ),
-            ),
-          );
+          return circularProgress;
         } else if (state is PlacesLoaded) {
           return placeFromNet.isNotEmpty
               ? SliverList(
@@ -222,13 +217,7 @@ class SightLandscape extends StatelessWidget {
     return BlocBuilder<PlacesBloc, PlacesState>(
       builder: (_, state) {
         if (state is PlacesLoading) {
-          return SliverFillRemaining(
-            child: Center(
-              child: CircularProgressIndicator(
-                color: themeProvider.appTheme.inactiveColor,
-              ),
-            ),
-          );
+          return circularProgress;
         } else if (state is PlacesLoaded) {
           return SliverGrid(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
