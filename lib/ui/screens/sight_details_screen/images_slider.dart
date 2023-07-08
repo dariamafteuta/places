@@ -40,7 +40,7 @@ class _ImagesSliderState extends State<ImagesSlider> {
                   top: Radius.circular(widget.borderRadius),
                 ),
                 child: Hero(
-                  tag: 'image',
+                  tag: 'imageHero_${widget.place.id}',
                   child: Image.network(
                     widget.place.urls[index],
                     loadingBuilder: (_, child, loadingProgress) =>
