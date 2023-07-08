@@ -7,11 +7,8 @@ import 'package:flutter_job/data/store/search_place_store_base.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/themes.dart';
-import 'package:flutter_job/ui/screens/sight_search_screen.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
-
-import 'package:flutter_job/bloc/search_bloc/search_bloc.dart';
 
 void main() {
   runApp(const Main());

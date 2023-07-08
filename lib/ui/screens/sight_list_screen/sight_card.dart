@@ -84,7 +84,7 @@ class _SightCardState extends State<SightCard>
             backgroundColor: themeProvider.appTheme.transparentColor,
             builder: (_) {
               return BottomSheetDetails(
-                sight: widget.place,
+                place: widget.place,
               );
             },
           );
@@ -110,29 +110,32 @@ class _SightCardState extends State<SightCard>
                       borderRadius: const BorderRadius.vertical(
                         top: Radius.circular(10),
                       ),
-                      child: Image.network(
-                        urls[0],
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        height: double.infinity,
-                        loadingBuilder: (_, child, loadingProgress) {
-                          if (loadingProgress == null) {
-                            _controller.forward();
+                      child: Hero(
+                        tag: 'image',
+                        child: Image.network(
+                          urls[0],
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: double.infinity,
+                          loadingBuilder: (_, child, loadingProgress) {
+                            if (loadingProgress == null) {
+                              _controller.forward();
 
-                            return child;
-                          } else {
-                            return Center(
-                              child: SizedBox(
-                                height: 50,
-                                width: 50,
-                                child: SvgPicture.asset(
-                                  AppAssets.photo,
-                                  color: themeProvider.appTheme.inactiveColor,
+                              return child;
+                            } else {
+                              return Center(
+                                child: SizedBox(
+                                  height: 50,
+                                  width: 50,
+                                  child: SvgPicture.asset(
+                                    AppAssets.photo,
+                                    color: themeProvider.appTheme.inactiveColor,
+                                  ),
                                 ),
-                              ),
-                            );
-                          }
-                        },
+                              );
+                            }
+                          },
+                        ),
                       ),
                     ),
                   ),

@@ -54,7 +54,7 @@ class _SightCardVisitedState extends State<SightCardVisited> {
             backgroundColor: themeProvider.appTheme.transparentColor,
             builder: (_) {
               return BottomSheetDetails(
-                sight: widget.visitedPlace,
+                place: widget.visitedPlace,
               );
             },
           );

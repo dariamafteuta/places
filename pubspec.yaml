@@ -43,6 +43,7 @@ flutter:
     - assets/icons/
     - assets/icons/empty_page/
     - assets/icons/empty_page/icon/
+    - assets/icons/loader/
     - assets/icons/menu/
     - assets/icons/other/
     - assets/icons/other/icon/

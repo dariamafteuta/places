@@ -65,7 +65,7 @@ class _SightCardPlanState extends State<SightCardPlan> {
             backgroundColor: themeProvider.appTheme.transparentColor,
             builder: (_) {
               return BottomSheetDetails(
-                sight: widget.favoritePlace,
+                place: widget.favoritePlace,
               );
             },
           );
