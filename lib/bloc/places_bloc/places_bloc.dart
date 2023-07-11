@@ -11,9 +11,6 @@ class PlacesBloc extends Bloc<PlacesEvent, PlacesState> {
 
   PlacesBloc(this.placesStore, {required this.radius, required this.type}) : super(PlacesLoading()) {
     on<FetchPlaces>((event, emit) async {
-      debugPrint(state.toString());
-      debugPrint('help');
-
       emit(PlacesLoading());
 
       await placesStore.getPlaces(radius, type);

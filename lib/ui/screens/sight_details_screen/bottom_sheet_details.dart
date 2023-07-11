@@ -7,11 +7,11 @@ import 'package:flutter_job/ui/screens/sight_details_screen/sight_details.dart';
 import 'package:flutter_svg/svg.dart';
 
 class BottomSheetDetails extends StatelessWidget {
-  final Place sight;
+  final Place place;
 
   const BottomSheetDetails({
     Key? key,
-    required this.sight,
+    required this.place,
   }) : super(key: key);
 
   @override
@@ -32,11 +32,11 @@ class BottomSheetDetails extends StatelessWidget {
               ListView(
                 controller: controller,
                 children: [
-                  ImagesSlider(
-                    place: sight,
-                    borderRadius: 12,
-                  ),
-                  SightDetails(place: sight),
+                   ImagesSlider(
+                      place: place,
+                      borderRadius: 12,
+                    ),
+                  SightDetails(place: place),
                 ],
               ),
               IgnorePointer(

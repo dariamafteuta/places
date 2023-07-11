@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_job/bloc/places_bloc/places_bloc.dart';
 import 'package:flutter_job/bloc/places_bloc/places_event.dart';
-import 'package:flutter_job/bloc/places_bloc/places_state.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
 import 'package:flutter_job/data/store/places_store_base.dart';
 import 'package:flutter_job/ui/components/bottom_navigation.dart';
@@ -11,9 +10,9 @@ import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
-import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/ui/screens/filters_screen.dart';
-import 'package:flutter_job/ui/screens/sight_list_screen/sight_card.dart';
+import 'package:flutter_job/ui/screens/sight_list_screen/sight_landscape.dart';
+import 'package:flutter_job/ui/screens/sight_list_screen/sight_portrait.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
@@ -38,7 +37,7 @@ class _SightListScreenState extends State<SightListScreen> {
   void initState() {
     super.initState();
     placesBloc = PlacesBloc(Provider.of<PlacesStore>(context, listen: false),
-        radius: RangeValues(start, end), type: widget.type,);
+      radius: RangeValues(start, end), type: widget.type,);
   }
 
   @override
@@ -148,128 +147,10 @@ class _SightListScreenState extends State<SightListScreen> {
             if (orientationPortrait)
               const SightPortrait()
             else
-              const SightLandscape(),
+             const SightLandscape(),
           ],
         ),
       ),
-    );
-  }
-}
-
-class SightPortrait extends StatelessWidget {
-  const SightPortrait({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<PlacesBloc, PlacesState>(
-      builder: (_, state) {
-        if (state is PlacesLoading) {
-          return SliverFillRemaining(
-            child: Center(
-              child: CircularProgressIndicator(
-                color: themeProvider.appTheme.inactiveColor,
-              ),
-            ),
-          );
-        } else if (state is PlacesLoaded) {
-          return placeFromNet.isNotEmpty
-              ? SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (_, index) {
-                      final place = placeFromNet[index];
-
-                      return SightCard(
-                        ValueKey(place.id),
-                        place,
-                      );
-                    },
-                    childCount: placeFromNet.length,
-                  ),
-                )
-              : const SizedBox.shrink();
-        } else {
-          return SliverFillRemaining(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset(AppAssets.group_5922EmptyPage),
-                sizedBox24H,
-                Text(
-                  AppStrings.error,
-                  style: appTypography.textGreyInactive18Bold,
-                  textAlign: TextAlign.center,
-                ),
-                sizedBox8H,
-                Text(
-                  AppStrings.errorTut,
-                  style: appTypography.textGreyInactive14Regular,
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          );
-        }
-      },
-    );
-  }
-}
-
-class SightLandscape extends StatelessWidget {
-  const SightLandscape({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<PlacesBloc, PlacesState>(
-      builder: (_, state) {
-        if (state is PlacesLoading) {
-          return SliverFillRemaining(
-            child: Center(
-              child: CircularProgressIndicator(
-                color: themeProvider.appTheme.inactiveColor,
-              ),
-            ),
-          );
-        } else if (state is PlacesLoaded) {
-          return SliverGrid(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisExtent: 216,
-            ),
-            delegate: SliverChildBuilderDelegate(
-              childCount: placeFromNet.length,
-              (_, index) {
-                final place = placeFromNet[index];
-
-                return SightCard(
-                  ValueKey(place.id),
-                  place,
-                );
-              },
-            ),
-          );
-        } else {
-          return SliverFillRemaining(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset(AppAssets.group_5922EmptyPage),
-                sizedBox24H,
-                Text(
-                  AppStrings.error,
-                  style: appTypography.textGreyInactive18Bold,
-                  textAlign: TextAlign.center,
-                ),
-                sizedBox8H,
-                Text(
-                  AppStrings.errorTut,
-                  style: appTypography.textGreyInactive14Regular,
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          );
-        }
-      },
     );
   }
 }

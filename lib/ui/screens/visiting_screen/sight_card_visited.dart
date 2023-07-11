@@ -5,9 +5,8 @@ import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
 import 'package:flutter_job/data/store/favorite_store_base.dart';
 import 'package:flutter_job/ui/components/card_delete_background.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
+import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
-import 'package:flutter_job/ui/screens/sight_details_screen/bottom_sheet_details.dart';
-import 'package:flutter_job/ui/screens/visiting_screen/favorite_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
@@ -47,17 +46,7 @@ class _SightCardVisitedState extends State<SightCardVisited> {
       ),
       child: InkWell(
         onTap: () {
-          showModalBottomSheet<FavoriteScreen>(
-            isScrollControlled: true,
-            isDismissible: false,
-            context: context,
-            backgroundColor: themeProvider.appTheme.transparentColor,
-            builder: (_) {
-              return BottomSheetDetails(
-                sight: widget.visitedPlace,
-              );
-            },
-          );
+          AppNavigation.goToSightDetails(context, widget.visitedPlace);
         },
         splashColor: themeProvider.appTheme.whiteMainColor.withOpacity(0.3),
         borderRadius: BorderRadius.circular(10),
@@ -80,18 +69,21 @@ class _SightCardVisitedState extends State<SightCardVisited> {
                       borderRadius: const BorderRadius.vertical(
                         top: Radius.circular(10),
                       ),
-                      child: Ink(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: NetworkImage(
-                              urls.isNotEmpty
-                                  ? urls[0]
-                                  : 'https://www.sirvisual.com/Attachment/100/5055_31356_420%20Principale.jpg',
+                      child: Hero(
+                        tag: 'imageHero_${widget.visitedPlace.id}',
+                        child: Ink(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                urls.isNotEmpty
+                                    ? urls[0]
+                                    : 'https://www.sirvisual.com/Attachment/100/5055_31356_420%20Principale.jpg',
+                              ),
+                              fit: BoxFit.fitWidth,
                             ),
-                            fit: BoxFit.fitWidth,
-                          ),
-                          borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(10),
+                            borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(10),
+                            ),
                           ),
                         ),
                       ),

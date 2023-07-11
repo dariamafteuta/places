@@ -222,59 +222,62 @@ class SearchResult extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: InkWell(
-        highlightColor: transparentColor,
-        splashColor: transparentColor,
-        onTap: () {
-          AppNavigation.goToSightDetails(context, searchResult);
-          listSearch.add(searchResult);
-        },
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Container(
-                  height: 56,
-                  width: 56,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: NetworkImage(
-                        searchResult.urls.isNotEmpty
-                            ? searchResult.urls[0]
-                            : 'https://www.sirvisual.com/Attachment/100/5055_31356_420%20Principale.jpg',
+          highlightColor: transparentColor,
+          splashColor: transparentColor,
+          onTap: () {
+            AppNavigation.goToSightDetails(context, searchResult);
+            listSearch.add(searchResult);
+          },
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Hero(
+                    tag: 'imageHero_${searchResult.id}',
+                    child: Container(
+                      height: 56,
+                      width: 56,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage(
+                            searchResult.urls.isNotEmpty
+                                ? searchResult.urls[0]
+                                : 'https://www.sirvisual.com/Attachment/100/5055_31356_420%20Principale.jpg',
+                          ),
+                          fit: BoxFit.fill,
+                        ),
+                        borderRadius: BorderRadius.circular(15),
                       ),
-                      fit: BoxFit.fill,
                     ),
-                    borderRadius: BorderRadius.circular(15),
                   ),
-                ),
-                sizedBox10W,
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text(
-                        searchResult.name,
-                        style: appTypography.text16Bold.copyWith(
-                          color: themeProvider.appTheme.mainWhiteColor,
+                  sizedBox10W,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          searchResult.name,
+                          style: appTypography.text16Bold.copyWith(
+                            color: themeProvider.appTheme.mainWhiteColor,
+                          ),
                         ),
-                      ),
-                      Text(
-                        searchResult.placeType,
-                        style: appTypography.text14Regular.copyWith(
-                          color: themeProvider.appTheme.inactiveColor,
+                        Text(
+                          searchResult.placeType,
+                          style: appTypography.text14Regular.copyWith(
+                            color: themeProvider.appTheme.inactiveColor,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-            divider,
-          ],
+                ],
+              ),
+              divider,
+            ],
+          ),
         ),
-      ),
-    );
+      );
   }
 }
 

@@ -6,9 +6,8 @@ import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
 import 'package:flutter_job/data/store/favorite_store_base.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
+import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
-import 'package:flutter_job/ui/screens/sight_details_screen/bottom_sheet_details.dart';
-import 'package:flutter_job/ui/screens/sight_list_screen/sight_list_screen.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -25,11 +24,32 @@ class SightCard extends StatefulWidget {
   State<SightCard> createState() => _SightCardState();
 }
 
-class _SightCardState extends State<SightCard> {
+class _SightCardState extends State<SightCard>
+    with SingleTickerProviderStateMixin {
   final StreamController<List<int>> _favoritePlacesController =
       StreamController<List<int>>();
   Stream<List<int>> get favoritePlacesStream =>
       _favoritePlacesController.stream;
+
+  late AnimationController _controller;
+  late Animation<double> _opacityAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
+
+    _opacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    );
+
+    Future.delayed(const Duration(seconds: 2), () {
+      _controller.forward();
+    });
+  }
 
   void _updateFavoritePlaces(List<int> places) {
     _favoritePlacesController.add(places);
@@ -38,6 +58,7 @@ class _SightCardState extends State<SightCard> {
   @override
   void dispose() {
     _favoritePlacesController.close();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -55,17 +76,7 @@ class _SightCardState extends State<SightCard> {
       ),
       child: InkWell(
         onTap: () {
-          showModalBottomSheet<SightListScreen>(
-            isScrollControlled: true,
-            isDismissible: false,
-            context: context,
-            backgroundColor: themeProvider.appTheme.transparentColor,
-            builder: (_) {
-              return BottomSheetDetails(
-                sight: widget.place,
-              );
-            },
-          );
+          AppNavigation.goToSightDetails(context, widget.place);
         },
         splashColor: themeProvider.appTheme.whiteMainColor.withOpacity(0.3),
         borderRadius: BorderRadius.circular(10),
@@ -73,30 +84,51 @@ class _SightCardState extends State<SightCard> {
           children: [
             Stack(
               children: [
-                SizedBox(
-                  height: 100,
-                  width: double.infinity,
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(10),
-                    ),
-                    child: Ink(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(
-                            urls.isNotEmpty
-                                ? urls[0]
-                                : 'https://www.sirvisual.com/Attachment/100/5055_31356_420%20Principale.jpg',
-                          ),
-                          fit: BoxFit.fitWidth,
-                        ),
+                AnimatedBuilder(
+                  animation: _controller,
+                  builder: (_, child) {
+                    return Opacity(
+                      opacity: _opacityAnimation.value,
+                      child: child,
+                    );
+                  },
+                  child: Hero(
+                    tag: 'imageHero_$id',
+                    child: SizedBox(
+                      height: 100,
+                      width: double.infinity,
+                      child: ClipRRect(
                         borderRadius: const BorderRadius.vertical(
                           top: Radius.circular(10),
                         ),
+                        child: Image.network(
+                            urls[0],
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: double.infinity,
+                            loadingBuilder: (_, child, loadingProgress) {
+                              if (loadingProgress == null) {
+                                _controller.forward();
+
+                                return child;
+                              } else {
+                                return Center(
+                                  child: SizedBox(
+                                    height: 50,
+                                    width: 50,
+                                    child: SvgPicture.asset(
+                                      AppAssets.photo,
+                                      color: themeProvider.appTheme.inactiveColor,
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                        ),
                       ),
-                    ),
                   ),
-                ),
+                  ),
                 Observer(
                   builder: (_) {
                     return StreamBuilder<List<int>>(

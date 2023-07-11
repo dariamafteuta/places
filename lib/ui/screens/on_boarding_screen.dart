@@ -1,15 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
-import 'package:flutter_job/data/store/places_store_base.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/res/constants.dart';
-import 'package:flutter_job/ui/screens/filters_screen.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -19,14 +16,14 @@ class OnBoardingScreen extends StatefulWidget {
   State<OnBoardingScreen> createState() => _OnBoardingScreenState();
 }
 
-class _OnBoardingScreenState extends State<OnBoardingScreen> {
+class _OnBoardingScreenState extends State<OnBoardingScreen>{
   final PageController _controller = PageController();
+
   int _currentIndex = 0;
   final greenColor = themeProvider.appTheme.greenColor;
 
   @override
   Widget build(BuildContext context) {
-    final placeStore = Provider.of<PlacesStore>(context, listen: false);
     final orientationPortrait =
         MediaQuery.of(context).orientation == Orientation.portrait;
 
@@ -134,14 +131,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   }
 }
 
-class Tutorial extends StatelessWidget {
+class Tutorial extends StatefulWidget {
   final String icon;
   final String tutorial;
   final String tutorial1;
 
-  final mainWhiteColor = themeProvider.appTheme.mainWhiteColor;
 
-  Tutorial({
+  const Tutorial({
     Key? key,
     required this.icon,
     required this.tutorial,
@@ -149,21 +145,56 @@ class Tutorial extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<Tutorial> createState() => _TutorialState();
+}
+
+class _TutorialState extends State<Tutorial> with TickerProviderStateMixin{
+  late final AnimationController _animationController;
+  late final Animation<double> animation;
+
+  final mainWhiteColor = themeProvider.appTheme.mainWhiteColor;
+
+  @override
+  void initState() {
+    _animationController = AnimationController(vsync: this, lowerBound: 0.1, duration: const Duration(seconds: 1));
+    animation = Tween<double>(begin: 0, end: 144).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.linear),
+    );
+
+    _animationController.forward();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SvgPicture.asset(
-            icon,
-            color: mainWhiteColor,
-          ),
+          AnimatedBuilder(animation: _animationController, builder: (_, child) {
+            return Opacity(opacity: _animationController.value,
+              child: GestureDetector(
+                child: SvgPicture.asset(
+                  widget.icon,
+                  color: mainWhiteColor,
+                  width: animation.value,
+                  height: animation.value,
+                ),
+              ),
+            );
+          }),
           sizedBox42H,
           SizedBox(
             height: 58,
             width: 244,
             child: Text(
-              tutorial,
+              widget.tutorial,
               style: appTypography.text24Bold.copyWith(color: mainWhiteColor),
               textAlign: TextAlign.center,
             ),
@@ -173,7 +204,7 @@ class Tutorial extends StatelessWidget {
             height: 36,
             width: 244,
             child: Text(
-              tutorial1,
+              widget.tutorial1,
               style: appTypography.text14Regular
                   .copyWith(color: themeProvider.appTheme.secondary2Color),
               textAlign: TextAlign.center,

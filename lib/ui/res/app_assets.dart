@@ -28,6 +28,10 @@ class AppAssets {
   static String cardEmptyPage = 'assets/icons/empty_page/card.svg';
   static String group_5922EmptyPage = 'assets/icons/empty_page/group_5922.svg';
 
+  // Loader
+  static String blackSmallLoader = 'assets/icons/loader/black_small.png';
+  static String whiteSmallLoader = 'assets/icons/loader/white_small.png';
+
   // Menu.
   static String heart = 'assets/icons/menu/heart.svg';
   static String heartFull = 'assets/icons/menu/heart_full.svg';

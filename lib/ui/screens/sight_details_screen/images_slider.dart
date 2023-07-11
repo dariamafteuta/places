@@ -39,15 +39,18 @@ class _ImagesSliderState extends State<ImagesSlider> {
                 borderRadius: BorderRadius.vertical(
                   top: Radius.circular(widget.borderRadius),
                 ),
-                child: Image.network(
-                  widget.place.urls[index],
-                  loadingBuilder: (_, child, loadingProgress) =>
-                      loadingProgress == null
-                          ? child
-                          : CupertinoActivityIndicator(
-                              color: themeProvider.appTheme.inactiveColor,
-                            ),
-                  fit: BoxFit.cover,
+                child: Hero(
+                  tag: 'imageHero_${widget.place.id}',
+                  child: Image.network(
+                    widget.place.urls[index],
+                    loadingBuilder: (_, child, loadingProgress) =>
+                        loadingProgress == null
+                            ? child
+                            : CupertinoActivityIndicator(
+                                color: themeProvider.appTheme.inactiveColor,
+                              ),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               );
             },
