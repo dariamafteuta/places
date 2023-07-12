@@ -46,7 +46,6 @@ class _FiltersScreenState extends State<FiltersScreen> {
   ];
 
   int length = 0;
-  final greenColor = themeProvider.appTheme.greenColor;
 
   @override
   void initState() {
@@ -80,6 +79,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
   @override
   Widget build(BuildContext context) {
     final largeScreenSize = MediaQuery.of(context).size.width > 320;
+    final greenColor = themeProvider.appTheme.greenColor;
 
     return Scaffold(
       appBar: AppBar(

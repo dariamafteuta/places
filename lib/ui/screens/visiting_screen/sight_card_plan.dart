@@ -65,7 +65,7 @@ class _SightCardPlanState extends State<SightCardPlan> {
               ..removePlace(widget.favoritePlace)
               ..getFavoritePlace();
           },
-          background: CardDeleteBackground(),
+          background: const CardDeleteBackground(),
           child: Column(
             children: [
               Stack(

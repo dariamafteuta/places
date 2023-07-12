@@ -5,6 +5,7 @@ import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -17,6 +18,10 @@ class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> animation;
+
+  static const String _navigateKey = 'navigateToOnBoarding';
+  bool onBoardingStatus = false;
+
 
   @override
   void initState() {
@@ -33,7 +38,18 @@ class _SplashScreenState extends State<SplashScreen>
       ..forward()
       ..repeat();
 
+    _loadOnBoardingStatus();
     super.initState();
+  }
+
+  Future<void> _loadOnBoardingStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    onBoardingStatus = prefs.getBool(_navigateKey) ?? false;
+  }
+
+  Future<void> _saveOnBoardingStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_navigateKey, onBoardingStatus);
   }
 
   Future<void> _navigateToNext() async {
@@ -47,12 +63,19 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   void _navigation() {
-    AppNavigation.goToOnBoarding(context);
+    if (!onBoardingStatus) {
+      AppNavigation.goToOnBoarding(context);
+      onBoardingStatus = true;
+      _saveOnBoardingStatus();
+    } else {
+      AppNavigation.goToSightList(context);
+    }
   }
 
   @override
   void dispose() {
     _animationController.dispose();
+    _saveOnBoardingStatus();
     super.dispose();
   }
 
