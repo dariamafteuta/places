@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
 import 'package:flutter_job/data/store/places_store_base.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
@@ -12,9 +11,20 @@ import 'package:flutter_job/ui/screens/content.dart';
 import 'package:flutter_job/ui/screens/sight_list_screen/sight_list_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 double start = 0.1;
 double end = 10000;
+List<String> selectedType = listType;
+
+List<String> listType = [
+  AppStrings.hotel,
+  AppStrings.restaurant,
+  AppStrings.particularPlace,
+  AppStrings.park,
+  AppStrings.museum,
+  AppStrings.cafe,
+];
 
 class FiltersScreen extends StatefulWidget {
   const FiltersScreen({
@@ -26,14 +36,6 @@ class FiltersScreen extends StatefulWidget {
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
-  List<String> listType = [
-    AppStrings.hotel,
-    AppStrings.restaurant,
-    AppStrings.particularPlace,
-    AppStrings.park,
-    AppStrings.museum,
-    AppStrings.cafe,
-  ];
   List<String> listImages = [
     AppAssets.hotelWhite,
     AppAssets.restaurantWhite,
@@ -43,10 +45,37 @@ class _FiltersScreenState extends State<FiltersScreen> {
     AppAssets.cafeWhite,
   ];
 
-  Future<List<Place>> selectedPlaces = Future.value([]);
-  List<String> selectedType = [];
   int length = 0;
   final greenColor = themeProvider.appTheme.greenColor;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSavedValues();
+  }
+
+  Future<void> _loadSavedValues() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      start = prefs.getDouble('selectedStart') ?? 0.1;
+      end = prefs.getDouble('selectedEnd') ?? 10000;
+      selectedType = prefs.getStringList('selectedType') ?? listType;
+      filter();
+    });
+  }
+
+  Future<void> _saveSelectedValues() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setDouble('selectedStart', start);
+    await prefs.setDouble('selectedEnd', end);
+    await prefs.setStringList('selectedType', selectedType);
+  }
+
+  @override
+  void dispose() {
+    _saveSelectedValues();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -172,10 +201,15 @@ class _FiltersScreenState extends State<FiltersScreen> {
                   ),
                 ),
                 onPressed: () {
+                  if (selectedType.isEmpty) {
+                    selectedType = listType;
+                    filter();
+                  }
+                  _saveSelectedValues();
                   Navigator.push<FiltersScreen>(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => SightListScreen(type: selectedType,),
+                      builder: (_) => const SightListScreen(),
                     ),
                   );
                 },

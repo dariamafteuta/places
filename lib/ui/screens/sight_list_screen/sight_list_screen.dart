@@ -17,10 +17,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class SightListScreen extends StatefulWidget {
-  final List<String>? type;
-
   const SightListScreen({
-    Key? key, required this.type,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -37,7 +35,7 @@ class _SightListScreenState extends State<SightListScreen> {
   void initState() {
     super.initState();
     placesBloc = PlacesBloc(Provider.of<PlacesStore>(context, listen: false),
-      radius: RangeValues(start, end), type: widget.type,);
+      radius: RangeValues(start, end), type: selectedType,);
   }
 
   @override

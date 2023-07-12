@@ -32,7 +32,7 @@ class AppNavigation {
         );
       case sightListScreen:
         return MaterialPageRoute<SightListScreen>(
-          builder: (_) => const SightListScreen(type: null,),
+          builder: (_) => const SightListScreen(),
         );
       case visitingScreen:
         return MaterialPageRoute<FavoriteScreen>(
@@ -67,7 +67,7 @@ class AppNavigation {
     Navigator.pushAndRemoveUntil<SightListScreen>(
       context,
       MaterialPageRoute<SightListScreen>(
-        builder: (_) => const SightListScreen(type: null,),
+        builder: (_) => const SightListScreen(),
       ),
       ModalRoute.withName(sightListScreen),
     );
