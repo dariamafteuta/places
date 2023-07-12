@@ -47,13 +47,12 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   void _navigation() {
-    Navigator.pushNamed(context, AppNavigation.onBoardingScreen);
+    AppNavigation.goToOnBoarding(context);
   }
 
   @override
   void dispose() {
     _animationController.dispose();
-
     super.dispose();
   }
 

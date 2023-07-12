@@ -25,7 +25,7 @@ class SightLandscape extends StatelessWidget {
             ),
             delegate: SliverChildBuilderDelegate(
               childCount: placeFromNet.length,
-                  (_, index) {
+              (_, index) {
                 final place = placeFromNet[index];
 
                 return SightCard(

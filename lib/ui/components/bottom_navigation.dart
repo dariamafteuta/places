@@ -5,11 +5,13 @@ import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class BottomNavigation extends StatefulWidget {
+  final ThemeProvider themeProvider;
   final int index;
 
   const BottomNavigation({
     Key? key,
     required this.index,
+    required this.themeProvider,
   }) : super(key: key);
 
   @override
@@ -17,10 +19,9 @@ class BottomNavigation extends StatefulWidget {
 }
 
 class _BottomNavigationState extends State<BottomNavigation> {
-  final mainWhiteColor = themeProvider.appTheme.mainWhiteColor;
-
   @override
   Widget build(BuildContext context) {
+    final mainWhiteColor = widget.themeProvider.appTheme.mainWhiteColor;
 
     return BottomNavigationBar(
       onTap: (index) {
@@ -33,7 +34,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
           AppNavigation.goToVisiting(context);
         }
         if (index == 3) {
-          AppNavigation.goToSettings(context, themeProvider);
+          AppNavigation.goToSettings(context);
         }
       },
       items: [

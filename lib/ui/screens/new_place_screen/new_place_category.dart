@@ -21,10 +21,11 @@ class NewPlaceCategory extends StatefulWidget {
 
 class _NewPlaceCategoryState extends State<NewPlaceCategory> {
   String sCategory = '';
-  final mainWhiteColor = themeProvider.appTheme.mainWhiteColor;
 
   @override
   Widget build(BuildContext context) {
+    final mainWhiteColor = themeProvider.appTheme.mainWhiteColor;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,

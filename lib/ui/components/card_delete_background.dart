@@ -7,12 +7,12 @@ import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_svg/svg.dart';
 
 class CardDeleteBackground extends StatelessWidget {
-  final whiteColor = themeProvider.appTheme.whiteColor;
-
-  CardDeleteBackground({Key? key}) : super(key: key);
+  const CardDeleteBackground({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final whiteColor = themeProvider.appTheme.whiteColor;
+
     return DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),

@@ -22,13 +22,13 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  final text14RegularSecondaryColor = appTypography.text14Regular.copyWith(
-    fontSize: 18,
-    color: themeProvider.appTheme.secondaryWhiteColor,
-  );
-
   @override
   Widget build(BuildContext context) {
+    final text14RegularSecondaryColor = appTypography.text14Regular.copyWith(
+      fontSize: 18,
+      color: themeProvider.appTheme.secondaryWhiteColor,
+    );
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -41,7 +41,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: const BottomNavigation(index: 3),
+      bottomNavigationBar: BottomNavigation(index: 3, themeProvider: themeProvider,),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
         child: Column(

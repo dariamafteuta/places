@@ -32,10 +32,10 @@ class BottomSheetDetails extends StatelessWidget {
               ListView(
                 controller: controller,
                 children: [
-                   ImagesSlider(
-                      place: place,
-                      borderRadius: 12,
-                    ),
+                  ImagesSlider(
+                    place: place,
+                    borderRadius: 12,
+                  ),
                   SightDetails(place: place),
                 ],
               ),

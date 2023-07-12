@@ -104,7 +104,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               ),
             ),
           ),
-          bottomNavigationBar: const BottomNavigation(index: 2),
+          bottomNavigationBar: BottomNavigation(index: 2, themeProvider: themeProvider,),
           body: TabBarView(
             children: [
               BlocBuilder<FavoriteBloc, FavoriteState>(

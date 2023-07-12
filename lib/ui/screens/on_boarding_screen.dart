@@ -16,16 +16,16 @@ class OnBoardingScreen extends StatefulWidget {
   State<OnBoardingScreen> createState() => _OnBoardingScreenState();
 }
 
-class _OnBoardingScreenState extends State<OnBoardingScreen>{
+class _OnBoardingScreenState extends State<OnBoardingScreen> {
   final PageController _controller = PageController();
 
   int _currentIndex = 0;
-  final greenColor = themeProvider.appTheme.greenColor;
 
   @override
   Widget build(BuildContext context) {
     final orientationPortrait =
         MediaQuery.of(context).orientation == Orientation.portrait;
+    final greenColor = themeProvider.appTheme.greenColor;
 
     return Scaffold(
       appBar: AppBar(
@@ -136,7 +136,6 @@ class Tutorial extends StatefulWidget {
   final String tutorial;
   final String tutorial1;
 
-
   const Tutorial({
     Key? key,
     required this.icon,
@@ -148,7 +147,7 @@ class Tutorial extends StatefulWidget {
   State<Tutorial> createState() => _TutorialState();
 }
 
-class _TutorialState extends State<Tutorial> with TickerProviderStateMixin{
+class _TutorialState extends State<Tutorial> with TickerProviderStateMixin {
   late final AnimationController _animationController;
   late final Animation<double> animation;
 
@@ -156,7 +155,8 @@ class _TutorialState extends State<Tutorial> with TickerProviderStateMixin{
 
   @override
   void initState() {
-    _animationController = AnimationController(vsync: this, lowerBound: 0.1, duration: const Duration(seconds: 1));
+    _animationController = AnimationController(
+        vsync: this, lowerBound: 0.1, duration: const Duration(seconds: 1));
     animation = Tween<double>(begin: 0, end: 144).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.linear),
     );
@@ -177,18 +177,21 @@ class _TutorialState extends State<Tutorial> with TickerProviderStateMixin{
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          AnimatedBuilder(animation: _animationController, builder: (_, child) {
-            return Opacity(opacity: _animationController.value,
-              child: GestureDetector(
-                child: SvgPicture.asset(
-                  widget.icon,
-                  color: mainWhiteColor,
-                  width: animation.value,
-                  height: animation.value,
-                ),
-              ),
-            );
-          }),
+          AnimatedBuilder(
+              animation: _animationController,
+              builder: (_, child) {
+                return Opacity(
+                  opacity: _animationController.value,
+                  child: GestureDetector(
+                    child: SvgPicture.asset(
+                      widget.icon,
+                      color: mainWhiteColor,
+                      width: animation.value,
+                      height: animation.value,
+                    ),
+                  ),
+                );
+              }),
           sizedBox42H,
           SizedBox(
             height: 58,

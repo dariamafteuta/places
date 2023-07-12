@@ -38,7 +38,6 @@ class _AddSightScreenState extends State<AddSightScreen> {
 
   String selectedCategory = '';
   List<String> list = [];
-  final greenColor = themeProvider.appTheme.greenColor;
 
   void _submitForm() {
     final addPlaceStore = Provider.of<AddPlaceStore>(context, listen: false);
@@ -116,6 +115,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
   Widget build(BuildContext context) {
     final orientationPortrait =
         MediaQuery.of(context).orientation == Orientation.portrait;
+    final greenColor = themeProvider.appTheme.greenColor;
 
     return Scaffold(
       appBar: AppBar(
