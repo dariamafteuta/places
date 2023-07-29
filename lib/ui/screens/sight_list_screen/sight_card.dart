@@ -47,7 +47,9 @@ class _SightCardState extends State<SightCard>
     );
 
     Future.delayed(const Duration(seconds: 2), () {
-      _controller.forward();
+      if (mounted) {
+        _controller.forward();
+      }
     });
   }
 
@@ -102,33 +104,33 @@ class _SightCardState extends State<SightCard>
                           top: Radius.circular(10),
                         ),
                         child: Image.network(
-                            urls[0],
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                            height: double.infinity,
-                            loadingBuilder: (_, child, loadingProgress) {
-                              if (loadingProgress == null) {
-                                _controller.forward();
+                          urls[0],
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: double.infinity,
+                          loadingBuilder: (_, child, loadingProgress) {
+                            if (loadingProgress == null) {
+                              _controller.forward();
 
-                                return child;
-                              } else {
-                                return Center(
-                                  child: SizedBox(
-                                    height: 50,
-                                    width: 50,
-                                    child: SvgPicture.asset(
-                                      AppAssets.photo,
-                                      color: themeProvider.appTheme.inactiveColor,
-                                    ),
+                              return child;
+                            } else {
+                              return Center(
+                                child: SizedBox(
+                                  height: 50,
+                                  width: 50,
+                                  child: SvgPicture.asset(
+                                    AppAssets.photo,
+                                    color: themeProvider.appTheme.inactiveColor,
                                   ),
-                                );
-                              }
-                            },
-                          ),
+                                ),
+                              );
+                            }
+                          },
                         ),
                       ),
+                    ),
                   ),
-                  ),
+                ),
                 Observer(
                   builder: (_) {
                     return StreamBuilder<List<int>>(

@@ -31,9 +31,6 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
 
   String searchText = '';
 
-  final mainWhiteColor = themeProvider.appTheme.mainWhiteColor;
-  final inactiveColor = themeProvider.appTheme.inactiveColor;
-
   @override
   void initState() {
     super.initState();
@@ -50,6 +47,9 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final mainWhiteColor = themeProvider.appTheme.mainWhiteColor;
+    final inactiveColor = themeProvider.appTheme.inactiveColor;
+
     return MultiBlocProvider(
       providers: [
         BlocProvider<SearchBloc>.value(
@@ -213,71 +213,71 @@ class SearchError extends StatelessWidget {
 class SearchResult extends StatelessWidget {
   final Place searchResult;
 
-  final transparentColor = themeProvider.appTheme.transparentColor;
-
-  SearchResult({Key? key, required this.searchResult}) : super(key: key);
+  const SearchResult({Key? key, required this.searchResult}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final transparentColor = themeProvider.appTheme.transparentColor;
+
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: InkWell(
-          highlightColor: transparentColor,
-          splashColor: transparentColor,
-          onTap: () {
-            AppNavigation.goToSightDetails(context, searchResult);
-            listSearch.add(searchResult);
-          },
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Hero(
-                    tag: 'imageHero_${searchResult.id}',
-                    child: Container(
-                      height: 56,
-                      width: 56,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(
-                            searchResult.urls.isNotEmpty
-                                ? searchResult.urls[0]
-                                : 'https://www.sirvisual.com/Attachment/100/5055_31356_420%20Principale.jpg',
-                          ),
-                          fit: BoxFit.fill,
+        highlightColor: transparentColor,
+        splashColor: transparentColor,
+        onTap: () {
+          AppNavigation.goToSightDetails(context, searchResult);
+          listSearch.add(searchResult);
+        },
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Hero(
+                  tag: 'imageHero_${searchResult.id}',
+                  child: Container(
+                    height: 56,
+                    width: 56,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: NetworkImage(
+                          searchResult.urls.isNotEmpty
+                              ? searchResult.urls[0]
+                              : 'https://www.sirvisual.com/Attachment/100/5055_31356_420%20Principale.jpg',
                         ),
-                        borderRadius: BorderRadius.circular(15),
+                        fit: BoxFit.fill,
                       ),
+                      borderRadius: BorderRadius.circular(15),
                     ),
                   ),
-                  sizedBox10W,
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          searchResult.name,
-                          style: appTypography.text16Bold.copyWith(
-                            color: themeProvider.appTheme.mainWhiteColor,
-                          ),
+                ),
+                sizedBox10W,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        searchResult.name,
+                        style: appTypography.text16Bold.copyWith(
+                          color: themeProvider.appTheme.mainWhiteColor,
                         ),
-                        Text(
-                          searchResult.placeType,
-                          style: appTypography.text14Regular.copyWith(
-                            color: themeProvider.appTheme.inactiveColor,
-                          ),
+                      ),
+                      Text(
+                        searchResult.placeType,
+                        style: appTypography.text14Regular.copyWith(
+                          color: themeProvider.appTheme.inactiveColor,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              divider,
-            ],
-          ),
+                ),
+              ],
+            ),
+            divider,
+          ],
         ),
-      );
+      ),
+    );
   }
 }
 
@@ -291,10 +291,10 @@ class YourSearch extends StatefulWidget {
 }
 
 class _YourSearchState extends State<YourSearch> {
-  final inactiveColor = themeProvider.appTheme.inactiveColor;
-
   @override
   Widget build(BuildContext context) {
+    final inactiveColor = themeProvider.appTheme.inactiveColor;
+
     return Padding(
       padding: const EdgeInsets.only(top: 24),
       child: Column(

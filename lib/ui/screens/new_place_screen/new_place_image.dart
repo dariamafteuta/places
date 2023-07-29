@@ -20,15 +20,16 @@ class NewPlaceImage extends StatefulWidget {
 class _NewPlaceImageState extends State<NewPlaceImage> {
   int index = 0;
   List<String> listUrlImages = [];
-  final text16BoldSecondary2Color = appTypography.text16Bold.copyWith(
-    color: themeProvider.appTheme.secondary2WhiteColor,
-  );
-  final secondary2WhiteColor = themeProvider.appTheme.secondary2WhiteColor;
-  final whiteMainColor = themeProvider.appTheme.whiteMainColor;
-  final greenColor = themeProvider.appTheme.greenColor;
 
   @override
   Widget build(BuildContext context) {
+    final text16BoldSecondary2Color = appTypography.text16Bold.copyWith(
+      color: themeProvider.appTheme.secondary2WhiteColor,
+    );
+    final secondary2WhiteColor = themeProvider.appTheme.secondary2WhiteColor;
+    final whiteMainColor = themeProvider.appTheme.whiteMainColor;
+    final greenColor = themeProvider.appTheme.greenColor;
+
     return SizedBox(
       height: 72,
       child: ListView(

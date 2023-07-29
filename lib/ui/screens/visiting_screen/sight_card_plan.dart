@@ -28,9 +28,6 @@ class SightCardPlan extends StatefulWidget {
 class _SightCardPlanState extends State<SightCardPlan> {
   DateTime? date;
 
-  final whiteColor = themeProvider.appTheme.whiteColor;
-  final mainWhiteColor = themeProvider.appTheme.mainWhiteColor;
-
   String _dataString() {
     final favoriteStore = Provider.of<FavoriteStore>(context, listen: false);
 
@@ -46,7 +43,7 @@ class _SightCardPlanState extends State<SightCardPlan> {
   @override
   Widget build(BuildContext context) {
     final urls = widget.favoritePlace.urls;
-
+    final whiteColor = themeProvider.appTheme.whiteColor;
     final favoriteStore = Provider.of<FavoriteStore>(context, listen: false);
 
     return Padding(
@@ -68,7 +65,7 @@ class _SightCardPlanState extends State<SightCardPlan> {
               ..removePlace(widget.favoritePlace)
               ..getFavoritePlace();
           },
-          background: CardDeleteBackground(),
+          background: const CardDeleteBackground(),
           child: Column(
             children: [
               Stack(
@@ -213,6 +210,8 @@ class _SightCardPlanState extends State<SightCardPlan> {
   }
 
   Future<DateTime?> androidPicker() async {
+    final mainWhiteColor = themeProvider.appTheme.mainWhiteColor;
+
     return date = await showDatePicker(
           context: context,
           initialDate: DateTime.now(),

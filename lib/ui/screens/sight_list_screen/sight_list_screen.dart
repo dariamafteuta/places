@@ -17,10 +17,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class SightListScreen extends StatefulWidget {
-  final List<String>? type;
-
   const SightListScreen({
-    Key? key, required this.type,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -28,16 +26,16 @@ class SightListScreen extends StatefulWidget {
 }
 
 class _SightListScreenState extends State<SightListScreen> {
-  final inactiveColor = themeProvider.appTheme.inactiveColor;
-  final whiteColor = themeProvider.appTheme.whiteColor;
-
   late PlacesBloc placesBloc;
 
   @override
   void initState() {
     super.initState();
-    placesBloc = PlacesBloc(Provider.of<PlacesStore>(context, listen: false),
-      radius: RangeValues(start, end), type: widget.type,);
+    placesBloc = PlacesBloc(
+      Provider.of<PlacesStore>(context, listen: false),
+      radius: RangeValues(start, end),
+      type: selectedType,
+    );
   }
 
   @override
@@ -48,6 +46,8 @@ class _SightListScreenState extends State<SightListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final inactiveColor = themeProvider.appTheme.inactiveColor;
+    final whiteColor = themeProvider.appTheme.whiteColor;
     final orientationPortrait =
         MediaQuery.of(context).orientation == Orientation.portrait;
 
@@ -58,7 +58,7 @@ class _SightListScreenState extends State<SightListScreen> {
         ),
       ],
       child: Scaffold(
-        bottomNavigationBar: const BottomNavigation(index: 0),
+        bottomNavigationBar: BottomNavigation(index: 0, themeProvider: themeProvider,),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: DecoratedBox(
           decoration: BoxDecoration(
@@ -147,7 +147,7 @@ class _SightListScreenState extends State<SightListScreen> {
             if (orientationPortrait)
               const SightPortrait()
             else
-             const SightLandscape(),
+              const SightLandscape(),
           ],
         ),
       ),

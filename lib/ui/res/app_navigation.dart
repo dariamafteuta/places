@@ -32,7 +32,7 @@ class AppNavigation {
         );
       case sightListScreen:
         return MaterialPageRoute<SightListScreen>(
-          builder: (_) => const SightListScreen(type: null,),
+          builder: (_) => const SightListScreen(),
         );
       case visitingScreen:
         return MaterialPageRoute<FavoriteScreen>(
@@ -40,7 +40,7 @@ class AppNavigation {
         );
       case settingsScreen:
         return MaterialPageRoute<SettingsScreen>(
-          builder: (_) => SettingsScreen(themeProvider: themeProvider),
+          builder: (_) => SettingsScreen(themeProvider: themeProvider,),
         );
       default:
         return MaterialPageRoute<Object>(
@@ -53,11 +53,11 @@ class AppNavigation {
     }
   }
 
-  static void goToSettings(BuildContext context, ThemeProvider themeProvider) {
+  static void goToSettings(BuildContext context) {
     Navigator.pushAndRemoveUntil<SettingsScreen>(
       context,
       MaterialPageRoute<SettingsScreen>(
-        builder: (_) => SettingsScreen(themeProvider: themeProvider),
+        builder: (_) => SettingsScreen(themeProvider: themeProvider,),
       ),
       ModalRoute.withName(settingsScreen),
     );
@@ -67,7 +67,7 @@ class AppNavigation {
     Navigator.pushAndRemoveUntil<SightListScreen>(
       context,
       MaterialPageRoute<SightListScreen>(
-        builder: (_) => const SightListScreen(type: null,),
+        builder: (_) => const SightListScreen(),
       ),
       ModalRoute.withName(sightListScreen),
     );
@@ -93,11 +93,12 @@ class AppNavigation {
   }
 
   static void goToOnBoarding(BuildContext context) {
-    Navigator.push<OnBoardingScreen>(
+    Navigator.pushAndRemoveUntil<OnBoardingScreen>(
       context,
-      MaterialPageRoute(
+      MaterialPageRoute<OnBoardingScreen>(
         builder: (_) => const OnBoardingScreen(),
       ),
+      ModalRoute.withName(onBoardingScreen),
     );
   }
 

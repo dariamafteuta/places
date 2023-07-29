@@ -20,18 +20,18 @@ class SightPortrait extends StatelessWidget {
         } else if (state is PlacesLoaded) {
           return placeFromNet.isNotEmpty
               ? SliverList(
-            delegate: SliverChildBuilderDelegate(
-                  (_, index) {
-                final place = placeFromNet[index];
+                  delegate: SliverChildBuilderDelegate(
+                    (_, index) {
+                      final place = placeFromNet[index];
 
-                return SightCard(
-                  ValueKey(place.id),
-                  place,
-                );
-              },
-              childCount: placeFromNet.length,
-            ),
-          )
+                      return SightCard(
+                        ValueKey(place.id),
+                        place,
+                      );
+                    },
+                    childCount: placeFromNet.length,
+                  ),
+                )
               : const SizedBox.shrink();
         } else {
           return const ErrorSightListScreen();

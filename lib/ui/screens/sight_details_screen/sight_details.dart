@@ -21,12 +21,6 @@ class SightDetails extends StatefulWidget {
 class _SightDetailsState extends State<SightDetails> {
   bool isFavorite = false;
 
-  final inactiveColor = themeProvider.appTheme.inactiveColor;
-  final secondaryWhiteColor = themeProvider.appTheme.secondaryWhiteColor;
-  final text14RegularSecondaryColor = appTypography.text14Regular.copyWith(
-    color: themeProvider.appTheme.secondaryWhiteColor,
-  );
-
   @override
   void initState() {
     final favoriteStore = Provider.of<FavoriteStore>(context, listen: false);
@@ -38,6 +32,11 @@ class _SightDetailsState extends State<SightDetails> {
   @override
   Widget build(BuildContext context) {
     final favoriteStore = Provider.of<FavoriteStore>(context, listen: false);
+    final inactiveColor = themeProvider.appTheme.inactiveColor;
+    final secondaryWhiteColor = themeProvider.appTheme.secondaryWhiteColor;
+    final text14RegularSecondaryColor = appTypography.text14Regular.copyWith(
+      color: themeProvider.appTheme.secondaryWhiteColor,
+    );
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -50,7 +49,7 @@ class _SightDetailsState extends State<SightDetails> {
           sizedBox24H,
           _PlaceDetails(details: widget.place.description),
           sizedBox24H,
-          _BuildRouteButton(),
+          const _BuildRouteButton(),
           Divider(
             height: 39,
             color: inactiveColor,
@@ -162,11 +161,12 @@ class _PlaceDetails extends StatelessWidget {
 }
 
 class _BuildRouteButton extends StatelessWidget {
-  final whiteColor = themeProvider.appTheme.whiteColor;
+  const _BuildRouteButton({Key? key}) : super(key: key);
 
-  _BuildRouteButton({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final whiteColor = themeProvider.appTheme.whiteColor;
+
     return SizedBox(
       width: double.infinity,
       child: TextButton.icon(

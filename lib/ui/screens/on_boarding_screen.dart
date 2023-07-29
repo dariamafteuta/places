@@ -20,12 +20,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>{
   final PageController _controller = PageController();
 
   int _currentIndex = 0;
-  final greenColor = themeProvider.appTheme.greenColor;
 
   @override
   Widget build(BuildContext context) {
     final orientationPortrait =
         MediaQuery.of(context).orientation == Orientation.portrait;
+    final greenColor = themeProvider.appTheme.greenColor;
 
     return Scaffold(
       appBar: AppBar(
@@ -152,8 +152,6 @@ class _TutorialState extends State<Tutorial> with TickerProviderStateMixin{
   late final AnimationController _animationController;
   late final Animation<double> animation;
 
-  final mainWhiteColor = themeProvider.appTheme.mainWhiteColor;
-
   @override
   void initState() {
     _animationController = AnimationController(vsync: this, lowerBound: 0.1, duration: const Duration(seconds: 1));
@@ -173,6 +171,8 @@ class _TutorialState extends State<Tutorial> with TickerProviderStateMixin{
 
   @override
   Widget build(BuildContext context) {
+    final mainWhiteColor = themeProvider.appTheme.mainWhiteColor;
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
