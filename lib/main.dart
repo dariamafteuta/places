@@ -4,6 +4,7 @@ import 'package:flutter_job/data/store/add_place_store_base.dart';
 import 'package:flutter_job/data/store/favorite_store_base.dart';
 import 'package:flutter_job/data/store/places_store_base.dart';
 import 'package:flutter_job/data/store/search_place_store_base.dart';
+import 'package:flutter_job/database/search_database.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/themes.dart';
@@ -85,6 +86,9 @@ class _MainState extends State<Main> {
         ),
         Provider<SearchPlaceStore>(
           create: (_) => SearchPlaceStore(),
+        ),
+        Provider<SearchDatabase>(
+          create: (_) => SearchDatabase(),
         ),
       ],
       child: MaterialApp(

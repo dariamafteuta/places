@@ -1,3 +1,4 @@
+import 'package:drift/drift.dart' as dr;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,14 +6,15 @@ import 'package:flutter_job/bloc/search_bloc/search_bloc.dart';
 import 'package:flutter_job/bloc/search_bloc/search_event.dart';
 import 'package:flutter_job/bloc/search_bloc/search_state.dart';
 import 'package:flutter_job/data/model/place.dart';
+import 'package:flutter_job/data/repository/place_repository.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
 import 'package:flutter_job/data/store/search_place_store_base.dart';
+import 'package:flutter_job/database/search_database.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/res/constants.dart';
-import 'package:flutter_job/ui/screens/content.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
@@ -213,11 +215,14 @@ class SearchError extends StatelessWidget {
 class SearchResult extends StatelessWidget {
   final Place searchResult;
 
-  const SearchResult({Key? key, required this.searchResult}) : super(key: key);
+  SearchResult({Key? key, required this.searchResult}) : super(key: key);
+
+  late SearchDatabase searchDatabase;
 
   @override
   Widget build(BuildContext context) {
     final transparentColor = themeProvider.appTheme.transparentColor;
+    searchDatabase = Provider.of<SearchDatabase>(context);
 
     return Padding(
       padding: const EdgeInsets.only(top: 10),
@@ -226,7 +231,7 @@ class SearchResult extends StatelessWidget {
         splashColor: transparentColor,
         onTap: () {
           AppNavigation.goToSightDetails(context, searchResult);
-          listSearch.add(searchResult);
+          _saveToSearchDb();
         },
         child: Column(
           children: [
@@ -279,6 +284,13 @@ class SearchResult extends StatelessWidget {
       ),
     );
   }
+
+  void _saveToSearchDb() {
+    searchDatabase.insertMySearch(
+      SearchListCompanion(
+          id: dr.Value(searchResult.id), name: dr.Value(searchResult.name)),
+    );
+  }
 }
 
 class YourSearch extends StatefulWidget {
@@ -291,62 +303,93 @@ class YourSearch extends StatefulWidget {
 }
 
 class _YourSearchState extends State<YourSearch> {
+  late SearchDatabase searchDatabase;
+
   @override
   Widget build(BuildContext context) {
     final inactiveColor = themeProvider.appTheme.inactiveColor;
+    searchDatabase = Provider.of<SearchDatabase>(context);
 
-    return Padding(
-      padding: const EdgeInsets.only(top: 24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (listSearch.isNotEmpty)
-            const Content(content: AppStrings.yourSearch),
-          ...listSearch.map(
-            (e) => Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      e.name,
-                      style: appTypography.text16Bold.copyWith(
-                        color: inactiveColor,
-                      ),
-                    ),
-                    CupertinoButton(
-                      child: SvgPicture.asset(
-                        AppAssets.close,
-                        color: inactiveColor,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          listSearch.remove(e);
-                        });
-                      },
-                    ),
-                  ],
+    return FutureBuilder<List<SearchListData>>(
+      future: _getSearchFromDatabase(),
+      builder: (context, snapshot) {
+        final searchList = snapshot.data;
+
+        return searchList != null && searchList.isNotEmpty
+            ? Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 24),
+                  child: ListView.builder(
+                    itemCount: searchList.length,
+                    itemBuilder: (_, index) {
+                      final searchData = searchList[index];
+
+                      return Column(children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CupertinoButton(
+                              child: Text(
+                                searchData.name,
+                                style: appTypography.text16Bold
+                                    .copyWith(color: inactiveColor),
+                              ),
+                              onPressed: () {
+                                PlaceRepository()
+                                    .getPlaceId(searchData.id)
+                                    .then(
+                                      (value) => AppNavigation.goToSightDetails(
+                                        context,
+                                        value,
+                                      ),
+                                    );
+                              },
+                            ),
+                            CupertinoButton(
+                              child: SvgPicture.asset(
+                                AppAssets.close,
+                                color: inactiveColor,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  searchDatabase.deleteMySearch(SearchListData(
+                                      id: searchData.id,
+                                      name: searchData.name));
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                        divider,
+                        if (index == searchList.length - 1)
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: CupertinoButton(
+                              padding: EdgeInsets.zero,
+                              child: Text(
+                                AppStrings.clearHistory,
+                                style: appTypography.text16Bold.copyWith(
+                                  color: themeProvider.appTheme.greenColor,
+                                ),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  searchDatabase.searchList.deleteAll();
+                                });
+                              },
+                            ),
+                          ),
+                      ]);
+                    },
+                  ),
                 ),
-                divider,
-              ],
-            ),
-          ),
-          if (listSearch.isNotEmpty)
-            CupertinoButton(
-              padding: EdgeInsets.zero,
-              child: Text(
-                AppStrings.clearHistory,
-                style: appTypography.text16Bold
-                    .copyWith(color: themeProvider.appTheme.greenColor),
-              ),
-              onPressed: () {
-                setState(() {
-                  listSearch.clear();
-                });
-              },
-            ),
-        ],
-      ),
+              )
+            : const SizedBox.shrink();
+      },
     );
+  }
+
+  Future<List<SearchListData>> _getSearchFromDatabase() async {
+    return await searchDatabase.getMySearchList();
   }
 }
