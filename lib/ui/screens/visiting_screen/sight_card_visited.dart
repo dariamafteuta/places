@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
-import 'package:flutter_job/data/store/favorite_store_base.dart';
+import 'package:flutter_job/database/app_database.dart';
 import 'package:flutter_job/ui/components/card_delete_background.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
@@ -12,11 +12,13 @@ import 'package:provider/provider.dart';
 
 class SightCardVisited extends StatefulWidget {
   final Place visitedPlace;
+  final VoidCallback? onVisitedDeleted;
 
   const SightCardVisited(
-    Key? key,
-    this.visitedPlace,
-  ) : super(key: key);
+    Key? key, {
+    required this.onVisitedDeleted,
+    required this.visitedPlace,
+  }) : super(key: key);
 
   @override
   State<SightCardVisited> createState() => _SightCardVisitedState();
@@ -24,19 +26,29 @@ class SightCardVisited extends StatefulWidget {
 
 class _SightCardVisitedState extends State<SightCardVisited> {
   final whiteColor = themeProvider.appTheme.whiteColor;
+  late AppDatabase appDatabase;
 
-  String _dataString() {
-    final favoriteStore = Provider.of<FavoriteStore>(context, listen: false);
+  Future<String> _dataString() async {
+    final visitedDate =
+        await appDatabase.getSelectedDateByIdV(widget.visitedPlace.id);
 
-    final data = favoriteStore.dataVisited[widget.visitedPlace.id];
+    return 'Цель достигнута ${visitedDate?.day} ${visitedDate?.month} ${visitedDate?.year}';
+  }
 
-    return 'Цель достигнута ${data?.day} ${data?.month} ${data?.year}';
+  void _deleteMyVisited() {
+    setState(() {
+      appDatabase.deleteMyVisited(VisitedListData(
+        id: widget.visitedPlace.id,
+      ));
+
+      widget.onVisitedDeleted?.call();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final urls = widget.visitedPlace.urls;
-    final favoriteStore = Provider.of<FavoriteStore>(context, listen: false);
+    appDatabase = Provider.of<AppDatabase>(context);
 
     return Padding(
       padding: const EdgeInsets.only(
@@ -53,11 +65,9 @@ class _SightCardVisitedState extends State<SightCardVisited> {
         child: Dismissible(
           key: UniqueKey(),
           onDismissed: (_) {
-            favoriteStore
-              ..removePlace(widget.visitedPlace)
-              ..getFavoritePlace();
+            _deleteMyVisited();
           },
-          background: CardDeleteBackground(),
+          background: const CardDeleteBackground(),
           child: Column(
             children: [
               Stack(
@@ -111,11 +121,7 @@ class _SightCardVisitedState extends State<SightCardVisited> {
                             AppAssets.close,
                             color: whiteColor,
                           ),
-                          onPressed: () {
-                            favoriteStore
-                              ..removePlace(widget.visitedPlace)
-                              ..getFavoritePlace();
-                          },
+                          onPressed: _deleteMyVisited,
                         ),
                       ],
                     ),
@@ -162,9 +168,17 @@ class _SightCardVisitedState extends State<SightCardVisited> {
                         right: 16,
                       ),
                       alignment: Alignment.topLeft,
-                      child: Text(
-                        _dataString(),
-                        style: appTypography.textGreyInactive14Regular,
+                      child: FutureBuilder<String>(
+                        future: _dataString(),
+                        builder: (_, snapshot) {
+                          return snapshot.hasData
+                              ? Text(
+                                  snapshot.data!,
+                                  style:
+                                      appTypography.textGreyInactive14Regular,
+                                )
+                              : const CircularProgressIndicator();
+                        },
                       ),
                     ),
                   ],

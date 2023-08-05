@@ -2,11 +2,14 @@ import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/data/repository/place_repository.dart';
 import 'package:mobx/mobx.dart';
 
+import 'package:flutter_job/database/app_database.dart';
+
 part 'favorite_store_base.g.dart';
 
 class FavoriteStore = FavoriteStoreBase with _$FavoriteStore;
 
 abstract class FavoriteStoreBase with Store {
+
   @observable
   ObservableList<int> likeIdPlaces = ObservableList<int>();
   @observable

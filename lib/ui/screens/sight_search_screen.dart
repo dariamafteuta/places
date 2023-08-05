@@ -9,7 +9,7 @@ import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/data/repository/place_repository.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
 import 'package:flutter_job/data/store/search_place_store_base.dart';
-import 'package:flutter_job/database/search_database.dart';
+import 'package:flutter_job/database/app_database.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
@@ -17,8 +17,6 @@ import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-
-Set<Place> listSearch = {};
 
 class SightSearchScreen extends StatefulWidget {
   const SightSearchScreen({Key? key}) : super(key: key);
@@ -217,12 +215,21 @@ class SearchResult extends StatelessWidget {
 
   SearchResult({Key? key, required this.searchResult}) : super(key: key);
 
-  late SearchDatabase searchDatabase;
+  late AppDatabase searchDatabase;
+
+  void _saveToSearchDb() {
+    searchDatabase.insertMySearch(
+      SearchListCompanion(
+        id: dr.Value(searchResult.id),
+        name: dr.Value(searchResult.name),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final transparentColor = themeProvider.appTheme.transparentColor;
-    searchDatabase = Provider.of<SearchDatabase>(context);
+    searchDatabase = Provider.of<AppDatabase>(context);
 
     return Padding(
       padding: const EdgeInsets.only(top: 10),
@@ -284,13 +291,6 @@ class SearchResult extends StatelessWidget {
       ),
     );
   }
-
-  void _saveToSearchDb() {
-    searchDatabase.insertMySearch(
-      SearchListCompanion(
-          id: dr.Value(searchResult.id), name: dr.Value(searchResult.name)),
-    );
-  }
 }
 
 class YourSearch extends StatefulWidget {
@@ -303,16 +303,20 @@ class YourSearch extends StatefulWidget {
 }
 
 class _YourSearchState extends State<YourSearch> {
-  late SearchDatabase searchDatabase;
+  late AppDatabase searchDatabase;
+
+  Future<List<SearchListData>> _getSearchFromDatabase() async {
+    return await searchDatabase.getMySearchList();
+  }
 
   @override
   Widget build(BuildContext context) {
     final inactiveColor = themeProvider.appTheme.inactiveColor;
-    searchDatabase = Provider.of<SearchDatabase>(context);
+    searchDatabase = Provider.of<AppDatabase>(context);
 
     return FutureBuilder<List<SearchListData>>(
       future: _getSearchFromDatabase(),
-      builder: (context, snapshot) {
+      builder: (_, snapshot) {
         final searchList = snapshot.data;
 
         return searchList != null && searchList.isNotEmpty
@@ -352,9 +356,12 @@ class _YourSearchState extends State<YourSearch> {
                               ),
                               onPressed: () {
                                 setState(() {
-                                  searchDatabase.deleteMySearch(SearchListData(
+                                  searchDatabase.deleteMySearch(
+                                    SearchListData(
                                       id: searchData.id,
-                                      name: searchData.name));
+                                      name: searchData.name,
+                                    ),
+                                  );
                                 });
                               },
                             ),
@@ -387,9 +394,5 @@ class _YourSearchState extends State<YourSearch> {
             : const SizedBox.shrink();
       },
     );
-  }
-
-  Future<List<SearchListData>> _getSearchFromDatabase() async {
-    return await searchDatabase.getMySearchList();
   }
 }

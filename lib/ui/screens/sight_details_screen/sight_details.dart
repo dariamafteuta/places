@@ -1,7 +1,8 @@
+import 'package:drift/drift.dart' as dr;
 import 'package:flutter/material.dart';
 import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
-import 'package:flutter_job/data/store/favorite_store_base.dart';
+import 'package:flutter_job/database/app_database.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
@@ -19,19 +20,45 @@ class SightDetails extends StatefulWidget {
 }
 
 class _SightDetailsState extends State<SightDetails> {
+  late AppDatabase appDatabase;
+
   bool isFavorite = false;
 
-  @override
-  void initState() {
-    final favoriteStore = Provider.of<FavoriteStore>(context, listen: false);
+  Future<void> _checkOfFavorite() async {
+    final favoriteList = await appDatabase.getMyFavoriteList();
+    final visitedList = await appDatabase.getMyVisitedList();
 
-    super.initState();
-    isFavorite = favoriteStore.likeIdPlaces.contains(widget.place.id);
+    if (favoriteList.any((favorite) => favorite.id == widget.place.id) ||
+        visitedList.any((visited) => visited.id == widget.place.id)) {
+      setState(() {
+        isFavorite = true;
+      });
+    }
+  }
+
+  void _saveToFavoriteDb() {
+    appDatabase.insertMyFavorite(
+      FavoriteListCompanion(
+        id: dr.Value(widget.place.id),
+      ),
+    );
+  }
+
+  void _deleteToFavoriteDb() {
+    appDatabase.deleteMyFavorite(FavoriteListData(id: widget.place.id));
+
+    _checkOfFavorite();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    appDatabase = Provider.of<AppDatabase>(context);
+    _checkOfFavorite();
   }
 
   @override
   Widget build(BuildContext context) {
-    final favoriteStore = Provider.of<FavoriteStore>(context, listen: false);
     final inactiveColor = themeProvider.appTheme.inactiveColor;
     final secondaryWhiteColor = themeProvider.appTheme.secondaryWhiteColor;
     final text14RegularSecondaryColor = appTypography.text14Regular.copyWith(
@@ -61,7 +88,7 @@ class _SightDetailsState extends State<SightDetails> {
               TextButton.icon(
                 onPressed: () {},
                 icon: SvgPicture.asset(
-                  favoriteStore.dataVisited[widget.place.id] != null
+                  isFavorite
                       ? AppAssets.calendarFull
                       : AppAssets.calendar,
                   color: isFavorite ? secondaryWhiteColor : inactiveColor,
@@ -80,11 +107,9 @@ class _SightDetailsState extends State<SightDetails> {
                     isFavorite = !isFavorite;
 
                     if (isFavorite) {
-                      favoriteStore.likeIdPlaces.add(widget.place.id);
-                      favoriteStore.getFavoritePlace();
+                      _saveToFavoriteDb();
                     } else {
-                      favoriteStore.likeIdPlaces.remove(widget.place.id);
-                      favoriteStore.getFavoritePlace();
+                      _deleteToFavoriteDb();
                     }
                   });
                 },
