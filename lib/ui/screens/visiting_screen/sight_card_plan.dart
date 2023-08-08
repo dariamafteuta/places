@@ -19,7 +19,7 @@ class SightCardPlan extends StatefulWidget {
 
   const SightCardPlan(
     Key? key, {
-    required Function() this.onFavoriteDeleted,
+    required this.onFavoriteDeleted,
     required this.favoritePlace,
   }) : super(key: key);
 
@@ -93,18 +93,20 @@ class _SightCardPlanState extends State<SightCardPlan> {
                       ),
                       child: Hero(
                         tag: 'imageHero_${widget.favoritePlace.id}',
-                        child: Ink(
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                urls.isNotEmpty
-                                    ? urls[0]
-                                    : 'https://www.sirvisual.com/Attachment/100/5055_31356_420%20Principale.jpg',
+                        child: Material(
+                          child: Ink(
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                  urls.isNotEmpty
+                                      ? urls[0]
+                                      : 'https://www.sirvisual.com/Attachment/100/5055_31356_420%20Principale.jpg',
+                                ),
+                                fit: BoxFit.fitWidth,
                               ),
-                              fit: BoxFit.fitWidth,
-                            ),
-                            borderRadius: const BorderRadius.vertical(
-                              top: Radius.circular(10),
+                              borderRadius: const BorderRadius.vertical(
+                                top: Radius.circular(10),
+                              ),
                             ),
                           ),
                         ),

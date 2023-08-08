@@ -24,16 +24,19 @@ class _SightDetailsState extends State<SightDetails> {
 
   bool isFavorite = false;
 
-  Future<void> _checkOfFavorite() async {
+  Future<bool> _checkOfFavorite() async {
     final favoriteList = await appDatabase.getMyFavoriteList();
     final visitedList = await appDatabase.getMyVisitedList();
 
-    if (favoriteList.any((favorite) => favorite.id == widget.place.id) ||
-        visitedList.any((visited) => visited.id == widget.place.id)) {
-      setState(() {
-        isFavorite = true;
-      });
+    final favorite =
+        favoriteList.any((favorite) => favorite.id == widget.place.id) ||
+            visitedList.any((visited) => visited.id == widget.place.id);
+
+    if (favorite) {
+      setState(() => isFavorite = favorite);
     }
+
+    return favorite;
   }
 
   void _saveToFavoriteDb() {
@@ -88,9 +91,7 @@ class _SightDetailsState extends State<SightDetails> {
               TextButton.icon(
                 onPressed: () {},
                 icon: SvgPicture.asset(
-                  isFavorite
-                      ? AppAssets.calendarFull
-                      : AppAssets.calendar,
+                  isFavorite ? AppAssets.calendarFull : AppAssets.calendar,
                   color: isFavorite ? secondaryWhiteColor : inactiveColor,
                 ),
                 label: Text(
@@ -101,26 +102,28 @@ class _SightDetailsState extends State<SightDetails> {
                 ),
               ),
               sizedBox50W,
-              TextButton.icon(
-                onPressed: () {
-                  setState(() {
-                    isFavorite = !isFavorite;
-
-                    if (isFavorite) {
-                      _saveToFavoriteDb();
-                    } else {
-                      _deleteToFavoriteDb();
-                    }
-                  });
+              FutureBuilder<bool>(
+                future: _checkOfFavorite(),
+                builder: (_, snapshot) {
+                  return TextButton.icon(
+                          onPressed: () {
+                            setState(() {
+                              isFavorite = !isFavorite;
+                              isFavorite
+                                  ? _saveToFavoriteDb()
+                                  : _deleteToFavoriteDb();
+                            });
+                          },
+                          icon: SvgPicture.asset(
+                            isFavorite ? AppAssets.heartFull : AppAssets.heart,
+                            color: secondaryWhiteColor,
+                          ),
+                          label: Text(
+                            AppStrings.toFavorites,
+                            style: text14RegularSecondaryColor,
+                          ),
+                        );
                 },
-                icon: SvgPicture.asset(
-                  isFavorite ? AppAssets.heartFull : AppAssets.heart,
-                  color: secondaryWhiteColor,
-                ),
-                label: Text(
-                  AppStrings.toFavorites,
-                  style: text14RegularSecondaryColor,
-                ),
               ),
             ],
           ),

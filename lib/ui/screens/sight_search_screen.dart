@@ -305,8 +305,8 @@ class YourSearch extends StatefulWidget {
 class _YourSearchState extends State<YourSearch> {
   late AppDatabase searchDatabase;
 
-  Future<List<SearchListData>> _getSearchFromDatabase() async {
-    return await searchDatabase.getMySearchList();
+  Future<List<SearchListData>> _getSearchFromDatabase() {
+    return searchDatabase.getMySearchList();
   }
 
   @override
