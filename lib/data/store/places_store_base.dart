@@ -8,7 +8,7 @@ import 'package:mobx/mobx.dart';
 
 part 'places_store_base.g.dart';
 
-class PlacesStore = PlacesStoreBase with _$PlaceStore;
+class PlacesStore = PlacesStoreBase with _$PlacesStore;
 
 List<Place> placeFromNet = [];
 

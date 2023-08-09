@@ -58,7 +58,10 @@ class _SightListScreenState extends State<SightListScreen> {
         ),
       ],
       child: Scaffold(
-        bottomNavigationBar: BottomNavigation(index: 0, themeProvider: themeProvider,),
+        bottomNavigationBar: BottomNavigation(
+          index: 0,
+          themeProvider: themeProvider,
+        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: DecoratedBox(
           decoration: BoxDecoration(

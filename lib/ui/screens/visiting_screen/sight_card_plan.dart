@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
-import 'package:flutter_job/data/store/favorite_store_base.dart';
+import 'package:flutter_job/database/app_database.dart';
 import 'package:flutter_job/ui/components/card_delete_background.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
@@ -15,11 +15,13 @@ import 'package:provider/provider.dart';
 
 class SightCardPlan extends StatefulWidget {
   final Place favoritePlace;
+  final VoidCallback? onFavoriteDeleted;
 
   const SightCardPlan(
-    Key? key,
-    this.favoritePlace,
-  ) : super(key: key);
+    Key? key, {
+    required this.onFavoriteDeleted,
+    required this.favoritePlace,
+  }) : super(key: key);
 
   @override
   State<SightCardPlan> createState() => _SightCardPlanState();
@@ -27,24 +29,38 @@ class SightCardPlan extends StatefulWidget {
 
 class _SightCardPlanState extends State<SightCardPlan> {
   DateTime? date;
+  late AppDatabase appDatabase;
 
-  String _dataString() {
-    final favoriteStore = Provider.of<FavoriteStore>(context, listen: false);
+  Future<String> _dataString() async {
+    final selectedDate =
+        await appDatabase.getSelectedDateByIdF(widget.favoritePlace.id);
 
-    if (favoriteStore.dataVisited.containsKey(widget.favoritePlace.id)) {
-      date = favoriteStore.dataVisited[widget.favoritePlace.id];
+    return selectedDate != null
+        ? 'Запланировано на ${selectedDate.day} ${selectedDate.month} ${selectedDate.year}'
+        : AppStrings.scheduledFor;
+  }
 
-      return 'Запланировано на ${date?.day} ${date?.month} ${date?.year}';
-    } else {
-      return AppStrings.scheduledFor;
-    }
+  void _updateSelectedDate() {
+    appDatabase.updateSelectedDate(
+      widget.favoritePlace.id,
+      date,
+    );
+  }
+
+  void _deleteMyFavorite() {
+    setState(() {
+      appDatabase
+          .deleteMyFavorite(FavoriteListData(id: widget.favoritePlace.id));
+
+      widget.onFavoriteDeleted?.call();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final urls = widget.favoritePlace.urls;
     final whiteColor = themeProvider.appTheme.whiteColor;
-    final favoriteStore = Provider.of<FavoriteStore>(context, listen: false);
+    appDatabase = Provider.of<AppDatabase>(context);
 
     return Padding(
       padding: const EdgeInsets.only(
@@ -61,9 +77,7 @@ class _SightCardPlanState extends State<SightCardPlan> {
         child: Dismissible(
           key: UniqueKey(),
           onDismissed: (_) {
-            favoriteStore
-              ..removePlace(widget.favoritePlace)
-              ..getFavoritePlace();
+            _deleteMyFavorite();
           },
           background: const CardDeleteBackground(),
           child: Column(
@@ -79,18 +93,20 @@ class _SightCardPlanState extends State<SightCardPlan> {
                       ),
                       child: Hero(
                         tag: 'imageHero_${widget.favoritePlace.id}',
-                        child: Ink(
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                urls.isNotEmpty
-                                    ? urls[0]
-                                    : 'https://www.sirvisual.com/Attachment/100/5055_31356_420%20Principale.jpg',
+                        child: Material(
+                          child: Ink(
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                  urls.isNotEmpty
+                                      ? urls[0]
+                                      : 'https://www.sirvisual.com/Attachment/100/5055_31356_420%20Principale.jpg',
+                                ),
+                                fit: BoxFit.fitWidth,
                               ),
-                              fit: BoxFit.fitWidth,
-                            ),
-                            borderRadius: const BorderRadius.vertical(
-                              top: Radius.circular(10),
+                              borderRadius: const BorderRadius.vertical(
+                                top: Radius.circular(10),
+                              ),
                             ),
                           ),
                         ),
@@ -116,20 +132,14 @@ class _SightCardPlanState extends State<SightCardPlan> {
                             if (Platform.isAndroid) {
                               await iosPicker();
                               setState(() {
-                                favoriteStore
-                                        .dataVisited[widget.favoritePlace.id] =
-                                    date;
-                                favoriteStore.getFavoritePlace();
+                                _updateSelectedDate();
                                 _dataString();
                               });
                             } else {
                               selectedDate = await androidPicker();
                               setState(() {
                                 date = selectedDate;
-                                favoriteStore
-                                        .dataVisited[widget.favoritePlace.id] =
-                                    date;
-                                favoriteStore.getFavoritePlace();
+                                _updateSelectedDate();
                                 _dataString();
                               });
                             }
@@ -141,11 +151,7 @@ class _SightCardPlanState extends State<SightCardPlan> {
                             AppAssets.close,
                             color: whiteColor,
                           ),
-                          onPressed: () {
-                            favoriteStore
-                              ..removePlace(widget.favoritePlace)
-                              ..getFavoritePlace();
-                          },
+                          onPressed: _deleteMyFavorite,
                         ),
                       ],
                     ),
@@ -193,10 +199,18 @@ class _SightCardPlanState extends State<SightCardPlan> {
                         right: 16,
                       ),
                       alignment: Alignment.topLeft,
-                      child: Text(
-                        _dataString(),
-                        style: appTypography.text14Regular
-                            .copyWith(color: themeProvider.appTheme.greenColor),
+                      child: FutureBuilder<String>(
+                        future: _dataString(),
+                        builder: (_, snapshot) {
+                          return snapshot.hasData
+                              ? Text(
+                                  snapshot.data!,
+                                  style: appTypography.text14Regular.copyWith(
+                                    color: themeProvider.appTheme.greenColor,
+                                  ),
+                                )
+                              : const CircularProgressIndicator();
+                        },
                       ),
                     ),
                   ],
@@ -240,8 +254,6 @@ class _SightCardPlanState extends State<SightCardPlan> {
   }
 
   Future<void> iosPicker() async {
-    final favoriteStore = Provider.of<FavoriteStore>(context, listen: false);
-
     return showCupertinoModalPopup(
       context: context,
       builder: (_) => Container(
@@ -260,7 +272,6 @@ class _SightCardPlanState extends State<SightCardPlan> {
                   setState(() {
                     date = val;
                   });
-                  favoriteStore.dataVisited[widget.favoritePlace.id] = date;
                 },
               ),
             ),
@@ -272,7 +283,6 @@ class _SightCardPlanState extends State<SightCardPlan> {
                 ),
               ),
               onPressed: () {
-                setState(favoriteStore.getFavoritePlace);
                 Navigator.pop(context);
               },
             ),

@@ -1,14 +1,14 @@
 import 'dart:async';
 
+import 'package:drift/drift.dart' as dr;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
-import 'package:flutter_job/data/store/favorite_store_base.dart';
+import 'package:flutter_job/database/app_database.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
@@ -33,6 +33,9 @@ class _SightCardState extends State<SightCard>
 
   late AnimationController _controller;
   late Animation<double> _opacityAnimation;
+  late AppDatabase appDatabase;
+
+  bool isFavorite = false;
 
   @override
   void initState() {
@@ -53,8 +56,31 @@ class _SightCardState extends State<SightCard>
     });
   }
 
-  void _updateFavoritePlaces(List<int> places) {
-    _favoritePlacesController.add(places);
+  void _saveToFavoriteDb() {
+    appDatabase.insertMyFavorite(
+      FavoriteListCompanion(
+        id: dr.Value(widget.place.id),
+      ),
+    );
+  }
+
+  void _deleteToFavoriteDb() {
+    appDatabase.deleteMyFavorite(FavoriteListData(id: widget.place.id));
+
+    _checkOfFavorite();
+  }
+
+  Future<bool> _checkOfFavorite() async {
+    final favoriteList = await appDatabase.getMyFavoriteList();
+    final visitedList = await appDatabase.getMyVisitedList();
+
+    final favorite = favoriteList.any((favorite) => favorite.id == widget.place.id) || visitedList.any((visited) => visited.id == widget.place.id);
+
+    if (favorite) {
+      setState(() => isFavorite = favorite);
+    }
+
+    return favorite;
   }
 
   @override
@@ -65,10 +91,18 @@ class _SightCardState extends State<SightCard>
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    appDatabase = Provider.of<AppDatabase>(context);
+    _checkOfFavorite();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final id = widget.place.id;
     final urls = widget.place.urls;
-    final favoriteStore = Provider.of<FavoriteStore>(context, listen: false);
+    final whiteColor = themeProvider.appTheme.whiteColor;
+    appDatabase = Provider.of<AppDatabase>(context);
 
     return Padding(
       padding: const EdgeInsets.only(
@@ -131,44 +165,29 @@ class _SightCardState extends State<SightCard>
                     ),
                   ),
                 ),
-                Observer(
-                  builder: (_) {
-                    return StreamBuilder<List<int>>(
-                      stream: favoritePlacesStream,
-                      initialData: favoriteStore.likeIdPlaces,
+                Positioned(
+                  right: 0,
+                  child: FutureBuilder<bool>(
+                      future: _checkOfFavorite(),
                       builder: (_, snapshot) {
-                        final favoriteIdPlaces = snapshot.data!;
-                        final isFavorite =
-                            favoriteIdPlaces.contains(widget.place.id);
+                      return CupertinoButton(
+                        child: SvgPicture.asset(
+                          isFavorite ? AppAssets.heartFull : AppAssets.heart,
+                          color: whiteColor,
+                          height: 25,
+                          width: 25,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            isFavorite = !isFavorite;
 
-                        return snapshot.hasData
-                            ? Positioned(
-                                right: 0,
-                                child: CupertinoButton(
-                                  child: SvgPicture.asset(
-                                    isFavorite
-                                        ? AppAssets.heartFull
-                                        : AppAssets.heart,
-                                    color: themeProvider.appTheme.whiteColor,
-                                    height: 25,
-                                    width: 25,
-                                  ),
-                                  onPressed: () {
-                                    if (isFavorite) {
-                                      favoriteIdPlaces.remove(id);
-                                      favoriteStore.dataVisited.remove(id);
-                                    } else {
-                                      favoriteIdPlaces.add(id);
-                                    }
-                                    favoriteStore.getFavoritePlace();
-                                    _updateFavoritePlaces(favoriteIdPlaces);
-                                  },
-                                ),
-                              )
-                            : const SizedBox.shrink();
-                      },
-                    );
-                  },
+                            isFavorite ? _saveToFavoriteDb() : _deleteToFavoriteDb();
+                            },
+                          );
+                        },
+                      );
+                    },
+                  ),
                 ),
                 Positioned(
                   top: 16,
@@ -176,7 +195,7 @@ class _SightCardState extends State<SightCard>
                   child: Text(
                     widget.place.placeType,
                     style: appTypography.text14w700.copyWith(
-                      color: themeProvider.appTheme.whiteColor,
+                      color: whiteColor,
                     ),
                   ),
                 ),
