@@ -1,7 +1,9 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
 import 'package:flutter_job/data/store/add_place_store_base.dart';
 import 'package:flutter_job/data/store/places_store_base.dart';
+import 'package:flutter_job/data/store/search_place_store_base.dart';
 import 'package:flutter_job/database/app_database.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
@@ -9,7 +11,9 @@ import 'package:flutter_job/ui/res/themes.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const Main());
 }
 
@@ -78,6 +82,9 @@ class _MainState extends State<Main> {
         ),
         Provider<AddPlaceStore>(
           create: (_) => AddPlaceStore(),
+        ),
+        Provider<SearchPlaceStore>(
+          create: (_) => SearchPlaceStore(),
         ),
         Provider<AppDatabase>(
           create: (_) => AppDatabase(),

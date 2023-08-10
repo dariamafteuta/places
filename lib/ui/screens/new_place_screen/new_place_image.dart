@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
@@ -7,11 +9,14 @@ import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_job/ui/screens/new_place_screen/add_sight_screen.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:image_picker/image_picker.dart';
 
 class NewPlaceImage extends StatefulWidget {
-  final Function(List<String>) images;
+  final Function(List<File>) images;
 
-  const NewPlaceImage({Key? key, required this.images}) : super(key: key);
+  const NewPlaceImage({
+    Key? key, required this.images,
+  }) : super(key: key);
 
   @override
   State<NewPlaceImage> createState() => _NewPlaceImageState();
@@ -19,7 +24,36 @@ class NewPlaceImage extends StatefulWidget {
 
 class _NewPlaceImageState extends State<NewPlaceImage> {
   int index = 0;
-  List<String> listUrlImages = [];
+  List<File> images = [];
+
+  Future<List<XFile>> pickImage({
+    required ImageSource imageSource,
+    required bool multiple,
+  }) async {
+    if (multiple) {
+      return ImagePicker().pickMultiImage(imageQuality: 30);
+    }
+
+    final file = await ImagePicker().pickImage(source: imageSource);
+
+    if (file != null) return [file];
+
+    return [];
+  }
+
+  Future<void> pickAndProcessImage({
+    required ImageSource imageSource,
+    required bool multiple,
+  }) async {
+    final files = await pickImage(
+      imageSource: imageSource,
+      multiple: multiple,
+    );
+    setState(() {
+      images = files.map((e) => File(e.path)).toList();
+      addUrls();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +71,6 @@ class _NewPlaceImageState extends State<NewPlaceImage> {
         children: [
           GestureDetector(
             onTap: () {
-              setState(() {
-                addUrls(
-                  'https://novostipmr.com/sites/default/files/filefield_paths/silverlake002.jpg',
-                );
-              });
               showModalBottomSheet<AddSightScreen>(
                 context: context,
                 backgroundColor: themeProvider.appTheme.transparentColor,
@@ -64,7 +93,9 @@ class _NewPlaceImageState extends State<NewPlaceImage> {
                                   AppAssets.camera,
                                   color: secondary2WhiteColor,
                                 ),
-                                onTap: () {},
+                                onTap: () {
+                                  pickAndProcessImage(imageSource: ImageSource.camera, multiple: false,);
+                                },
                               ),
                               divider,
                               ListTile(
@@ -76,7 +107,9 @@ class _NewPlaceImageState extends State<NewPlaceImage> {
                                   AppAssets.photo,
                                   color: secondary2WhiteColor,
                                 ),
-                                onTap: () {},
+                                onTap: () {
+                                 pickAndProcessImage(imageSource: ImageSource.gallery, multiple: true,);
+                                },
                               ),
                               divider,
                               ListTile(
@@ -88,7 +121,9 @@ class _NewPlaceImageState extends State<NewPlaceImage> {
                                   AppAssets.fail,
                                   color: secondary2WhiteColor,
                                 ),
-                                onTap: () {},
+                                onTap: () {
+                                  pickAndProcessImage(imageSource: ImageSource.gallery, multiple: false,);
+                                },
                               ),
                             ],
                           ),
@@ -140,7 +175,7 @@ class _NewPlaceImageState extends State<NewPlaceImage> {
               ),
             ),
           ),
-          ...listUrlImages.map(
+          ...images.map(
             (e) => ImageCard(
               url: e,
               removeUrl: removeUrl,
@@ -151,26 +186,24 @@ class _NewPlaceImageState extends State<NewPlaceImage> {
     );
   }
 
-  void addUrls(String url) {
+  void addUrls() {
     setState(() {
-      listUrlImages.add(url);
-
-      widget.images(listUrlImages);
+      widget.images(images);
     });
   }
 
-  void removeUrl(String url) {
+  void removeUrl(File image) {
     setState(() {
-      listUrlImages.remove(url);
+      images.remove(image);
 
-      widget.images(listUrlImages);
+      widget.images(images);
     });
   }
 }
 
 class ImageCard extends StatefulWidget {
-  final String url;
-  final Function(String) removeUrl;
+  final File url;
+  final Function(File) removeUrl;
 
   const ImageCard({
     Key? key,
@@ -200,9 +233,7 @@ class _ImageCardState extends State<ImageCard> {
               Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: NetworkImage(
-                      widget.url,
-                    ),
+                    image: FileImage(widget.url),
                     fit: BoxFit.fill,
                   ),
                   borderRadius: BorderRadius.circular(10),

@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -36,8 +39,12 @@ class _AddSightScreenState extends State<AddSightScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
+  UploadTask? uploadTask;
+
   String selectedCategory = '';
-  List<String> list = [];
+
+  List<File> listFiles = [];
+  List<String> listUrls = [];
 
   void _submitForm() {
     final addPlaceStore = Provider.of<AddPlaceStore>(context, listen: false);
@@ -48,7 +55,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
         lat: double.parse(_latController.text),
         lon: double.parse(_lonController.text),
         name: _nameController.text,
-        urls: list,
+        urls: listUrls,
         placeType: selectedCategory,
         description: _descriptionController.text,
       );
@@ -265,10 +272,29 @@ class _AddSightScreenState extends State<AddSightScreen> {
     });
   }
 
-  void images(List<String> image) {
+  void images(List<File> images) {
     setState(() {
-      list = image;
+      listFiles = images;
+      uploadImages();
     });
+  }
+
+  Future<void> uploadImages() async {
+    for (final imageFile in listFiles) {
+      final imageName = DateTime.now().millisecondsSinceEpoch.toString();
+
+      final ref =
+          FirebaseStorage.instance.ref().child('images').child(imageName);
+
+      try {
+        await ref.putFile(File(imageFile.path));
+        final image = await ref.getDownloadURL();
+
+        listUrls.add(image);
+      } catch (e) {
+        debugPrint('Error: $e');
+      }
+    }
   }
 }
 
