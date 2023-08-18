@@ -57,5 +57,7 @@
     <string>Allow access to camera to capture photos</string>
     <key>NSMicrophoneUsageDescription</key>
     <string>Allow access to microphone</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>This demo application displays user location now</string>
 </dict>
 </plist>

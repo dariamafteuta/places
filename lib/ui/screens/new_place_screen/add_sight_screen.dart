@@ -17,9 +17,12 @@ import 'package:flutter_job/ui/screens/content.dart';
 import 'package:flutter_job/ui/screens/new_place_screen/new_place_image.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class AddSightScreen extends StatefulWidget {
-  const AddSightScreen({Key? key}) : super(key: key);
+  final Point? point;
+
+  const AddSightScreen({Key? key, this.point,}) : super(key: key);
 
   @override
   State<AddSightScreen> createState() => _AddSightScreenState();
@@ -99,6 +102,16 @@ class _AddSightScreenState extends State<AddSightScreen> {
       return 'Неправельные координаты';
     } else {
       return null;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.point != null) {
+      _lonController.text = widget.point!.longitude.toString();
+      _latController.text = widget.point!.latitude.toString();
     }
   }
 

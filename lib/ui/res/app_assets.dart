@@ -78,4 +78,12 @@ class AppAssets {
 
   // Icon_splash.
   static String iconSplash = 'assets/icons/icon_splash.svg';
+
+  // Map.
+  static String iAmHereBlack = 'assets/icons/map/black.png';
+  static String iAmHereWhite = 'assets/icons/map/white.png';
+  static String ellipsePlaceBlack = 'assets/icons/map/ellipse1_black.png';
+  static String ellipsePlaceWhite = 'assets/icons/map/ellipse1_white.png';
+  static String ellipseOnTapBlack = 'assets/icons/map/ellipse2_black.png';
+  static String ellipseOnTapWhite = 'assets/icons/map/ellipse2_white.png';
 }

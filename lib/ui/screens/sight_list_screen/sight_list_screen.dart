@@ -77,6 +77,7 @@ class _SightListScreenState extends State<SightListScreen> {
             onPressed: () {
               AppNavigation.goToAddSight(
                 context,
+                null,
               );
             },
             icon: SvgPicture.asset(

@@ -80,4 +80,7 @@ class AppStrings {
   // Error_dialog.
   static const error = 'Ошибка';
   static const errorTut = 'Что то пошло не так\nПопробуйте позже.';
+
+  // Map_screen.
+  static const map = 'Карта';
 }

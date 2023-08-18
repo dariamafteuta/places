@@ -30,6 +30,9 @@ class _BottomNavigationState extends State<BottomNavigation> {
             context,
           );
         }
+        if (index == 1) {
+          AppNavigation.goToMap(context);
+        }
         if (index == 2) {
           AppNavigation.goToVisiting(context);
         }
