@@ -10,6 +10,7 @@ import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:map_launcher/map_launcher.dart';
 import 'package:provider/provider.dart';
 
 class SightCardMap extends StatefulWidget {
@@ -103,6 +104,8 @@ class _SightCardMapState extends State<SightCardMap>
   Widget build(BuildContext context) {
     final id = widget.place.id;
     final urls = widget.place.urls;
+    final latitude = widget.place.lat;
+    final longitude = widget.place.lon;
     final whiteColor = themeProvider.appTheme.whiteColor;
     appDatabase = Provider.of<AppDatabase>(context);
 
@@ -203,54 +206,63 @@ class _SightCardMapState extends State<SightCardMap>
                 ),
               ],
             ),
-      Container(
-                decoration: BoxDecoration(
-                    color: themeProvider.appTheme.backgroundColor,
-                    borderRadius: const BorderRadius.vertical(
-                      bottom: Radius.circular(10),
-                    ),
-                  ),
-                  height: 68,
-                  width: double.infinity,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.only(
-                          top: 16,
-                        ),
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          widget.place.name,
-                          style: appTypography.text16Bold.copyWith(
-                            color: themeProvider.appTheme.secondaryWhiteColor,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 40,
-                        width: 40,
-                        child: FloatingActionButton(
-                            onPressed: () {},
-                            child: SvgPicture.asset(
-                              AppAssets.go,
-                              color: whiteColor,
-                            ),
-                            elevation: 0.0,
-                            backgroundColor: themeProvider.appTheme.greenColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                      ),
-                    ],
-                  ),
+            Container(
+              decoration: BoxDecoration(
+                color: themeProvider.appTheme.backgroundColor,
+                borderRadius: const BorderRadius.vertical(
+                  bottom: Radius.circular(10),
                 ),
               ),
+              height: 68,
+              width: double.infinity,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.only(
+                        top: 16,
+                      ),
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        widget.place.name,
+                        style: appTypography.text16Bold.copyWith(
+                          color: themeProvider.appTheme.secondaryWhiteColor,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 40,
+                      width: 40,
+                      child: FloatingActionButton(
+                        onPressed: () async {
+                          final availableMaps = await MapLauncher.installedMaps;
+                          final selectedMap = availableMaps[0];
+
+                          await selectedMap.showMarker(
+                            coords: Coords(latitude, longitude),
+                            title: widget.place.name,
+                            zoom: 18,
+                          );
+                        },
+                        child: SvgPicture.asset(
+                          AppAssets.go,
+                          color: whiteColor,
+                        ),
+                        elevation: 0.0,
+                        backgroundColor: themeProvider.appTheme.greenColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),

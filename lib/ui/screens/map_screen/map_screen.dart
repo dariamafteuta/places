@@ -106,7 +106,9 @@ class _MapScreenState extends State<MapScreen> {
     return MultiBlocProvider(
       providers: [
         BlocProvider<MapBloc>(
-          create: (_) => MapBloc(Provider.of<PlacesStore>(context, listen: false),)..add(FetchPlaces()),
+          create: (_) => MapBloc(
+            Provider.of<PlacesStore>(context, listen: false),
+          )..add(FetchPlaces()),
         ),
       ],
       child: Scaffold(
@@ -205,34 +207,38 @@ class _MapScreenState extends State<MapScreen> {
                     ),
                     onPressed: refreshPlaces,
                   ),
-                  if (!onPlaceTap) DecoratedBox(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: themeProvider.appTheme.yellowAndGreenColor,
+                  if (!onPlaceTap)
+                    DecoratedBox(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: themeProvider.appTheme.yellowAndGreenColor,
+                        ),
+                        borderRadius: BorderRadius.circular(50),
                       ),
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    child: FloatingActionButton.extended(
-                      elevation: 0,
-                      backgroundColor: themeProvider.appTheme.transparentColor,
-                      highlightElevation: 0,
-                      onPressed: () {
-                        AppNavigation.goToAddSight(
-                          context,
-                          newPoint,
-                        );
-                      },
-                      icon: SvgPicture.asset(
-                        AppAssets.plus,
-                        color: whiteColor,
+                      child: FloatingActionButton.extended(
+                        elevation: 0,
+                        backgroundColor:
+                            themeProvider.appTheme.transparentColor,
+                        highlightElevation: 0,
+                        onPressed: () {
+                          AppNavigation.goToAddSight(
+                            context,
+                            newPoint,
+                          );
+                        },
+                        icon: SvgPicture.asset(
+                          AppAssets.plus,
+                          color: whiteColor,
+                        ),
+                        label: Text(
+                          AppStrings.newPlace.toUpperCase(),
+                          style: appTypography.text14Regular
+                              .copyWith(color: whiteColor),
+                        ),
                       ),
-                      label: Text(
-                        AppStrings.newPlace.toUpperCase(),
-                        style:
-                            appTypography.text14Regular.copyWith(color: whiteColor),
-                      ),
-                    ),
-                  ) else const SizedBox.shrink(),
+                    )
+                  else
+                    const SizedBox.shrink(),
                   FloatingActionButton(
                     backgroundColor: whiteSecondaryColor,
                     child: SvgPicture.asset(
@@ -249,20 +255,21 @@ class _MapScreenState extends State<MapScreen> {
         ),
         body: BlocBuilder<MapBloc, MapState>(
           builder: (_, state) {
-           if (state is PlacesLoaded) {
+            if (state is PlacesLoaded) {
               for (final place in placeFromNet) {
                 final placemark = PlacemarkMapObject(
                   mapId: MapObjectId('${place.id}'),
                   point: Point(latitude: place.lat, longitude: place.lon),
                   icon: PlacemarkIcon.single(PlacemarkIconStyle(
                     image: BitmapDescriptor.fromAssetImage(
-                        themeProvider.isLightTheme
-                            ? AppAssets.ellipsePlaceWhite
-                            : AppAssets.ellipsePlaceBlack,),
+                      themeProvider.isLightTheme
+                          ? AppAssets.ellipsePlaceWhite
+                          : AppAssets.ellipsePlaceBlack,
+                    ),
                   )),
-                    onTap: (_, point) {
-                      handlePlaceTap(place);
-                    },
+                  onTap: (_, point) {
+                    handlePlaceTap(place);
+                  },
                 );
 
                 mapObjects.add(placemark);
