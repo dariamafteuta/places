@@ -247,6 +247,16 @@ class _SightCardMapState extends State<SightCardMap>
                             title: widget.place.name,
                             zoom: 18,
                           );
+
+                          await appDatabase.insertMyVisited(
+                            VisitedListCompanion(
+                              id: dr.Value(widget.place.id),
+                              selectedDate: dr.Value(DateTime.now()),
+                            ),
+                          );
+                          await appDatabase.deleteMyFavorite(FavoriteListData(
+                            id: widget.place.id,
+                          ));
                         },
                         child: SvgPicture.asset(
                           AppAssets.go,
