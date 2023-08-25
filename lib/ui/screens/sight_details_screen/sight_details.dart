@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:drift/drift.dart' as dr;
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
@@ -8,6 +10,7 @@ import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/res/constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:map_launcher/map_launcher.dart';
 import 'package:provider/provider.dart';
 
 class SightDetails extends StatefulWidget {
@@ -21,7 +24,7 @@ class SightDetails extends StatefulWidget {
 
 class _SightDetailsState extends State<SightDetails> {
   late AppDatabase appDatabase;
-
+  DateTime? date;
   bool isFavorite = false;
 
   Future<bool> _checkOfFavorite() async {
@@ -53,6 +56,13 @@ class _SightDetailsState extends State<SightDetails> {
     _checkOfFavorite();
   }
 
+  void _updateSelectedDate() {
+    appDatabase.updateSelectedDate(
+      widget.place.id,
+      date,
+    );
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -79,7 +89,9 @@ class _SightDetailsState extends State<SightDetails> {
           sizedBox24H,
           _PlaceDetails(details: widget.place.description),
           sizedBox24H,
-          const _BuildRouteButton(),
+          _BuildRouteButton(
+           place: widget.place,
+          ),
           Divider(
             height: 39,
             color: inactiveColor,
@@ -89,7 +101,19 @@ class _SightDetailsState extends State<SightDetails> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextButton.icon(
-                onPressed: () {},
+                onPressed: () async {
+                  DateTime? selectedDate;
+                  if (Platform.isAndroid) {
+                    await iosPicker();
+                    setState(_updateSelectedDate);
+                  } else {
+                    selectedDate = await androidPicker();
+                    setState(() {
+                      date = selectedDate;
+                      _updateSelectedDate();
+                    });
+                  }
+                },
                 icon: SvgPicture.asset(
                   isFavorite ? AppAssets.calendarFull : AppAssets.calendar,
                   color: isFavorite ? secondaryWhiteColor : inactiveColor,
@@ -128,6 +152,75 @@ class _SightDetailsState extends State<SightDetails> {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  Future<DateTime?> androidPicker() async {
+    final mainWhiteColor = themeProvider.appTheme.mainWhiteColor;
+
+    return date = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: themeProvider.appTheme.greenColor,
+              onPrimary: themeProvider.appTheme.whiteColor,
+              onSurface: mainWhiteColor,
+            ),
+            dialogBackgroundColor: themeProvider.appTheme.whiteMainColor,
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: mainWhiteColor,
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
+    ) ??
+        DateTime.now();
+  }
+
+  Future<void> iosPicker() async {
+    return showCupertinoModalPopup(
+      context: context,
+      builder: (_) => Container(
+        height: 260,
+        color: const Color.fromARGB(255, 255, 255, 255),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 200,
+              child: CupertinoDatePicker(
+                initialDateTime: DateTime.now(),
+                minimumDate: DateTime(2000),
+                maximumDate: DateTime(2100),
+                mode: CupertinoDatePickerMode.date,
+                onDateTimeChanged: (val) {
+                  setState(() {
+                    date = val;
+                  });
+                },
+              ),
+            ),
+            CupertinoButton(
+              child: Text(
+                AppStrings.save,
+                style: TextStyle(
+                  color: themeProvider.appTheme.greenColor,
+                ),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -189,11 +282,16 @@ class _PlaceDetails extends StatelessWidget {
 }
 
 class _BuildRouteButton extends StatelessWidget {
-  const _BuildRouteButton({Key? key}) : super(key: key);
+  final Place place;
+
+  _BuildRouteButton({Key? key, required this.place}) : super(key: key);
+
+  late AppDatabase appDatabase;
 
   @override
   Widget build(BuildContext context) {
     final whiteColor = themeProvider.appTheme.whiteColor;
+    appDatabase = Provider.of<AppDatabase>(context);
 
     return SizedBox(
       width: double.infinity,
@@ -214,7 +312,26 @@ class _BuildRouteButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
         ),
-        onPressed: () {},
+        onPressed: () async {
+          final availableMaps = await MapLauncher.installedMaps;
+          final selectedMap = availableMaps[0];
+
+          await selectedMap.showMarker(
+            coords: Coords(place.lat, place.lon),
+            title: place.name,
+            zoom: 18,
+          );
+
+         await appDatabase.insertMyVisited(
+            VisitedListCompanion(
+              id: dr.Value(place.id),
+              selectedDate: dr.Value(DateTime.now()),
+            ),
+          );
+          await appDatabase.deleteMyFavorite(FavoriteListData(
+            id: place.id,
+          ));
+        },
       ),
     );
   }
