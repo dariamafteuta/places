@@ -16,6 +16,7 @@ import 'package:flutter_job/ui/res/app_navigation.dart';
 import 'package:flutter_job/ui/res/app_strings.dart';
 import 'package:flutter_job/ui/res/app_typography.dart';
 import 'package:flutter_job/ui/res/constants.dart';
+import 'package:flutter_job/ui/res/themes.dart';
 import 'package:flutter_job/ui/screens/map_screen/sight_card_map.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -71,6 +72,17 @@ class _MapScreenState extends State<MapScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _onMapCreated(YandexMapController yandexMapController) async {
+    _mapController.complete(yandexMapController);
+
+    await yandexMapController.setMapStyle(
+      themeProvider.isLightTheme
+          ? mapLightStyle
+          : mapDarkStyle,
+    );
+
   }
 
   void refreshPlaces() {
@@ -276,7 +288,7 @@ class _MapScreenState extends State<MapScreen> {
               }
 
               return YandexMap(
-                onMapCreated: _mapController.complete,
+                onMapCreated: (controller) => _onMapCreated(controller),
                 mapObjects: mapObjects,
                 onMapTap: (point) {
                   final newPlacemark = PlacemarkMapObject(
