@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "120915386708",
+    "project_id": "places-a2dc0",
+    "storage_bucket": "places-a2dc0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:120915386708:android:9a542d90f14f6c278568c1",
+        "android_client_info": {
+          "package_name": "com.mafteuta.placesApp.flutter_job"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "120915386708-it5378rn0elt38jlpv677acbe70h8vqq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1GTrIfNUSQvpDzyk9TpcA4_JEMP0I6Ss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "120915386708-it5378rn0elt38jlpv677acbe70h8vqq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

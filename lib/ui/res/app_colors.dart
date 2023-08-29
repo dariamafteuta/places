@@ -15,6 +15,7 @@ abstract class AppColors {
   Color get secondarySecondary2Color;
   Color get mainWhiteColor;
   Color get secondaryWhiteColor;
+  Color get whiteSecondaryColor;
   Color get secondary2WhiteColor;
   Color get whiteMainColor;
   Color get mainBackgroundColor;
@@ -52,6 +53,8 @@ class LightTheme implements AppColors {
   Color mainWhiteColor = const Color.fromRGBO(42, 44, 76, 1.0);
   @override
   Color secondaryWhiteColor = const Color.fromRGBO(62, 64, 93, 1.0);
+  @override
+  Color whiteSecondaryColor = const Color.fromRGBO(255, 255, 255, 1.0);
   @override
   Color secondary2WhiteColor = const Color.fromRGBO(123, 125, 146, 1.0);
   @override
@@ -94,6 +97,8 @@ class DarkTheme extends AppColors{
   Color mainWhiteColor = const Color.fromRGBO(255, 255, 255, 1.0);
   @override
   Color secondaryWhiteColor = const Color.fromRGBO(255, 255, 255, 1.0);
+  @override
+  Color whiteSecondaryColor = const Color.fromRGBO(62, 64, 93, 1.0);
   @override
   Color secondary2WhiteColor = const Color.fromRGBO(255, 255, 255, 1.0);
   @override

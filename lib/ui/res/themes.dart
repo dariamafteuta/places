@@ -68,3 +68,26 @@ ThemeData darkThemes = ThemeData(
     color: darkTheme.mainColor,
   ),
 );
+
+String mapLightStyle = '''
+    [
+      {
+        "stylers": {
+          "saturation": -1,
+          "lightness": 0
+        }
+      }
+    ]
+  ''';
+
+String mapDarkStyle = '''
+    [
+      {
+        "stylers": {
+          "hue": "#21222C",
+          "saturation": 0,
+          "lightness": 0.1
+        }
+      }
+    ]
+  ''';

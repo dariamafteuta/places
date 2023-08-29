@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,9 +17,12 @@ import 'package:flutter_job/ui/screens/content.dart';
 import 'package:flutter_job/ui/screens/new_place_screen/new_place_image.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class AddSightScreen extends StatefulWidget {
-  const AddSightScreen({Key? key}) : super(key: key);
+  final Point? point;
+
+  const AddSightScreen({Key? key, this.point,}) : super(key: key);
 
   @override
   State<AddSightScreen> createState() => _AddSightScreenState();
@@ -36,8 +42,12 @@ class _AddSightScreenState extends State<AddSightScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
+  UploadTask? uploadTask;
+
   String selectedCategory = '';
-  List<String> list = [];
+
+  List<File> listFiles = [];
+  List<String> listUrls = [];
 
   void _submitForm() {
     final addPlaceStore = Provider.of<AddPlaceStore>(context, listen: false);
@@ -48,7 +58,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
         lat: double.parse(_latController.text),
         lon: double.parse(_lonController.text),
         name: _nameController.text,
-        urls: list,
+        urls: listUrls,
         placeType: selectedCategory,
         description: _descriptionController.text,
       );
@@ -92,6 +102,16 @@ class _AddSightScreenState extends State<AddSightScreen> {
       return 'Неправельные координаты';
     } else {
       return null;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.point != null) {
+      _lonController.text = widget.point!.longitude.toString();
+      _latController.text = widget.point!.latitude.toString();
     }
   }
 
@@ -265,10 +285,29 @@ class _AddSightScreenState extends State<AddSightScreen> {
     });
   }
 
-  void images(List<String> image) {
+  void images(List<File> images) {
     setState(() {
-      list = image;
+      listFiles = images;
+      uploadImages();
     });
+  }
+
+  Future<void> uploadImages() async {
+    for (final imageFile in listFiles) {
+      final imageName = DateTime.now().millisecondsSinceEpoch.toString();
+
+      final ref =
+          FirebaseStorage.instance.ref().child('images').child(imageName);
+
+      try {
+        await ref.putFile(File(imageFile.path));
+        final image = await ref.getDownloadURL();
+
+        listUrls.add(image);
+      } catch (e) {
+        debugPrint('Error: $e');
+      }
+    }
   }
 }
 

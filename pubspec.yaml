@@ -28,8 +28,11 @@ dependencies:
   drift: ^2.10.0
   path: ^1.8.3
   path_provider: ^2.0.15
-
-
+  image_picker: ^0.8.6
+  firebase_storage: ^11.2.5
+  firebase_core: ^2.15.0
+  yandex_mapkit: ^3.3.3
+  map_launcher: ^2.5.0+1
 
 dev_dependencies:
   flutter_test:
@@ -55,6 +58,7 @@ flutter:
     - assets/icons/catalog/black/
     - assets/icons/catalog/white/
     - assets/icons/tutorial/
+    - assets/icons/map/
 
   fonts:
     - family: Roboto

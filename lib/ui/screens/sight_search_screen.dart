@@ -105,9 +105,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none,
                         ),
-                        fillColor: Provider.of<ThemeProvider>(context)
-                            .appTheme
-                            .backgroundColor,
+                        fillColor: themeProvider.appTheme.backgroundColor,
                         filled: true,
                         hintText: AppStrings.search,
                         hintStyle: TextStyle(color: inactiveColor),
