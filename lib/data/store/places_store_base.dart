@@ -1,9 +1,10 @@
 import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_job/app.dart';
 import 'package:flutter_job/data/model/place.dart';
 import 'package:flutter_job/data/repository/place_repository.dart';
 import 'package:flutter_job/domain/coordinate.dart';
-import 'package:flutter_job/main.dart';
 import 'package:mobx/mobx.dart';
 
 part 'places_store_base.g.dart';

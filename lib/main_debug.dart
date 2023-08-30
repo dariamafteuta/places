@@ -16,12 +16,12 @@ Future<void> main() async {
   runApp(const App());
 }
 
-BuildConfig _setUpConfig() {
-  return BuildConfig(
-    envString: '',
-  );
+void _defineEnvironment({required BuildConfig buildConfig}) {
+  Environment.init(buildConfig, BuildType.debug);
 }
 
-void _defineEnvironment({required BuildConfig buildConfig}) {
-  Environment.init(buildConfig, BuildType.release);
+BuildConfig _setUpConfig() {
+  return BuildConfig(
+    envString: 'Debug сборка приложения',
+  );
 }
