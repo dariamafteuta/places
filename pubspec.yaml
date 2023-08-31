@@ -17,7 +17,7 @@ dependencies:
   provider: ^6.0.5
   flutter_slidable: ^2.0.0
   smooth_page_indicator: ^1.0.1
-  geolocator: ^9.0.2
+  geolocator: ^10.0.0
   dio: ^4.0.0
   http: ^0.13.3
   mobx: ^2.2.0
@@ -41,12 +41,20 @@ dev_dependencies:
   mobx_codegen: ^2.3.0
   flutter_lints: ^2.0.1
   drift_dev: ^2.10.0
+  flutter_launcher_icons: ^0.13.1
+
+
+flutter_icons:
+  image_path: "assets/app_icon.png"
+  android: true
+  ios: true
 
 flutter:
 
   uses-material-design: true
 
   assets:
+    - assets/
     - assets/icons/
     - assets/icons/empty_page/
     - assets/icons/empty_page/icon/

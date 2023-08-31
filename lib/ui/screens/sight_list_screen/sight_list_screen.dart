@@ -5,6 +5,7 @@ import 'package:flutter_job/bloc/places_bloc/places_bloc.dart';
 import 'package:flutter_job/bloc/places_bloc/places_event.dart';
 import 'package:flutter_job/data/settings_iterator/theme_provider.dart';
 import 'package:flutter_job/data/store/places_store_base.dart';
+import 'package:flutter_job/environment/environment.dart';
 import 'package:flutter_job/ui/components/bottom_navigation.dart';
 import 'package:flutter_job/ui/res/app_assets.dart';
 import 'package:flutter_job/ui/res/app_navigation.dart';
@@ -26,6 +27,7 @@ class SightListScreen extends StatefulWidget {
 }
 
 class _SightListScreenState extends State<SightListScreen> {
+  final String envString = Environment.instance().buildConfig.envString;
   late PlacesBloc placesBloc;
 
   @override
@@ -101,10 +103,10 @@ class _SightListScreenState extends State<SightListScreen> {
                 centerTitle: orientationPortrait,
                 titlePadding: const EdgeInsets.symmetric(horizontal: 16),
                 title: Text(
-                  AppStrings.listOfInterestingPlaces,
-                  style: appTypography.text30Bold
-                      .copyWith(color: themeProvider.appTheme.mainWhiteColor),
-                ),
+                      '${AppStrings.listOfInterestingPlaces} $envString',
+                      style: appTypography.text30Bold
+                          .copyWith(color: themeProvider.appTheme.mainWhiteColor),
+                    ),
               ),
             ),
             SliverList(
