@@ -22,6 +22,6 @@ void _defineEnvironment({required BuildConfig buildConfig}) {
 
 BuildConfig _setUpConfig() {
   return BuildConfig(
-    envString: 'Debug сборка приложения',
+    envString: '',
   );
 }

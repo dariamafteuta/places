@@ -18,7 +18,7 @@ Future<void> main() async {
 
 BuildConfig _setUpConfig() {
   return BuildConfig(
-    envString: '',
+    envString: 'Debug сборка приложения',
   );
 }
 
