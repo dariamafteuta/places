@@ -13,4 +13,4 @@ Places — это мобильное приложение для нахожде�
 - Shared Preferences
 - Geolocator
 - Yandex Mapkit & Map Launcher
-- Firebase Core и Firebase Storage
+- Firebase Core & Firebase Storage
